@@ -1,0 +1,372 @@
+﻿
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--TITULO DE LA SECCION DE USUARIOS-->
+<div class="card-header fs-4 mt-2">
+    <i class="fas fa-user me-1 fa-1x"></i> GESTIONAR USUARIO
+</div>
+
+<!--Muestra las secciones para devolver entre-->
+<ol class="breadcrumb mb-4 mt-2">
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Dashboard</a></li>
+    <li class="breadcrumb-item active">Usuarios</li>
+</ol>
+
+
+<!--CARD DONDE VA A ESTAR EL DATATABLE-->
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i> Listado De Usuarios
+    </div>
+
+    <div class="card-body">
+        <!--PONIENDO FILA EN EL CARD-->
+        <div class="row">
+            <!--TOTAL DE COLUMNAS DE 12-->
+            <div class="col-12">
+                <!--Boton en el card-->
+                <button type="button" class="btn btn-secondary" onclick="abrirModal(null)">Crear Nuevo</button>
+            </div>
+        </div>
+
+        <hr />
+        <!--Creando Tabla-->
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>Activo</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+
+        </table>
+
+
+    </div>
+</div>
+
+
+
+<!--MODAL PARA NUEVO Y EDICION DE USUARIO-->
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--PARTE DE ARRIBA DEL FORMULARIO-->
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">USUARIO</h5>
+                <button type="button" class="btn-close" style="background-color: white; border: none; color: black;" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <div class="modal-body g-2">
+                <input id="txtId" type="hidden" value="0" />
+                <!--CAMPOS DEL FORULARIO-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="txtNombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="txtNombre" autocomplete="off">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="txtApellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="txtApellido" autocomplete="off">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="txtCorreo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="txtCorreo" placeholder="name@example.com" autocomplete="off">
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <label for="comboActivo" class="form-label">Activo</label>
+                        <select id="comboActivo" class="form-select" aria-label="Default select example">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <!--ALERT-->
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert">
+                            A simple danger alert—check it out!
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!--BOTONES DE ABAJO-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" onclick="Guardar()">Guardar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+ @section scripts
+   {
+  <script>
+
+          //almacenando el datatable
+          var tabladata;
+          //almacenando la fila seleccionada
+
+         var filaSeleccionada;
+        //Convirtiendo mi tabla en un dataTable y poblandolo
+
+        tabladata = $("#tabla").DataTable({
+            responsive: true,
+            ordering: false,
+
+            //pintando la data
+            "ajax": {
+                //primero Jquery necesita la URL
+                url: '@Url.Action("ListarUsuarios","Usuarios")',
+                //espeficicando la peticion del servidor en este caso un tipo GET ya que esta mostrando el JSON con data del server
+                type: "GET",
+                //pasandole el tipo de dato en este caso un JSON
+                dataType: "json"
+
+            },
+            //pasandole las columnas
+                "columns": [
+                { "data": "Nombre" },
+                { "data": "Apellido" },
+                { "data": "Correo" },
+                {
+                    //renderizando la columna Activo
+                    "data": "Activo", "render": function (valor) {
+                        if (valor) {
+                            return '<span class="badge badge-pill bg-success">Esta Activo</span>'
+                        } else
+                        {
+                            return '<span class="badge badge-pill bg-danger">No Esta Activo</span>'
+                        }
+                    }
+                },
+                {
+                    //creacion de los botones de editar y eliminar
+                    "defaultContent": ' <button type="button" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
+                        '<button type="button" class="btn btn-danger btn-sm ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "90px"
+
+                }
+
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/2.1.6/i18n/es-MX.json"
+            }
+        });
+
+        //metodo para abrir modal al hacer click en el  boton nuevo usuario del mismo formulario
+        function abrirModal(json) {
+            //al incio limpia los campos del formulario modal
+            $("#txtId").val(0);
+            $("#txtNombre").val("");
+            $("#txtApellido").val("");
+            $("#txtCorreo").val("");
+            $("#comboActivo").val(1);
+            $("#mensajeError").hide();
+
+
+            //al hacer click en el boton editar carga en el modal la data obtenida
+            //osea que si el formulario es distinto de null ocuarre eso ya que al inicio el formulario esta en null
+            if (json != null)
+            {
+                $("#txtId").val(json.id_Usuario)
+                $("#txtNombre").val(json.Nombre)// le paso el atributo nombre de la data obtenida
+                $("#txtApellido").val(json.Apellido)
+                $("#txtCorreo").val(json.Correo)
+                $("#comboActivo").val(json.Activo==true ? 1 : 0)
+            }
+            $("#formModal").modal("show");
+        }
+
+
+        //funcion para abrir el formulario modal para editar al hacer click en el boton del lapiz del datatable
+        //cada vez que cuando se haga click en el boton editar dentro del tbody realizara la funcion
+        $("#tabla tbody").on("click", ".btn-editar", function () {
+            //obtiendo la fila de donde fue precionado el boton, llamando al tr
+
+             filaSeleccionada = $(this).closest("tr");// esta variable almacena la fila que ha sido seleccionada
+
+            //obteniendo toda la informacion del dataTable para editar los campos en el formulario modal
+            //le estoy diciendo que me agarre del datatable la data de la fila seleccionada
+            var dataObtenida = tabladata.row(filaSeleccionada).data();
+
+            //llamo a la funcion abrirModal,enviandole la data obtenida al modal abierto para proceder a la edicion
+            abrirModal(dataObtenida)
+
+        })
+
+
+        //funcion del boton eliminar
+      $("#tabla tbody").on("click", ".btn-eliminar", function () {
+
+          //selecionando el usuario del data table al pulsar el boton obtiene la data a eliminar
+          var usuarioSeleccionado = $(this).closest("tr");
+          var data = tabladata.row(usuarioSeleccionado).data();
+
+          //mostrando el mensaje de que si esta seguro que desea eliminar
+          swal({
+              position: "center",
+              title: "¿Esta Seguro?",
+              text: "¿Desea eliminar el Usuario?",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: "btn-primary",
+              confirmButtonText: "Si",
+              cancelButtonText: "No",
+              closeOnConfirm: true
+          },
+          function () {
+              //aplicando logica para eilimar usuario usando ajax paso la url del controller y el nombre del controlador
+              jQuery.ajax({
+                  url: '@Url.Action("EliminarUsuario", "Usuarios")',
+                  type: "POST",
+                  data: JSON.stringify({id:data.id_Usuario}),//le paso el id del usuario
+                  dataType: "json",
+                  contentType: "application/json; charset=utf-8",
+                  success: function (data) {
+                      if (data.resultado) {
+                          //mostrando un mensaje de confirmacion con sweetAlert
+                          Swal.fire({
+                              position: "center",
+                              icon: "success",
+                              title: "Usuario Eliminado Correctamente",
+                              showConfirmButton: false,
+                              timer: 1500
+                          });
+                          tabladata.row(usuarioSeleccionado).remove().draw();
+                      } else
+                      {
+                          swal("No se pudo eliminar", data.mensaje,"error")
+                      }
+                  },
+                  error: function (error) {
+                      console.log(error)
+                  },
+                  beforeSend: function () {
+
+                  }
+              });
+          });
+          console.log(data);//mostrando la data en la consola
+      })
+
+        //metodo para GuardarUsuario al darle click al boton guardar
+        function Guardar()
+        {
+            var Usuario = {
+                //obteniedno la data puesta en los txt del formulario
+                id_Usuario: $("#txtId").val(),
+                Nombre: $("#txtNombre").val(),
+                Apellido: $("#txtApellido").val(),
+                Correo: $("#txtCorreo").val(),
+                Activo: $("#comboActivo").val() == 1 ? true : false
+            }
+
+            //peticion de insert con ajax a la base de datos
+            jQuery.ajax({
+                 url: '@Url.Action("GuardarUsuario", "Usuarios")',
+                 type: "POST",
+                 data: JSON.stringify({objeto:Usuario}),
+                 dataType: "json",
+                 contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $(".modal-body").LoadingOverlay("hide");
+
+                    //USUARIO NUEVO
+                    //validacion para agregar
+                    if (Usuario.id_Usuario == 0) {
+
+                        if (data.resultado != 0) {
+                            Usuario.id_Usuario = data.resultado;
+                            //agregando los datos Escritos al DataTable
+                            tabladata.row.add(Usuario).draw(false);
+                            $("#formModal").modal("hide");
+
+                            //mostrando un mensaje de confirmacion con sweetAlert
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Nuevo Usuario Agregado Correctamente",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                        //si no se registro el usuario en base a un campo faltante
+                        else {
+                           
+                            $("#mensajeError").text(data.mensaje);//mostrando el mensaje que viene de la base de datos
+                            $("#mensajeError").show();
+                            $(".modal-body").LoadingOverlay("hide");
+                        }
+                    }
+
+                    //USUARIO EDITADO
+                    else {
+                        //editar usuarios
+                        if (data.resultado)
+                        {
+                            //carga la tabla con el nuevo usuario editado
+                            tabladata.row(filaSeleccionada).data(Usuario).draw(false);
+                            filaSeleccionada = null;
+                            $("#formModal").modal("hide");
+                            
+                        } else
+                        {
+                            $("#mensajeError").text(data.mensaje);//mostrando el mensaje que viene de la base de datos
+                            $("#mensajeError").show();
+                            $(".modal-body").LoadingOverlay("hide");
+
+                        }
+                    }
+                },
+                 error: function (error) {
+                    $(".modal-body").LoadingOverlay("hide");
+                    $("#mensajeError").text("Error De Peticion");
+                    $("#mensajeError").show();
+                 },
+                beforeSend: function () {
+                    //mostrando el loading mientras se agrega un usuario
+                    $(".modal-body").LoadingOverlay("show",{
+                        imageResizeFactor: 2,
+                        text: "Cargando Por Favor Espere!....",
+                        size: 20
+                        
+                    })
+                }
+
+            });
+
+        }
+
+  </script>
+}
+
+
+
+
+

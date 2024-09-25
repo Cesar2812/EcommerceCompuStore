@@ -1,0 +1,332 @@
+﻿
+@{
+    ViewBag.Title = "Categorias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--TITULO DE LA SECCION DE CATEGORIAS-->
+<div class="card-header fs-4 mt-2">
+    <i class="fas fa-table me-1 fa-1x"></i> GESTIONAR CATEGORIA
+</div>
+
+<!--Muestra las secciones para devolver entre-->
+<ol class="breadcrumb mb-4 mt-2">
+    <li class="breadcrumb-item"><a href="@Url.Action("Usuarios","Usuarios")">Usuarios</a></li>
+    <li class="breadcrumb-item active">Categorias</li>
+</ol>
+
+
+<!--CARD DONDE VA A ESTAR EL DATATABLE-->
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-tasks me-1"></i> Listado De Categorias
+    </div>
+
+    <div class="card-body">
+        <!--PONIENDO FILA EN EL CARD-->
+        <div class="row">
+            <!--TOTAL DE COLUMNAS DE 12-->
+            <div class="col-12">
+                <!--Boton en el card-->
+                <button type="button" class="btn btn-secondary" onclick="abrirModal(null)">Crear Nueva</button>
+            </div>
+        </div>
+
+        <hr />
+        <!--Creando Tabla-->
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Descripcion</th>
+                    <th>Activo</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+
+        </table>
+
+
+    </div>
+</div>
+
+
+
+<!--MODAL PARA NUEVO Y EDICION DE CATEGORIA-->
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--PARTE DE ARRIBA DEL FORMULARIO-->
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">CATEGORIA</h5>
+                <button type="button" class="btn-close" style="background-color: white; border: none; color: black;" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <div class="modal-body g-1">
+                <input id="txtId" type="hidden" value="0" />
+                <!--CAMPOS DEL FORULARIO-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="txtDescripcion" class="form-label">Descripcion</label>
+                        <input type="text" class="form-control" id="txtDescripcion" autocomplete="off">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="comboActivo" class="form-label">Activo</label>
+                        <select id="comboActivo" class="form-select" aria-label="Default select example">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <!--ALERT-->
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert">
+                            A simple danger alert—check it out!
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!--BOTONES DE ABAJO-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" onclick="Guardar()">Guardar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+
+        var descripcion = $("#txtDescripcion").val();
+        //funciones del formulario de categoria
+        var tablaData;// variable que va a almacenar nuestro dataTable
+
+        var filaSeleccionada;
+
+        //cargando data al dataTable
+        tablaData = $("#tabla").DataTable({
+
+            responsive: true,
+            ordering: false,
+
+            //pintando la data
+            "ajax": {
+                url: '@Url.Action("ListarCategorias", "Catalogos")',//url que viene del controlador
+                type: "GET",//metodo de tipo GET ya que optiene la data desde la base de datos
+                dataType: "json"//especificandole la data de tipo json
+            },
+            //pasandole las columnas
+            "columns": [
+                { "data": "Descripcion" },
+                {
+                    //renderizando la columna Activo
+                    "data": "Activo", "render": function (valor) {
+                        if (valor) {
+                            return '<span class="badge badge-pill bg-success">Esta Activa</span>'
+                        } else {
+                            return '<span class="badge badge-pill bg-danger">No Esta Activa</span>'
+                        }
+                    }
+                },
+                {
+                    //creacion de los botones de editar y eliminar
+                    "defaultContent": ' <button type="button" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
+                        '<button type="button" class="btn btn-danger btn-sm ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "90px"
+
+                }
+
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/2.1.6/i18n/es-MX.json"
+            }
+
+        });
+
+        //metodo para abrir formulario modal
+        function abrirModal(json) {
+            //al incio limpia los campos del formulario modal
+            $("#txtId").val(0);
+            $("#txtDescripcion").val("");
+            $("#comboActivo").val(1);
+            $("#mensajeError").hide();
+
+
+            //al hacer click en el boton editar carga en el modal la data obtenida
+            //osea que si el formulario es distinto de null ocuarre eso ya que al inicio el formulario esta en null
+            if (json != null) {
+                $("#txtId").val(json.id_Categoria)
+                $("#txtDescripcion").val(json.Descripcion)// le paso el atributo nombre de la data obtenida
+                $("#comboActivo").val(json.Activo == true ? 1 : 0)
+            }
+            $("#formModal").modal("show");
+        }
+
+        //funcion para abrir el formulario modal para editar al hacer click en el boton del lapiz del datatable
+        //cada vez que cuando se haga click en el boton editar dentro del tbody realizara la funcion
+        $("#tabla tbody").on("click", ".btn-editar", function () {
+            //obtiendo la fila de donde fue precionado el boton, llamando al tr
+
+            filaSeleccionada = $(this).closest("tr");// esta variable almacena la fila que ha sido seleccionada
+
+            //obteniendo toda la informacion del dataTable para editar los campos en el formulario modal
+            //le estoy diciendo que me agarre del datatable la data de la fila seleccionada
+            var dataObtenida = tablaData.row(filaSeleccionada).data();
+
+            //llamo a la funcion abrirModal,enviandole la data obtenida al modal abierto para proceder a la edicion
+            abrirModal(dataObtenida)
+
+        })
+
+        //metodo para elimianar una categoria seleccionada
+        $("#tabla tbody").on("click", ".btn-eliminar", function () {
+
+            var categoriaSeleccionada = $(this).closest("tr"); //obtengo el tr de la tabla y la almaceno en una variable
+
+            var data = tablaData.row(categoriaSeleccionada).data();//le paso a una variable la data de la categoria seleccioanda
+
+            //mando a mostrar un alert preguntando que si esta seguro que desea eliminar la categoria
+            swal({
+                position: "center",
+                title: "¿Esta Seguro?",
+                text: "¿Desea eliminar la Categoria?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Si",
+                cancelButtonText: "No",
+                closeOnConfirm: true
+            },
+            function () {
+                //aplicando logica de tipo query para eliminar la categoria
+                 jQuery.ajax({
+                    url: '@Url.Action("EliminarCategoria","Catalogos")',
+                    type: "POST",
+                    data: JSON.stringify({ id: data.id_Categoria }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.resultado == false)
+                        {
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Categoria Eliminada Correctamente",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            tablaData.row(categoriaSeleccionada).remove().draw();//removiendo de la tabla
+                        }else
+                        {
+                            swal("No se pudo eliminar", data.mensaje, "error")
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    },
+                    beforeSend: function () {
+
+                    }
+                });
+                });
+            console.log(data);
+        })
+
+        //metodo para guardar o editar categoria
+        function Guardar()
+        {
+            var Categoria = {
+                id_Categoria: $("#txtId").val(),
+                Descripcion: $("#txtDescripcion").val(),
+                Activo: $("#comboActivo").val()==1 ? true: false
+            }
+
+            //utilizando jquery para el post de insert al servidor
+            jQuery.ajax({
+                url: '@Url.Action("GuardarCategorias", "Catalogos")', //pansandole la url del controlador
+                type: "POST",
+                data: JSON.stringify({ objeto: Categoria }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $(".modal-body").LoadingOverlay("hide");
+
+                    //Categoria Nueva
+                    //validando si el id es 0 procede a hacer un post insert a la tabla
+                    if (Categoria.id_Categoria == 0) {
+                        if (data.resultado != 0) {
+                            Categoria.id_Categoria = data.resultado;
+
+                            tablaData.row.add(Categoria).draw(false);
+                            $("#formModal").modal("hide");
+
+                            //mostrando un mensaje de confirmacion con sweetAlert
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Nueva Categoria Agregada Correctamente",
+                                showConfirmButton: false,
+                                timer: 1505
+                            });
+
+                        } else {
+                            $("#mensajeError").text(data.mensaje);//mostrando el mensaje que viene de la base de datos
+                            $("#mensajeError").show();
+                            $(".modal-body").LoadingOverlay("hide");
+
+                        }
+                    } // si lo anterior no se cumple entonces va a editar
+                    else {
+                        if (data.resultado) {
+                            //carga la tabla con el nuevo usuario editado
+                            tablaData.row(filaSeleccionada).data(Categoria).draw(false);
+                            filaSeleccionada = null;
+                            $("#formModal").modal("hide");
+
+                        } else
+                        {
+                            $("#mensajeError").text(data.mensaje);//mostrando el mensaje que viene de la base de datos
+                            $("#mensajeError").show();
+                            $(".modal-body").LoadingOverlay("hide");
+
+                        }
+                    }
+
+                },
+                error: function (error) {
+                    $(".modal-body").LoadingOverlay("hide");
+                    $("#mensajeError").text("Error De Peticion");
+                    $("#mensajeError").show();
+                },
+                beforeSend: function ()
+                {
+                    //mostrando el loading mientras se agrega un usuario
+                    $(".modal-body").LoadingOverlay("show", {
+                        imageResizeFactor: 2,
+                        text: "Cargando Por Favor Espere!....",
+                        size: 20
+
+                    })
+                }
+            })
+        }
+    </script>
+}
+

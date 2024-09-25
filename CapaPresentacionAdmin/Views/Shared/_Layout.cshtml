@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - CompuStore</title>
+    @Styles.Render("~/Content/css")
+</head>
+
+<body class="sb-nav-fixed">
+
+
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- INICIO DE LA BARRA-->
+        <a class="navbar-brand ps-3" href="index.html">CompuStore</a>
+
+        <!-- MENU HAMBURGUESA-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
+        <!-- BARRA DE NAVEGACION DE LA DERECHA PARA LOS USUARIOS-->
+        <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Correo</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <a class="btn btn-danger text-white mx-auto" href="#!" style="width: 145px; padding: 0.345rem 0.60rem; border-radius: 0.25rem; text-align: center; display: block;">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+
+    <!-- MENU DE NAVEGACION  DINAMICO-->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">INFORMACION</div>
+                        <a class="nav-link" href="@Url.Action("Index","Home")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                        </a>
+
+
+                        <div class="sb-sidenav-menu-heading">USUARIOS</div>
+                        <a class="nav-link" href="@Url.Action("Usuarios","Usuarios")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            Usuarios
+                        </a>
+
+                        <div class="sb-sidenav-menu-heading">CATALOGOS</div>
+                        <a class="nav-link" href="@Url.Action("Categorias","Catalogos")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Categorias
+                        </a>
+
+                        <a class="nav-link" href="@Url.Action("Marcas","Catalogos")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-bookmark"></i></div>
+                            Marcas
+                        </a>
+
+                        <a class="nav-link" href="@Url.Action("Productos","Catalogos")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
+                            Productos
+                        </a>
+
+
+                    </div>
+                </div>
+
+            </nav>
+        </div>
+
+
+        <!-- FORMULARIOS INTERIORES LLAMADOS CON LA PAGINA MASTER Y EL METODO RENDERBODY-->
+        <div id="layoutSidenav_content">
+            <main>
+
+                <div class="container-fluid px-4">
+                    @RenderBody()
+                </div>
+
+            </main>
+
+        </div>
+    </div>
+
+
+
+
+
+    @*<li>@Html.ActionLink("Inicio Pagina", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+        <li>@Html.ActionLink("Acerca de Test", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+        <li>@Html.ActionLink("Contacto Mirame", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+        <li>@Html.ActionLink("PaginaPrueba", "PaginaTest", "Home", new { area = "" }, new { @class = "nav-link" })</li>*@
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/complementos")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
