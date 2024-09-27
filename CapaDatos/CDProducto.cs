@@ -149,38 +149,38 @@ namespace CapaDatos
         }
 
         //metodo para editar campos de nombre imagen y la ruta
-        public bool GuardarDataImagen(Producto objp,out string Mensaje)
+        public bool GuardarDataImagen(Producto objp, out string Mensaje)
         {
             bool resultado = false; // guarda el resultado de la operacion
-            Mensaje=string.Empty;
+            Mensaje = string.Empty;
 
             try
             {
                 using (SqlConnection conexion = new SqlConnection(Conexion.cn))
                 {
                     string consulta = " update Producto set RutaImagen=@rutaimagen, NombreImagen=@nombreimagen where id_Producto=@id_Producto";
-                    SqlCommand cmd= new SqlCommand(consulta, conexion);
+                    SqlCommand cmd = new SqlCommand(consulta, conexion);
                     cmd.Parameters.AddWithValue("@rutaimagen", objp.RutaImagen);
                     cmd.Parameters.AddWithValue("@nombreimagen", objp.NombreImagen);
                     cmd.Parameters.AddWithValue("@id_Producto", objp.id_Producto);
-                    cmd.CommandType=CommandType.Text;
-               
+                    cmd.CommandType = CommandType.Text;
+
                     //abriendo conexion
                     conexion.Open();
 
-                    if (cmd.ExecuteNonQuery() > 0) 
+                    if (cmd.ExecuteNonQuery() > 0)
                     {
                         resultado = true;
                     }
                     else
                     {
                         Mensaje = "No se pudo actualizar la imagen";
-                    }   
+                    }
                 }
             }
             catch (Exception ex)
             {
-                resultado=false;
+                resultado = false;
                 Mensaje = ex.Message;
             }
             return resultado;

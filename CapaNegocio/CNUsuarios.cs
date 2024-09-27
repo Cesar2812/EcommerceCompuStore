@@ -32,6 +32,7 @@ namespace CapaNegocio
             return Sb.ToString();
         }
 
+
         //instanceo la clase Uusario de la capadatos para acceder a sus metodos
         private CDUsuarios objCapaDatos = new CDUsuarios();
 
@@ -144,6 +145,7 @@ namespace CapaNegocio
             return clave;//retornando clave generada
 
         }
+
 
         //metodo para enviar correo al usuario
         public static bool EnviarCorreo(string correo, string asunto, string mensaje)
