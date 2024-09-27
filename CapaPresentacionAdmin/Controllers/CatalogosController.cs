@@ -217,7 +217,7 @@ namespace CapaPresentacionAdmin.Controllers
         public JsonResult ImagenProducto(int id)
         {
             bool conversion;
-
+             
             Producto oprod=new CNProducto().ListarProductos().Where(p =>p.id_Producto==id).FirstOrDefault();
 
             string textoBase64 = Recursos.convertirBase64(Path.Combine(oprod.RutaImagen,oprod.NombreImagen), out conversion);
