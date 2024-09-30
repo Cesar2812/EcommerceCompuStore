@@ -1,14 +1,14 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
-using System.IO;
-using System;
-using System.Linq;
 
 namespace CapaPresentacionAdmin.Controllers
 {
@@ -127,7 +127,7 @@ namespace CapaPresentacionAdmin.Controllers
             List<Producto> lista = new List<Producto>();
             lista = new CNProducto().ListarProductos();
             //retornando la data en formato JSON
-            return Json(new {data=lista},JsonRequestBehavior.AllowGet);//metodo get porque agarra la data
+            return Json(new { data = lista }, JsonRequestBehavior.AllowGet);//metodo get porque agarra la data
         }
 
         //metodo para registrarProductos
@@ -181,26 +181,26 @@ namespace CapaPresentacionAdmin.Controllers
                 if (archivoImagen != null)
                 {
                     //haciendo lectura de la lleve que contiene el webConfig
-                    string rutaGuardar = ConfigurationManager.AppSettings["ServidorDeFotos"];
+                    string rutaGuardar = ConfigurationManager.AppSettings["ServidorFotos"];
                     string extension = Path.GetExtension(archivoImagen.FileName);
-                    string nombreImagen = string.Concat(objProd.id_Producto.ToString(),extension);// poniendole el nombre de la imagen
+                    string nombreImagen = string.Concat(objProd.id_Producto.ToString(), extension);// poniendole el nombre de la imagen
 
                     try
                     {
                         archivoImagen.SaveAs(Path.Combine(rutaGuardar, nombreImagen)); // guardando la imagen
-                        
+
                     }
                     catch (Exception ex)
                     {
                         string men = ex.Message;
-                        guardarImagenExito=false;
+                        guardarImagenExito = false;
                     }
 
                     if (guardarImagenExito)
                     {
-                        objProd.RutaImagen=rutaGuardar;
-                        objProd.NombreImagen=nombreImagen;
-                        bool rspta=new CNProducto().GuardarDataImagen(objProd,out Mensaje);
+                        objProd.RutaImagen = rutaGuardar;
+                        objProd.NombreImagen = nombreImagen;
+                        bool rspta = new CNProducto().GuardarDataImagen(objProd, out Mensaje);
                     }
                     else
                     {
@@ -209,18 +209,20 @@ namespace CapaPresentacionAdmin.Controllers
 
                 }
             }
-            return Json(new { operacionExitosa = operacionExitosa,idGenerado=objProd.id_Producto, Mensaje =Mensaje }, JsonRequestBehavior.AllowGet);
+            return Json(new { operacionExitosa = operacionExitosa, idGenerado = objProd.id_Producto, Mensaje = Mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        //metodo para devolver cadena en base 64 para la imagen
+
+        //metodo para devolver cadena en base 64 para la imagen al momento de editar el producto 
+        //osea cargara la imagen en la etiqueta img 
         [HttpPost]
         public JsonResult ImagenProducto(int id)
         {
             bool conversion;
-             
-            Producto oprod=new CNProducto().ListarProductos().Where(p =>p.id_Producto==id).FirstOrDefault();
 
-            string textoBase64 = Recursos.convertirBase64(Path.Combine(oprod.RutaImagen,oprod.NombreImagen), out conversion);
+            Producto oprod = new CNProducto().ListarProductos().Where(p => p.id_Producto == id).FirstOrDefault();
+
+            string textoBase64 = Recursos.convertirBase64(Path.Combine(oprod.RutaImagen, oprod.NombreImagen), out conversion);
 
             return Json(new
             {
@@ -237,7 +239,7 @@ namespace CapaPresentacionAdmin.Controllers
             string mensaje = string.Empty;
 
             respuesta = new CNProducto().EliminarProducto(id, out mensaje);
-            return Json(new { resultado=respuesta ,mensaje=mensaje }, JsonRequestBehavior.AllowGet);
+            return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
         }
         #endregion

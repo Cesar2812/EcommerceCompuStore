@@ -95,7 +95,7 @@ namespace CapaDatos
                     cmd.ExecuteNonQuery();
 
                     idautogenerado = Convert.ToInt32(cmd.Parameters["@Resultado"].Value);//pasndole al id el valor del reultado
-                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
                 }
 
             }

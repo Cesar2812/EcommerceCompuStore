@@ -61,7 +61,7 @@ namespace CapaNegocio
         //metodo para editar un producto
         public bool EditarProducto(Producto obj, out string Mensaje)
         {
-            Mensaje=string.Empty;
+            Mensaje = string.Empty;
 
             //validaciones para campos vacios si no se ingresa algo
             if (string.IsNullOrEmpty(obj.Nombre) || string.IsNullOrWhiteSpace(obj.Nombre))
@@ -93,7 +93,7 @@ namespace CapaNegocio
             //si no encuentra ningun error
             if (string.IsNullOrEmpty(Mensaje))
             {
-                return objCapaProd.EditarProducto(obj, out Mensaje);    
+                return objCapaProd.EditarProducto(obj, out Mensaje);
             }
             else
             {
@@ -102,15 +102,15 @@ namespace CapaNegocio
         }
 
         //metodo para eliminar un producto
-        public bool EliminarProducto(int id,out string Mensaje)
+        public bool EliminarProducto(int id, out string Mensaje)
         {
-            return objCapaProd.EliminarProducto(id,out Mensaje);
+            return objCapaProd.EliminarProducto(id, out Mensaje);
         }
-        
+
         //funcion para guardar imagen del producto
-        public bool GuardarDataImagen(Producto obj,out string Mensaje)
+        public bool GuardarDataImagen(Producto obj, out string Mensaje)
         {
-            return objCapaProd.GuardarDataImagen(obj,out Mensaje);
+            return objCapaProd.GuardarDataImagen(obj, out Mensaje);
         }
     }
 }

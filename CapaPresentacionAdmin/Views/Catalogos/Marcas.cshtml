@@ -60,7 +60,7 @@
         <div class="modal-content">
             <!--PARTE DE ARRIBA DEL FORMULARIO-->
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title" id="exampleModalLabel">MARCA</h5>
+                <h5 class="modal-title" id="exampleModalLabel">DATOS DE MARCA</h5>
                 <button type="button" class="btn-close" style="background-color: white; border: none; color: black;" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -194,7 +194,7 @@
 
         })
 
-        //metodo para elimianar una categoria seleccionada
+        //metodo para elimianar una Marca seleccionada
         $("#tabla tbody").on("click", ".btn-eliminar", function () {
 
             var marcaSeleccionada = $(this).closest("tr"); //obtengo el tr de la tabla y la almaceno en una variable
@@ -249,7 +249,7 @@
             console.log(data);
         })
 
-        //metodo para guardar o editar categoria
+        //metodo para guardar o editar Marca
         function Guardar()
         {
             var Marca = {
@@ -317,7 +317,7 @@
                 },
                 beforeSend: function ()
                 {
-                    //mostrando el loading mientras se agrega un usuario
+                    //mostrando el loading mientras se agrega una marca
                     $(".modal-body").LoadingOverlay("show", {
                         imageResizeFactor: 2,
                         text: "Cargando Por Favor Espere!....",
