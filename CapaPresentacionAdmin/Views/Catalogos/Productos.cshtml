@@ -287,8 +287,9 @@
 
         ////validaciones de campos con Jquery Validate
         jQuery.validator.addMethod("preciodecimal", function (value, element) {
-            return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
-        }, "El fromato correcto del precio es ##.##");
+            return this.optional(element) || /^(0|[1-9]\d{0,4}|1\d{5}|20{1,1}(0{0,4}))(\.\d{0,2})?$/.test(value);
+            //return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
+        }, "El fromato correcto del precio es #####.##");
 
         $("#contenedor").validate({
             rules:

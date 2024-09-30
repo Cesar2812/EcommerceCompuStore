@@ -153,7 +153,7 @@ namespace CapaPresentacionAdmin.Controllers
             }
             else
             {
-                return Json(new { operacionExitosa = false, Mensaje = "El formato del Precio debe de ser ##.##" }, JsonRequestBehavior.AllowGet);
+                return Json(new { operacionExitosa = false, Mensaje = "El formato del Precio debe de ser #####.##" }, JsonRequestBehavior.AllowGet);
             }
 
             //si la opcion es ingresar osea se pasa un id=0
