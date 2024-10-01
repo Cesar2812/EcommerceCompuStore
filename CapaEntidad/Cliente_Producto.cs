@@ -1,8 +1,8 @@
 ﻿namespace CapaEntidad
 {
-    public class Cesta
+    public class Cliente_Producto
     {
-        public int id_Cesta { get; set; }
+        public int idProducto_Cliente { get; set; }
 
         public Cliente objcliente { get; set; }
 
