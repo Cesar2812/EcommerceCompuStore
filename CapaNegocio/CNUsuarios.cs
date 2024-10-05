@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;// libreria para enviar correo
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -26,7 +27,6 @@ namespace CapaNegocio
                     Sb.Append(b.ToString("x2"));
 
                 }
-
             }
 
             return Sb.ToString();
@@ -137,13 +137,57 @@ namespace CapaNegocio
             return objCapaDatos.Eliminar(id, out Mensaje);
         }
 
+        //metodo para cambiarCalve
+        public bool CambiarClave(int idUsuario, string nuevaClave, out string Mensaje)
+        {
+            return objCapaDatos.CambiarClave(idUsuario,nuevaClave,out Mensaje);
+        }
+
+
+
+        //Metodo para restablecer la clave
+        public bool RestablecerClave(int idUsuario,string correo,out string Mensaje)
+        {
+            Mensaje = string.Empty;
+
+            //generando la clave aleatoria para cada usuario
+            string nuevaClave = GenerarClave();
+            bool resultado = objCapaDatos.RestablecerClave(idUsuario, ConvertirSha256(nuevaClave), out Mensaje);
+
+            if (resultado)
+            {
+                string asunto = "Clave Restablecida";
+                string mensajeCorreo = "<h3> Su Calve fue restablecida correctamente</h3></br><p>Su clave de usuario para ahora acceder es: !clave!</p>";
+                mensajeCorreo = mensajeCorreo.Replace("!clave!", nuevaClave);
+
+                bool respuesta = EnviarCorreo(correo, asunto, mensajeCorreo);
+
+                if (respuesta)
+                {
+                    return true;
+
+                }
+                else
+                {
+                    Mensaje = "No se pudo enviar el correo";
+                    return false;
+                }
+
+
+            }
+            else
+            {
+                Mensaje = "No se pudo reestablecer la clave";
+                return false;
+            }
+        }
+
 
         //metodo para generar clave automatica que sera enviada por coreo al usuario
         public static string GenerarClave()
         {
             string clave = Guid.NewGuid().ToString("N").Substring(0, 8);//retorna codigo unico con formato alfanumericos con una clave de 6 digitos
             return clave;//retornando clave generada
-
         }
 
 

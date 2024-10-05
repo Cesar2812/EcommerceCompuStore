@@ -28,6 +28,8 @@ namespace CapaPresentacionAdmin.Controllers
         {
             return View();
         }
+
+
         #region CATEGORIA
         //-----INICIO DE LOS CONTROLADORES PARA CATEGORIAS-----------
         [HttpGet]//tipo get porque obtiene datos de la tabla de categrias

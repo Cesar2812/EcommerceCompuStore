@@ -183,5 +183,63 @@ namespace CapaDatos
             }
             return resultado;
         }
+
+
+        //metodo para cambiar clave
+        public bool CambiarClave(int idUsuario, string nuevaClave,out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                {
+                    //pasando el id del usuario para CambiarLaClave
+                    SqlCommand comando = new SqlCommand("update Usuario set Clave = @nuevaClave,Restablecer = 0 where id_Usuario = @idUsuario", conexion);
+                    comando.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    comando.Parameters.AddWithValue("@nuevaClave", nuevaClave);
+                    comando.CommandType = CommandType.Text;
+                    conexion.Open();
+                    resultado = comando.ExecuteNonQuery() > 0 ? true : false;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+
+            }
+            return resultado;
+        }
+
+
+        //metodo para restablecer clave
+        public bool RestablecerClave(int idUsuario, string Clave, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            { 
+                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                {
+                    //pasando el id del usuario para Restablecer la clave
+                    SqlCommand comando = new SqlCommand("update Usuario set Clave = @Clave,Restablecer = 1 where id_Usuario = @idUsuario", conexion);
+                    comando.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    comando.Parameters.AddWithValue("@Clave", Clave);
+                    comando.CommandType = CommandType.Text;
+                    conexion.Open();
+                    resultado = comando.ExecuteNonQuery() > 0 ? true : false;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+
+            }
+            return resultado;
+        }
+
+
     }
 }

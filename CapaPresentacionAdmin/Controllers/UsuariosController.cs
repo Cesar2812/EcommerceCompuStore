@@ -7,12 +7,14 @@ namespace CapaPresentacionAdmin.Controllers
 {
     public class UsuariosController : Controller
     {
-        //Metododo que devuelve la vista de Usuarios osea el form dentro de la pagina master
+        //Metododo que devuelve la vista de Usuarios osea el form dentro de la pagina master para registrar Usuarios
         public ActionResult Usuarios()
         {
             return View();
         }
 
+        //controlador que ira dentro del panel de administracion
+        #region Usuarios 
         //metodo para mostrar la lista de usuarios en el el DataTable esto lo estoy creando como un controller
         //esto en formato JSON asi lo devuelve por ende es un HTTPGET
         [HttpGet]
@@ -67,6 +69,6 @@ namespace CapaPresentacionAdmin.Controllers
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
         }
-
+        #endregion //fin de la region de usuarios del panel intero
     }
 }
