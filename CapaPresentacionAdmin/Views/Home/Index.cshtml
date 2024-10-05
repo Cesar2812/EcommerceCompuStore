@@ -14,10 +14,10 @@
 </ol>
 
 <!--Muestra los cards-->
-<div class="row">
+ <div class="row">
 
      <div class="col-xl-3 col-md-6">
-        <div class="card bg-primary text-white mb-4">
+        <div class="card bg-info text-white mb-4">
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-9">
@@ -86,12 +86,12 @@
 
                 <div class="row">
                     <div class="col-sm-9">
-                        <h6>Total De Marcas</h6>
-                        <h6 id="totalMarcas">0</h6>
+                        <h6>Ganancias Totales</h6>
+                        <h6 id="gananciasTotales">0.00</h6>
 
                     </div>
                     <div class="col-sm-3">
-                        <i class="fas fa-bookmark fa-2x"></i>
+                        <i class="fas fa-dollar-sign fa-2x"></i>
                     </div>
 
                 </div>
@@ -100,6 +100,7 @@
 
         </div>
     </div>
+
 
 </div>
 
@@ -152,6 +153,7 @@
                         <button class="btn btn-success" type="submit"><i class="fas fa-file-excel"></i> Exportar </button>
                     </div>
                 </div>
+
             </div>
         </form>
 
@@ -160,6 +162,7 @@
          <div class="row">
             <div class="col-sm-12">
                 <table id="tabla" class="display cell-border" style="width:100%">
+
                     <thead>
                         <tr>
                             <th>N° De Transaccion</th>
@@ -172,12 +175,64 @@
                         </tr>
                     </thead>
                     <tbody>
+
                     </tbody>
 
                 </table>
+
             </div>
          </div>
-    </div>
+     </div>
 
 </div>
 
+@section scripts{
+    <script>
+
+        //llamadno al rporte para que lo muestre
+        jQuery.ajax({
+            url: '@Url.Action("VistaDashboard","Home")',//llamando al controlador
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data)
+            {
+                //reciebiendo objeto en tipo de ejecucion
+                var objeto = data.resultado;
+
+                //poblando los cards
+                $("#totalClientes").text(objeto.TotalClientes)
+                $("#totalVentas").text(objeto.TotalVenta)
+                $("#totalProductos").text(objeto.TotalProducto)
+                $("#gananciasTotales").text(objeto.GananciaTotal)
+            }
+        });
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    }

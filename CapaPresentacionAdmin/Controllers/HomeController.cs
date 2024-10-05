@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using CapaEntidad;
+using CapaNegocio;
+using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
 {
@@ -8,6 +10,15 @@ namespace CapaPresentacionAdmin.Controllers
         public ActionResult Index() // vista  de inicio con Dasboard
         {
             return View();
+        }
+
+        //llamando el controlador para mostrar el reporte
+        [HttpGet]//tipo get ya que devuelve el reporte
+        public JsonResult VistaDashboard()
+        {
+            Reportes obj = new CNReportes().VerReporte();
+
+            return Json(new { resultado = obj }, JsonRequestBehavior.AllowGet);  //devolvienndo el objeto de tipo dashboard
         }
     }
 }
