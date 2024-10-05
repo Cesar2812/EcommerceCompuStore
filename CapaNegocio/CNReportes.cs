@@ -17,10 +17,10 @@ namespace CapaNegocio
 
 
         //metodo para listar en el dataTable las ventas
-        public List<ReporteVentas> ReporteVentas(string fechainicio, string fechafin, string numeroTransaccion)
+        public List<ReporteVentas> ReporteVentas(string fechainicio, string fechafin, string transaccion)
         {
 
-            return objReporte.ReporteVentas(fechainicio, fechafin, numeroTransaccion);
+            return objReporte.ReporteVentas(fechainicio, fechafin, transaccion);
         }
     }
 }

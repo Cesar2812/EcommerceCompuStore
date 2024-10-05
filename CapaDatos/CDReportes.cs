@@ -48,7 +48,7 @@ namespace CapaDatos
 
 
         //metodo para ver el reporte de ventas por fecha pasando un sp
-        public List<ReporteVentas> ReporteVentas(string fechainicio, string fechafin, string numeroTransaccion) //parametrizando el metodo por los datos que se interesa buscar
+        public List<ReporteVentas> ReporteVentas(string fechainicio, string fechafin, string transaccion) //parametrizando el metodo por los datos que se interesa buscar
         {
             List<ReporteVentas> lista = new List<ReporteVentas>(); //creando una lista con los campos del reporte
             try
@@ -59,7 +59,7 @@ namespace CapaDatos
                     SqlCommand cmd = new SqlCommand("sp_ReporteVentas", conexion);
                     cmd.Parameters.AddWithValue("@fechainicio", fechainicio);
                     cmd.Parameters.AddWithValue("@fechafin", fechafin);
-                    cmd.Parameters.AddWithValue("@numeroTransaccion", numeroTransaccion);
+                    cmd.Parameters.AddWithValue("@numeroTransaccion", transaccion);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     conexion.Open();

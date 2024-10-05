@@ -116,7 +116,7 @@
 
     <div class="card-body">
 
-        <form>
+        <form action="@Url.Action("ExportarVentas","Home")" method="post">
             <div class="row align-items-end">
 
                 <div class="col-sm-2">
@@ -136,7 +136,7 @@
                 <div class="col-sm-2">
                     <div class="mb-2">
                         <label class="form-label">N° De Transacción</label>
-                        <input class="form-control" type="text" id="txtTransaccion" name="transaccion" />
+                        <input class="form-control" type="text" id="txtTransaccion" name="transaccion" autocomplete="off"/>
                     </div>
                 </div>
 
@@ -201,8 +201,8 @@
              success: function (data)
              {
                 //reciebiendo objeto en tipo de ejecucion
-               var objeto = data.resultado;
-
+                 var objeto = data.resultado;
+                
                //poblando los cards
                $("#totalClientes").text(objeto.TotalClientes)
                $("#totalVentas").text(objeto.TotalVenta)
@@ -267,11 +267,6 @@
             "&numeroTransaccion=" + $("#txtTransaccion").val()
 
         tablaData.ajax.url(nuevaUrl).load();
-
-
-
-
-
     })
 
 </script>
