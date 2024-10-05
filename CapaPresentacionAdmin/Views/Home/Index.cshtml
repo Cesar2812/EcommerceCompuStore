@@ -165,17 +165,16 @@
 
                     <thead>
                         <tr>
-                            <th>N° De Transaccion</th>
                             <th>Fecha De Venta</th>
                             <th>Cliente</th>
                             <th>Producto</th>
-                            <th>Cantidad</th>
                             <th>Precio</th>
+                            <th>Cantidad</th>
                             <th>Total</th>
+                            <th> N° De Transaccion</th>
                         </tr>
                     </thead>
                     <tbody>
-
                     </tbody>
 
                 </table>
@@ -187,27 +186,95 @@
 </div>
 
 @section scripts{
-    <script>
+<script>
+    var tablaData;
 
-        //llamadno al rporte para que lo muestre
-        jQuery.ajax({
-            url: '@Url.Action("VistaDashboard","Home")',//llamando al controlador
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data)
-            {
+    $(document).ready(function () {
+
+
+          //Rporte de los Card 
+          jQuery.ajax({
+             url: '@Url.Action("VistaDashboard","Home")',//llamando al controlador
+             type: "GET",
+             dataType: "json",
+             contentType: "application/json; charset=utf-8",
+             success: function (data)
+             {
                 //reciebiendo objeto en tipo de ejecucion
-                var objeto = data.resultado;
+               var objeto = data.resultado;
 
-                //poblando los cards
-                $("#totalClientes").text(objeto.TotalClientes)
-                $("#totalVentas").text(objeto.TotalVenta)
-                $("#totalProductos").text(objeto.TotalProducto)
-                $("#gananciasTotales").text(objeto.GananciaTotal)
-            }
-        });
-    </script>
+               //poblando los cards
+               $("#totalClientes").text(objeto.TotalClientes)
+               $("#totalVentas").text(objeto.TotalVenta)
+               $("#totalProductos").text(objeto.TotalProducto)
+               $("#gananciasTotales").text(objeto.GananciaTotal)
+             }
+          });
+
+
+          //pintando el calendario en los campos de fecha
+          $("#txtFechainicio").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker('setDate', new Date());
+          $("#txtFechaFin").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker('setDate', new Date());
+
+
+
+
+          //llamando al sp de los reportes por fecha
+           var Url = '@Url.Action("ListaVentas", "Home")' +
+             "?fechainicio=" + $("#txtFechainicio").val() +
+             "&fechafin=" + $("#txtFechaFin").val() +
+            "&numeroTransaccion=" + $("#txtTransaccion").val()
+
+
+             //cargando data al dataTable que muestra el reporte de las ventas 
+             tablaData = $("#tabla").DataTable({
+
+                 responsive: true,
+                 ordering: false,
+
+                     //pintando la data
+                     "ajax":
+                     {
+                          url: Url,//url que viene del controlador
+                          type: "GET",//metodo de tipo GET ya que optiene la data desde la base de datos
+                         dataType: "json"//especificandole la data de tipo json
+                     },
+
+
+                      //pasandole las columnas
+                      "columns": [
+                          {"data": "FechaDeVenta"},
+                          {"data": "Cliente"},
+                          {"data": "Producto"},
+                          {"data": "Precio"},
+                          {"data": "Cantidad"},
+                          { "data": "Total" },
+                          { "data": "NumeroTransaccion"}
+                      ],
+
+                      "language": {
+                        "url": "//cdn.datatables.net/plug-ins/2.1.6/i18n/es-MX.json"
+                      }
+             });
+
+    })
+
+    //llamado al evento del boton buscar
+    $("#btnBuscar").on("click", function () {
+          var nuevaUrl = '@Url.Action("ListaVentas", "Home")' +
+            "?fechainicio=" + $("#txtFechainicio").val() +
+            "&fechafin=" + $("#txtFechaFin").val() +
+            "&numeroTransaccion=" + $("#txtTransaccion").val()
+
+        tablaData.ajax.url(nuevaUrl).load();
+
+
+
+
+
+    })
+
+</script>
     
     
     
