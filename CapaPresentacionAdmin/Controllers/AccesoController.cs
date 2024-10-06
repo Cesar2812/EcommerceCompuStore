@@ -1,6 +1,5 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
-using DocumentFormat.OpenXml.Math;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -65,10 +64,10 @@ namespace CapaPresentacionAdmin.Controllers
             Usuario usuario = new Usuario();
 
             //trayendo al usuario que va a modificar la clave
-            usuario= new CNUsuarios().Listar().Where(u=> u.id_Usuario==int.Parse(id_Usuario)).FirstOrDefault();
+            usuario = new CNUsuarios().Listar().Where(u => u.id_Usuario == int.Parse(id_Usuario)).FirstOrDefault();
 
             //validando si la contrasena es la actual con la que ya tiene primero se convierte la clave si
-            if(usuario.Clave != CNUsuarios.ConvertirSha256(claveActual))
+            if (usuario.Clave != CNUsuarios.ConvertirSha256(claveActual))
             {
                 TempData["id_Usuario"] = id_Usuario;
                 ViewData["vclave"] = "";
@@ -84,7 +83,7 @@ namespace CapaPresentacionAdmin.Controllers
                 return View();
 
             }
-           
+
             //entonces si todo ocurre bien y no hay errores
             ViewData["vclave"] = "";
             nuevaClave = CNUsuarios.ConvertirSha256(nuevaClave); // pasandole la nueva clave para que la encripte
@@ -95,9 +94,11 @@ namespace CapaPresentacionAdmin.Controllers
             //si el cambio ha sido exitoso
             if (respuesta)
             {
-                ViewBag.Exito = "Clave Cambiada Correctamente";
-                
-                return RedirectToAction("Index");
+                TempData["SuccessMessage"] = "Clave Cambiada Exitosamente";
+                return View();
+                //ViewBag.Exito = "Clave Cambiada Correctamente";
+
+                //return RedirectToAction("Index");
             }
             else
             {
@@ -106,7 +107,7 @@ namespace CapaPresentacionAdmin.Controllers
                 return View();
 
             }
-            
+
         }
     }
 }

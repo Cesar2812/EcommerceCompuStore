@@ -98,6 +98,25 @@
              });
         </text>
          }
+
+        //alert que se va a ejecutar cuando se cammbie correctaente la clave
+       @if (TempData["SuccessMessage"] != null)
+       {
+         <text>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Clave Cambiada Exitosamente",
+                showConfirmButton: false,
+                timer: 1000,
+                customClass: {
+                    popup: 'custom-alert'
+                }
+            }).then((result) => {
+                window.location = '@Url.Action("Index", "Acceso")';
+            });
+          </text>
+        }
     </script>
 </body>
 
