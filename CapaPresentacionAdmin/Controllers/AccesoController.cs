@@ -43,6 +43,14 @@ namespace CapaPresentacionAdmin.Controllers
             }
             else
             {
+
+                if (usuario.Restablecer)
+                {
+                    TempData["id_Usuario"]=usuario.id_Usuario;
+
+                    return RedirectToAction("CambiarClave");
+
+                }
                 //si el usuario fue encontrado
                 ViewBag.Error = null;
                 return RedirectToAction("Index", "Home");// entrando a la vista principal del panel

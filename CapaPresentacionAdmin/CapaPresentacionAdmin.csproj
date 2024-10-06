@@ -754,6 +754,7 @@
     <Content Include="Views\Catalogos\Marcas.cshtml" />
     <Content Include="Views\Catalogos\Productos.cshtml" />
     <Content Include="Views\Acceso\Index.cshtml" />
+    <Content Include="Views\Acceso\CambiarClave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
