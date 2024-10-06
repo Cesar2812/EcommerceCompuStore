@@ -4,6 +4,7 @@
 }
 
 <!DOCTYPE html>
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -12,10 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>CambiarClave</title>
     <style>
-        body {
-            background-color: #ced4da;
-        }
-
+       
         .custom-alert {
             width: 350px;
             padding: 10px;
@@ -23,6 +21,7 @@
             border-radius: 8px;
         }
     </style>
+
 </head>
 <body>
     <div id="layoutAuthentication">
@@ -34,7 +33,9 @@
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Cambiar Contraseña</h3></div>
                                 <div class="card-body">
+
                                     <form action="@Url.Action("CambiarClave","Acceso")" method="post">
+
                                         <input class="form-control" type="text" value="@TempData["id_Usuario"]" name="id_Usuario" />
 
                                         <div class="row mb-3">
@@ -81,23 +82,23 @@
     </div>
     <script src="~/Scripts/bootstrap.bundle.js"></script>
     <script>
-    @if (ViewBag.Error != null)
-     {
-            <text>
-                 Swal.fire({
-                 position: "top-end",
-                 icon: "error",
-                 title: "@ViewBag.Error",
-                 showConfirmButton: false,
-                 timer: 1000,
-                customClass:
-                {
-                  popup: 'custom-alert'
-                }
-            });
-            </text>
-     }
+        @if (ViewBag.Error != null)
+         {
+        <text>
+             Swal.fire({
+             position: "top-end",
+             icon: "error",
+             title: "@ViewBag.Error",
+             showConfirmButton: false,
+             timer: 1000,
+            customClass:
+            {
+              popup: 'custom-alert'
+            }
+             });
+        </text>
+         }
     </script>
 </body>
-</html>
 
+</html>

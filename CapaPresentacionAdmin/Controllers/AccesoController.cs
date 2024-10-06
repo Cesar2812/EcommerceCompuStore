@@ -1,5 +1,7 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
+using DocumentFormat.OpenXml.Math;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -43,7 +45,7 @@ namespace CapaPresentacionAdmin.Controllers
             }
             else
             {
-
+                //si el usuario accede por primera vez al sistema
                 if (usuario.Restablecer)
                 {
                     TempData["id_Usuario"] = usuario.id_Usuario;
@@ -57,38 +59,44 @@ namespace CapaPresentacionAdmin.Controllers
             }
 
         }
-
-
-        [HttpPost]//en este metodo traemos al usuario al cual deseamos modificar su clave 
+        [HttpPost]
         public ActionResult CambiarClave(string id_Usuario, string claveActual, string nuevaClave, string confirmarClave)
         {
             Usuario usuario = new Usuario();
 
-            usuario = new CNUsuarios().Listar().Where(u => u.id_Usuario == int.Parse(id_Usuario)).FirstOrDefault();
+            //trayendo al usuario que va a modificar la clave
+            usuario= new CNUsuarios().Listar().Where(u=> u.id_Usuario==int.Parse(id_Usuario)).FirstOrDefault();
 
-            //validando si la contra es la misma que ya tiene
-            if (usuario.Clave != CNUsuarios.ConvertirSha256(claveActual))
+            //validando si la contrasena es la actual con la que ya tiene primero se convierte la clave si
+            if(usuario.Clave != CNUsuarios.ConvertirSha256(claveActual))
             {
                 TempData["id_Usuario"] = id_Usuario;
                 ViewData["vclave"] = "";
-                ViewBag.Error = "La Clave Actual No es Correcta";
+                ViewBag.Error = "La Clave actual no es correcta";
+                return View();
 
             }
-            else if (nuevaClave != confirmarClave)
+            else if (nuevaClave != confirmarClave) // si la clave nueva no es igual a confirmar clave 
             {
                 TempData["id_Usuario"] = id_Usuario;
                 ViewData["vclave"] = claveActual;
                 ViewBag.Error = "Las Claves no Coinciden";
                 return View();
+
             }
+           
+            //entonces si todo ocurre bien y no hay errores
             ViewData["vclave"] = "";
-            nuevaClave = CNUsuarios.ConvertirSha256(nuevaClave);
-
+            nuevaClave = CNUsuarios.ConvertirSha256(nuevaClave); // pasandole la nueva clave para que la encripte
             string mensaje = string.Empty;
+            //llamando al metodo para cambiar la clave
+            bool respuesta = new CNUsuarios().CambiarClave(Convert.ToInt32(id_Usuario), nuevaClave, out mensaje);
 
-            bool respuesta = new CNUsuarios().CambiarClave(int.Parse(id_Usuario), nuevaClave, out mensaje);
-            if (respuesta) //si la respuesta es correcta va a redirecionar al formulario de logueo
+            //si el cambio ha sido exitoso
+            if (respuesta)
             {
+                ViewBag.Exito = "Clave Cambiada Correctamente";
+                
                 return RedirectToAction("Index");
             }
             else
@@ -96,7 +104,9 @@ namespace CapaPresentacionAdmin.Controllers
                 TempData["id_Usuario"] = id_Usuario;
                 ViewBag.Error = mensaje;
                 return View();
+
             }
+            
         }
     }
 }
