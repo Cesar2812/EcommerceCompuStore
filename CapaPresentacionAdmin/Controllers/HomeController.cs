@@ -1,12 +1,12 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
+using ClosedXML.Excel;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Web.Mvc;
 using System.Globalization;
-using ClosedXML.Excel;
 using System.IO;
-using System;
+using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
 {
@@ -62,7 +62,7 @@ namespace CapaPresentacionAdmin.Controllers
             dt.Columns.Add("NumeroTransaccion", typeof(string));
 
             //enviando los elementos de la lista
-            foreach(ReporteVentas rp in lista)
+            foreach (ReporteVentas rp in lista)
             {
                 dt.Rows.Add(new object[]
                 {
@@ -78,7 +78,7 @@ namespace CapaPresentacionAdmin.Controllers
             }
             dt.TableName = "Datos";
 
-            using (XLWorkbook wb=new XLWorkbook())
+            using (XLWorkbook wb = new XLWorkbook())
             {
                 //agregando la tabla en una hoja de excel
                 wb.Worksheets.Add(dt);

@@ -7,18 +7,22 @@
     <title>@ViewBag.Title - CompuStore</title>
     @Styles.Render("~/Content/css")
 </head>
-
 <body class="sb-nav-fixed">
-       
-       <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+
+     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- INICIO DE LA BARRA DE NAVEGACION PANEL DE ADMINISTRACION DE LA TIENDA -->
-        <a class="navbar-brand ps-3" href="index.html">TIENDA COMPUSTORE</a>
+         <a class="navbar-brand ps-3" href="@Url.Action("Index","Home")">
+            <div class="d-flex align-items-center">
+                <img src="~/Content/images/LogoCompustore.png" alt="Logo" style="height: 50px; width: 160px; margin-right: 10px;">
+               
+            </div>
+         </a>
 
         <!-- MENU HAMBURGUESA-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
         <!-- BARRA DE NAVEGACION DE LA DERECHA PARA LOS USUARIOS-->
-         <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+        <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -29,9 +33,9 @@
                     </li>
                 </ul>
             </li>
-         </ul>
-     </nav>
-     
+        </ul>
+    </nav>
+
     <!-- MENU DE NAVEGACION  DINAMICO-->
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
@@ -94,4 +98,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
+
+
 </html>

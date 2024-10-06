@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CapaEntidad;
+using CapaNegocio;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
@@ -24,6 +23,31 @@ namespace CapaPresentacionAdmin.Controllers
         public ActionResult RestablecerClave()
         {
             return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult Index(string correo, string clave)
+        {
+
+            //creando un objeto de tipo usuario para el inicio de sesion
+            Usuario usuario = new Usuario();
+            usuario = new CNUsuarios().Listar().Where(u => u.Correo == correo && u.Clave == CNUsuarios.ConvertirSha256(clave)).FirstOrDefault();
+
+            //si encuentra un Usuario con las credenciales correctas
+            if (usuario == null)
+            {
+                ViewBag.Error = "Correo o Clave Incorrecta";
+                return View();
+
+            }
+            else
+            {
+                //si el usuario fue encontrado
+                ViewBag.Error = null;
+                return RedirectToAction("Index", "Home");// entrando a la vista principal del panel
+            }
+
         }
     }
 }

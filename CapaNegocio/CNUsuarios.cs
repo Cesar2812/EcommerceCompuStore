@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;// libreria para enviar correo
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -140,13 +139,13 @@ namespace CapaNegocio
         //metodo para cambiarCalve
         public bool CambiarClave(int idUsuario, string nuevaClave, out string Mensaje)
         {
-            return objCapaDatos.CambiarClave(idUsuario,nuevaClave,out Mensaje);
+            return objCapaDatos.CambiarClave(idUsuario, nuevaClave, out Mensaje);
         }
 
 
 
         //Metodo para restablecer la clave
-        public bool RestablecerClave(int idUsuario,string correo,out string Mensaje)
+        public bool RestablecerClave(int idUsuario, string correo, out string Mensaje)
         {
             Mensaje = string.Empty;
 

@@ -24,7 +24,7 @@ namespace CapaDatos
                 using (SqlConnection conexion = new SqlConnection(Conexion.cn))
                 {
                     //consulta a la base de datos a la tabla usuario
-                    string consulta = "select id_Usuario,Nombre,Apellido,Correo,Restablecer,Activo from Usuario";
+                    string consulta = "select id_Usuario,Nombre,Apellido,Correo,Clave,Restablecer,Activo from Usuario";
 
                     //comando para ejecutar la consulta 
                     //la clase sqcommand recibe como parametro la consulta y la conexion a la base para poderla ejecutar 
@@ -53,6 +53,7 @@ namespace CapaDatos
                                     Nombre = dr["Nombre"].ToString(),
                                     Apellido = dr["Apellido"].ToString(),
                                     Correo = dr["Correo"].ToString(),
+                                    Clave = dr["Clave"].ToString(),
                                     Restablecer = Convert.ToBoolean(dr["Restablecer"]),//convierte los valores a booleanos
                                     Activo = Convert.ToBoolean(dr["Activo"])
                                 }
@@ -67,7 +68,6 @@ namespace CapaDatos
             {
                 //le voy a decir que si ocurre un problema reinicia la lista de forma vacia
                 lista = new List<Usuario>();
-
             }
             return lista;
 
@@ -186,7 +186,7 @@ namespace CapaDatos
 
 
         //metodo para cambiar clave
-        public bool CambiarClave(int idUsuario, string nuevaClave,out string Mensaje)
+        public bool CambiarClave(int idUsuario, string nuevaClave, out string Mensaje)
         {
             bool resultado = false;
             Mensaje = string.Empty;
@@ -219,7 +219,7 @@ namespace CapaDatos
             bool resultado = false;
             Mensaje = string.Empty;
             try
-            { 
+            {
                 using (SqlConnection conexion = new SqlConnection(Conexion.cn))
                 {
                     //pasando el id del usuario para Restablecer la clave
