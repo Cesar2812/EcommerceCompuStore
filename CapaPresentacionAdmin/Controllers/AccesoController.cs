@@ -46,7 +46,7 @@ namespace CapaPresentacionAdmin.Controllers
 
                 if (usuario.Restablecer)
                 {
-                    TempData["id_Usuario"]=usuario.id_Usuario;
+                    TempData["id_Usuario"] = usuario.id_Usuario;
 
                     return RedirectToAction("CambiarClave");
 
@@ -56,6 +56,47 @@ namespace CapaPresentacionAdmin.Controllers
                 return RedirectToAction("Index", "Home");// entrando a la vista principal del panel
             }
 
+        }
+
+
+        [HttpPost]//en este metodo traemos al usuario al cual deseamos modificar su clave 
+        public ActionResult CambiarClave(string id_Usuario, string claveActual, string nuevaClave, string confirmarClave)
+        {
+            Usuario usuario = new Usuario();
+
+            usuario = new CNUsuarios().Listar().Where(u => u.id_Usuario == int.Parse(id_Usuario)).FirstOrDefault();
+
+            //validando si la contra es la misma que ya tiene
+            if (usuario.Clave != CNUsuarios.ConvertirSha256(claveActual))
+            {
+                TempData["id_Usuario"] = id_Usuario;
+                ViewData["vclave"] = "";
+                ViewBag.Error = "La Clave Actual No es Correcta";
+
+            }
+            else if (nuevaClave != confirmarClave)
+            {
+                TempData["id_Usuario"] = id_Usuario;
+                ViewData["vclave"] = claveActual;
+                ViewBag.Error = "Las Claves no Coinciden";
+                return View();
+            }
+            ViewData["vclave"] = "";
+            nuevaClave = CNUsuarios.ConvertirSha256(nuevaClave);
+
+            string mensaje = string.Empty;
+
+            bool respuesta = new CNUsuarios().CambiarClave(int.Parse(id_Usuario), nuevaClave, out mensaje);
+            if (respuesta) //si la respuesta es correcta va a redirecionar al formulario de logueo
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["id_Usuario"] = id_Usuario;
+                ViewBag.Error = mensaje;
+                return View();
+            }
         }
     }
 }
