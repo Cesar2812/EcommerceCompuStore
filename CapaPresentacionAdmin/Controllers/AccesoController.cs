@@ -47,6 +47,7 @@ namespace CapaPresentacionAdmin.Controllers
             }
             else
             {
+                Session["Usuario"] = usuario; //se obtiene el usuario
                 //si el usuario accede por primera vez al sistema
                 if (usuario.Restablecer)
                 {
@@ -56,8 +57,6 @@ namespace CapaPresentacionAdmin.Controllers
 
                 }
                 //si el usuario fue encontrado
-                //se obtiene el usuario
-                Session["Usuario"] = usuario;
                 ViewBag.Error = null;
                 return RedirectToAction("Index", "Home");// entrando a la vista principal del panel
             }
