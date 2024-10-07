@@ -1,5 +1,6 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
+using CapaPresentacionAdmin.Filtros;
 using ClosedXML.Excel;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
 {
+    [AuthFilter]
     public class HomeController : Controller
     {
         //Este metodos devuelven una accion que es retornar una vista dentro de la Pagina master

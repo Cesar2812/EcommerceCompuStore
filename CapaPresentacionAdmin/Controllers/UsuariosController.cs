@@ -1,10 +1,12 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
+using CapaPresentacionAdmin.Filtros;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
 {
+    [AuthFilter]
     public class UsuariosController : Controller
     {
         //Metododo que devuelve la vista de Usuarios osea el form dentro de la pagina master para registrar Usuarios

@@ -1,11 +1,13 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
+using CapaPresentacionAdmin.Filtros;
 using System;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
 {
+
     public class AccesoController : Controller
     {
         // formulario de login
@@ -15,6 +17,7 @@ namespace CapaPresentacionAdmin.Controllers
         }
 
         //formulario para cambiar clave
+        [AuthFilter]
         public ActionResult CambiarClave()
         {
             return View();
@@ -53,6 +56,8 @@ namespace CapaPresentacionAdmin.Controllers
 
                 }
                 //si el usuario fue encontrado
+                //se obtiene el usuario
+                Session["Usuario"] = usuario;
                 ViewBag.Error = null;
                 return RedirectToAction("Index", "Home");// entrando a la vista principal del panel
             }
@@ -96,7 +101,7 @@ namespace CapaPresentacionAdmin.Controllers
             {
                 TempData["SuccessMessage"] = "Clave Cambiada Exitosamente";
                 return View();
-                //ViewBag.Exito = "Clave Cambiada Correctamente";
+
 
                 //return RedirectToAction("Index");
             }
