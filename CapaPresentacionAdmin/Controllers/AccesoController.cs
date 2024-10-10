@@ -113,5 +113,41 @@ namespace CapaPresentacionAdmin.Controllers
             }
 
         }
+
+
+        //metodo para cambiar clave
+        [HttpPost]
+        public ActionResult RestablecerClave(string correo)
+        {
+            Usuario usuario = new Usuario();
+
+            //buscando el correo del usuario al cual se le va a restablecer la clave
+            usuario = new CNUsuarios().Listar().Where(item => item.Correo == correo).FirstOrDefault();
+            if (usuario == null)
+            {
+                ViewBag.Error = "Correo Incorrecto";
+                return View();
+
+            }
+            else
+            {
+                string mensaje = string.Empty;
+
+                bool respuesta = new CNUsuarios().RestablecerClave(usuario.id_Usuario, correo, out mensaje);
+
+                if (respuesta)
+                {
+                    TempData["SuccessMessage"] = "Clave Restablecida De Forma Exitosa";
+                    return View();
+
+                }
+                else
+                {
+                    ViewBag.Error = mensaje;
+                    return View();
+                }
+            }
+
+        }
     }
 }

@@ -13,7 +13,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>CambiarClave</title>
     <style>
-       
+        body {
+            background-color: #ced4da;
+        } 
+
         .custom-alert {
             width: 350px;
             padding: 10px;
@@ -36,7 +39,7 @@
 
                                     <form action="@Url.Action("CambiarClave","Acceso")" method="post">
 
-                                        <input class="form-control" type="text" value="@TempData["id_Usuario"]" name="id_Usuario" />
+                                        <input class="form-control" type="hidden" value="@TempData["id_Usuario"]" name="id_Usuario" />
 
                                         <div class="row mb-3">
                                             <div class="col-md-12">
