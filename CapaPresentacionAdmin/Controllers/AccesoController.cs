@@ -147,7 +147,6 @@ namespace CapaPresentacionAdmin.Controllers
                     return View();
                 }
             }
-
         } 
 
         //metodo para cerrar sesion
