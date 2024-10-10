@@ -12,7 +12,6 @@ namespace CapaPresentacionAdmin.Filtros
                 filterContext.Result = new RedirectResult("~/Acceso/Index");
             }
             base.OnActionExecuting(filterContext);
-        }
-
+        } 
     }
 }

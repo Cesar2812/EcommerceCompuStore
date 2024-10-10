@@ -4,10 +4,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        .swal-border {
+            padding: 10px;
+            box-shadow: none;
+            border-radius: 8px;
+        }
+    </style>
+
     <title>@ViewBag.Title - CompuStore</title>
     @Styles.Render("~/Content/css")
 </head>
-<body class="sb-nav-fixed">
+  <body class="sb-nav-fixed">
 
      <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- INICIO DE LA BARRA DE NAVEGACION PANEL DE ADMINISTRACION DE LA TIENDA -->
@@ -29,8 +38,9 @@
                     <li><a class="dropdown-item" href="#!">Correo</a></li>
                     <li><hr class="dropdown-divider" /></li>
                     <li>
-                        <a class="btn btn-danger text-white mx-auto" href="#!" style="width: 145px; padding: 0.345rem 0.60rem; border-radius: 0.25rem; text-align: center; display: block;">Cerrar Sesión</a>
+                        <a class="btn btn-danger text-white mx-auto" href="javascript:void(0);" onclick="confirmLogout();" style="width: 145px; padding: 0.345rem 0.60rem; border-radius: 0.25rem; text-align: center; display: block;">Cerrar Sesión</a>
                     </li>
+
                 </ul>
             </li>
         </ul>
@@ -91,12 +101,34 @@
 
         </div>
     </div>
-
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/complementos")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+  <script>
+          function confirmLogout() {
+              Swal.fire({
+                  position: "top-end",
+                  title: '¿Estas seguro que desea cerrar sesión?',
+                  icon: 'warning',
+                  width: '400px',
+
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Sí',
+                  cancelButtonText: 'No',
+                  customClass: {
+                      popup: 'swal-border'
+                  }
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      window.location.href = '/Acceso/CerrarSesion';
+                  }
+              });
+          }
+  </script>
 </body>
 
 

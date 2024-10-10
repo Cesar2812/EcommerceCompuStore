@@ -47,7 +47,7 @@ namespace CapaPresentacionAdmin.Controllers
             }
             else
             {
-                Session["Usuario"] = usuario; //se obtiene el usuario
+                Session["Usuario"] = usuario.Correo; //se obtiene el usuario en su autenticacion por correo
                 //si el usuario accede por primera vez al sistema
                 if (usuario.Restablecer)
                 {
@@ -148,6 +148,16 @@ namespace CapaPresentacionAdmin.Controllers
                 }
             }
 
+        } 
+
+        //metodo para cerrar sesion
+        public ActionResult CerrarSesion()
+        {
+            // Elimina la sesión del usuario
+            Session["Usuario"] = null;
+            Session.Clear();
+            Session.Abandon();
+            return RedirectToAction("Index","Acceso");
         }
     }
 }
