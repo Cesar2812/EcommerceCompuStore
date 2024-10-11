@@ -73,7 +73,7 @@ namespace CapaDatos
 
         }
 
-        //Funcion para editar usuario devuelve un entero
+        //Funcion para Registrar usuario devuelve un entero
         public int Registrar(Usuario objUsuario, out string Mensaje)
         {
             int idAutogenerado = 0;

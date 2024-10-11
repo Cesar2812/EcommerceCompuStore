@@ -147,7 +147,7 @@ namespace CapaPresentacionAdmin.Controllers
                     return View();
                 }
             }
-        } 
+        }
 
         //metodo para cerrar sesion
         public ActionResult CerrarSesion()
@@ -156,7 +156,7 @@ namespace CapaPresentacionAdmin.Controllers
             Session["Usuario"] = null;
             Session.Clear();
             Session.Abandon();
-            return RedirectToAction("Index","Acceso");
+            return RedirectToAction("Index", "Acceso");
         }
     }
 }

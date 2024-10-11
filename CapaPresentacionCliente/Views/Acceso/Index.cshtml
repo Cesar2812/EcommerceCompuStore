@@ -1,0 +1,98 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Tienda CompuStore</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+    <style>
+
+        body {
+            background-image: url('../Content/images/1500x844-tiendas-virtuales.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.5); 
+        }
+
+        .card-header {
+            background-color: rgba(255, 255, 255, 0.5); 
+            color: #000000; 
+        }
+
+        .card-footer {
+            background-color: rgba(255, 255, 255, 0.5); 
+ 
+        }
+
+            /* Estilo para los enlaces en el pie de página */
+            .card-footer a {
+                color: #000000; /* Color negro intenso */
+            }
+
+        /* Estilo para la palabra "Recuerdame" */
+        .custom-control-label {
+            color: #000000; /* Color negro intenso para el label */
+        }
+
+    </style>
+   
+</head>
+<body>
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+
+                                <div class="card-header"><h3 class="text-center font-weight-light my-8"> BIENVENIDO </h3></div>
+                                <div class="card-body">
+                                    <form class="user">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user"
+                                                   id="exampleInputEmail" aria-describedby="emailHelp"
+                                                   placeholder="Email Address...">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                   id="exampleInputPassword" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">
+                                                    Recuerdame
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                            Entrar a la Tienda
+                                        </a>
+                                    </form>
+                                </div>
+
+                                <hr>
+                                <div class="card-footer text-center py-3">
+                                    <div class="small"><a href="register.html">Cree una Cuenta!!</a></div>
+                                    <a class="small" href="forgot-password.html">Olvido Su Contraseña?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="~/Scripts/bootstrap.bundle.js"></script>
+</body>
+</html>

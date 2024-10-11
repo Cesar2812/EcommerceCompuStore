@@ -142,8 +142,6 @@ namespace CapaNegocio
             return objCapaDatos.CambiarClave(idUsuario, nuevaClave, out Mensaje);
         }
 
-
-
         //Metodo para restablecer la clave
         public bool RestablecerClave(int idUsuario, string correo, out string Mensaje)
         {
@@ -171,8 +169,6 @@ namespace CapaNegocio
                     Mensaje = "No se pudo enviar el correo";
                     return false;
                 }
-
-
             }
             else
             {
@@ -181,14 +177,12 @@ namespace CapaNegocio
             }
         }
 
-
         //metodo para generar clave automatica que sera enviada por coreo al usuario
         public static string GenerarClave()
         {
             string clave = Guid.NewGuid().ToString("N").Substring(0, 8);//retorna codigo unico con formato alfanumericos con una clave de 6 digitos
             return clave;//retornando clave generada
         }
-
 
         //metodo para enviar correo al usuario
         public static bool EnviarCorreo(string correo, string asunto, string mensaje)
