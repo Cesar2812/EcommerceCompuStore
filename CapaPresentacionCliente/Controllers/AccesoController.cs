@@ -3,7 +3,7 @@ using CapaNegocio;
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Security;
+using CapaPresentacionCliente.Filtros;
 
 namespace CapaPresentacionCliente.Controllers
 {
@@ -25,6 +25,8 @@ namespace CapaPresentacionCliente.Controllers
             return View();
         }
 
+        //formulario para cambiar clave
+        [AuthFilter]
         public ActionResult CambiarClaveCliente()
         {
             return View();
@@ -81,16 +83,18 @@ namespace CapaPresentacionCliente.Controllers
             }
             else
             {
+                Session["UsuarioCliente"] = cliente.Correo; //se obtiene el usuario en su autenticacion por correo
+                //si el usuario accede por primera vez al sistema
                 if (cliente.Restablecer)
                 {
+                    
                     TempData["id_Cliente"] = cliente.id_Cliente;
                     return RedirectToAction("CambiarClaveCliente", "Acceso");
+                   
                 }
                 else
                 {
-                    FormsAuthentication.SetAuthCookie(cliente.Correo, false);
-
-                    Session["Cliente"] = cliente;
+                   
                     ViewBag.Error = null;
                     return RedirectToAction("Index", "Tienda");
 
@@ -155,7 +159,7 @@ namespace CapaPresentacionCliente.Controllers
             }
             else if (nuevaClave != confirmarClave) // si la clave nueva no es igual a confirmar clave 
             {
-                TempData["id_Usuario"] = id_Cliente;
+                TempData["id_Cliente"] = id_Cliente;
                 ViewData["vclave"] = claveActual;
                 ViewBag.Error = "Las Claves no Coinciden";
                 return View();
@@ -173,12 +177,16 @@ namespace CapaPresentacionCliente.Controllers
             if (respuesta)
             {
                 TempData["SuccessMessage"] = "Clave Cambiada Exitosamente";
+                // Elimina la sesión del usuario
+                Session["UsuarioCliente"] = null;
+                Session.Clear();
+                Session.Abandon();
                 return View();
 
             }
             else
             {
-                TempData["id_Usuario"] = id_Cliente;
+                TempData["id_Cliente"] = id_Cliente;
                 ViewBag.Error = mensaje;
                 return View();
 
@@ -189,7 +197,10 @@ namespace CapaPresentacionCliente.Controllers
         //metodo para Cerrar Sesion
         public ActionResult CerrarSesion()
         {
-            FormsAuthentication.SignOut();
+            // Elimina la sesión del usuario
+            Session["UsuarioCliente"] = null;
+            Session.Clear();
+            Session.Abandon();
             return RedirectToAction("Index", "Acceso");
         }
     }

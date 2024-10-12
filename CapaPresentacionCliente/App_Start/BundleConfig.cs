@@ -4,7 +4,7 @@ namespace CapaPresentacionCliente
 {
     public class BundleConfig
     {
-        // Para obtener más información sobre las uniones, visite https://go.microsoft.com/fwlink/?LinkId=301862
+       
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new Bundle("~/bundles/jquery").Include(
@@ -13,9 +13,16 @@ namespace CapaPresentacionCliente
 
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.bundle.js"));
+                      "~/Scripts/bootstrap.bundle.js",
+                      "~/Scripts/fontawesome/all.mim.js",
+                      "~/Scripts/loadingoverlay.mim.js",
+                      "~/Scripts/sweetalert.min.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                "~/Content/site.css",
+                "~/Content/styles.css",
+                "~/Content/sweetalert.css"));
         }
     }
 }

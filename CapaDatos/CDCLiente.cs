@@ -128,7 +128,7 @@ namespace CapaDatos
                 {
                     //pasando el id del usuario para CambiarLaClave
                     SqlCommand comando = new SqlCommand("update Cliente set Clave = @nuevaClave,Restablecer = 0 where id_Cliente = @idCliente", conexion);
-                    comando.Parameters.AddWithValue("@idUsuario", idCliente);
+                    comando.Parameters.AddWithValue("@idCliente", idCliente);
                     comando.Parameters.AddWithValue("@nuevaClave", nuevaClave);
                     comando.CommandType = CommandType.Text;
                     conexion.Open();

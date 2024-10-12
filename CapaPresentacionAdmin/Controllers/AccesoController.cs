@@ -99,7 +99,7 @@ namespace CapaPresentacionAdmin.Controllers
             if (respuesta)
             {
                 TempData["SuccessMessage"] = "Clave Cambiada Exitosamente";
-                return View();   
+                return View();
             }
             else
             {
@@ -134,6 +134,10 @@ namespace CapaPresentacionAdmin.Controllers
 
                 if (respuesta)
                 {
+                    // Elimina la sesión del usuario
+                    Session["Usuario"] = null;
+                    Session.Clear();
+                    Session.Abandon();
                     TempData["SuccessMessage"] = "Clave Restablecida De Forma Exitosa";
                     return View();
 

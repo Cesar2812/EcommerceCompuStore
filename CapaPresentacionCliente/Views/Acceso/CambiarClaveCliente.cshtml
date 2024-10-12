@@ -1,0 +1,158 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CambiarClaveCliente</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            background-image: url('../Content/images/carro.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.3);
+            opacity: 1;
+        }
+
+        .card-header {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #000000;
+        }
+
+        .card-footer {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .custom-control-label {
+            color: #000000;
+        }
+
+        .custom-alert {
+            width: 350px;
+            padding: 10px;
+            box-shadow: none;
+            border-radius: 8px;
+        }
+
+        label {
+            color: #000000; 
+        }
+
+        
+        .card-footer a {
+            color: #000000; /* Cambia el color a negro */
+            
+        }
+    </style>
+</head>
+<body>
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Cambiar Contraseña</h3></div>
+                                <div class="card-body">
+
+                                    <form action="@Url.Action("CambiarClaveCliente","Acceso")" method="post">
+
+                                        <input class="form-control" type="hidden" value="@TempData["id_Cliente"]" name="id_Cliente" />
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <label for="inputPassword">Contraseña Actual</label>
+                                                    <input class="form-control" id="inputPassword" type="password" name="claveActual" value="@ViewData["vclave"]" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <label for="inputConfirmPassword">Nueva Contraseña</label>
+                                                    <input class="form-control" id="inputConfirmPassword" type="password" name="nuevaClave" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <label for="inputConfirmPassword">Confirmar Nueva Contraseña</label>
+                                                    <input class="form-control" id="inputConfirmPassword" type="password" name="confirmarClave" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 mb-0">
+                                            <div class="d-grid"><button class="btn btn-primary btn-block" type="submit">Cambiar Contraseña</button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center py-3">
+                                    <div class="small"><a href="@Url.Action("Index","Acceso")">Volver</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="~/Scripts/bootstrap.bundle.js"></script>
+    <script>
+        @if (ViewBag.Error != null)
+         {
+        <text>
+             Swal.fire({
+             position: "top-end",
+             icon: "error",
+             title: "@ViewBag.Error",
+             showConfirmButton: false,
+             timer: 1000,
+            customClass:
+            {
+              popup: 'custom-alert'
+            }
+             });
+        </text>
+         }
+
+        //alert que se va a ejecutar cuando se cammbie correctaente la clave
+       @if (TempData["SuccessMessage"] != null)
+       {
+         <text>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Clave Cambiada Exitosamente",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'custom-alert'
+                }
+            }).then((result) => {
+                window.location = '@Url.Action("Index", "Acceso")';
+            });
+          </text>
+        }
+    </script>
+</body>
+</html>
