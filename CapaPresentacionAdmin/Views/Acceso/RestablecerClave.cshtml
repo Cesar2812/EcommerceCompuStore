@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        .bg-dark-gray {
+        .bg-dark-gray{
             background-color: #ced4da;
         }
         .custom-alert {
@@ -22,6 +22,7 @@
             box-shadow: none;
             border-radius: 8px;
         }
+
     </style>
 </head>
 <body class="bg-dark-gray">
@@ -35,6 +36,7 @@
                                 <div class="card-header"><h3 class="text-center font-weight-light my-4"> Recuperacion De Contraseña </h3></div>
                                 <div class="card-body">
                                     <div class="small mb-3 text-muted"> Ingrese su Correo y le enviaremos una nueva Contraseña.</div>
+
                                     <form action="@Url.Action("RestablecerClave","Acceso")" method="post">
                                         <div class="form-floating mb-3">
                                             <input class="form-control" name="correo" autocomplete="off"/>
@@ -46,9 +48,8 @@
                                             <a class="small" href="@Url.Action("Index","Acceso")"> Regresar al Login </a>
                                             <button class="btn btn-primary" type="submit" > Restablecer </button>
                                         </div>
-
-
                                     </form>
+
                                 </div>
                                 <div class="card-footer text-center py-4">
                                     <div class="small"><a href="register.html"></a></div>

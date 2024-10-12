@@ -54,8 +54,8 @@ namespace CapaPresentacionCliente.Controllers
 
             if (resultado > 0)
             {
-                ViewBag.Error = null;
-                return RedirectToAction("Index", "Acceso");
+                TempData["SuccessMessage"] = "Cuenta Creada Exitosamente";
+                return View();
             }
             else
             {
@@ -75,7 +75,7 @@ namespace CapaPresentacionCliente.Controllers
 
             if (cliente == null)
             {
-                ViewBag.Error = "Corro o Clave incorrectas";
+                ViewBag.Error = "Correo o Clave incorrectas";
                 return View();
 
             }
@@ -120,7 +120,7 @@ namespace CapaPresentacionCliente.Controllers
 
                 if (respuesta)
                 {
-                    TempData["SuccessMessage"] = "Clave Restablecida De Forma Exitosa";
+                    TempData["SuccessMessage"] = "Clave Recuperada De Forma Exitosa";
                     return View();
 
                 }

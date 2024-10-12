@@ -1,0 +1,131 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RestablecerClaveCliente</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            background-image: url('../Content/images/destacadaecommerce.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.3);
+            opacity: 1;
+        }
+
+        .card-header {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #000000;
+        }
+
+        .card-footer {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .custom-control-label {
+            color: #000000;
+        }
+
+        .custom-alert {
+            width: 350px;
+            padding: 10px;
+            box-shadow: none;
+            border-radius: 8px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+
+                                <div class="card-header"><h3 class="text-center font-weight-light my-8"> RECUPERACION DE CONTRASEÑA </h3></div>
+                                <div class="card-body">
+
+                                    <form class="user" action="@Url.Action("RestablecerClaveCliente","Acceso")" method="post">
+
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user"
+                                                   name="correo" aria-describedby="emailHelp"
+                                                   placeholder="Enter Email Address...">
+                                        </div>
+
+                                        <button  class="btn btn-primary btn-user btn-block" type="submit">
+                                            Recuperar Contraseña
+                                        </button>
+
+                                    </form>
+
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="@Url.Action("Index","Acceso")">Regresar al login !</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="~/Scripts/bootstrap.bundle.js"></script>
+    <script>
+
+    @if (ViewBag.Error != null)
+     {
+    <text>
+         Swal.fire({
+         position: "top-end",
+         icon: "error",
+         title: "@ViewBag.Error",
+         showConfirmButton: false,
+         timer: 1000,
+        customClass:
+        {
+          popup: 'custom-alert'
+        }
+         });
+    </text>
+     }
+
+
+    //alert que se va a ejecutar cuando se cambie  de forma exitosa la clave redireccionar al fromulario de logueo
+   @if (TempData["SuccessMessage"] != null)
+   {
+     <text>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Clave Recuperada Exitosamente",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'custom-alert'
+            }
+        }).then((result) => {
+            window.location = '@Url.Action("Index", "Acceso")';
+        });
+      </text>
+    }
+    </script>
+</body>
+</html>

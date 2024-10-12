@@ -1,0 +1,153 @@
+﻿@model CapaEntidad.Cliente
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RegistrarCliente</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <style>
+        body {
+            background-image: url('../Content/images/tv1.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.3);
+            opacity: 1;
+        }
+
+        .card-header {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #000000;
+        }
+
+        .card-footer {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .custom-control-label {
+            color: #000000;
+        }
+
+        .custom-alert {
+            width: 350px;
+            padding: 10px;
+            box-shadow: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+
+                                <div class="card-header"><h3 class="text-center font-weight-light my-8"> CREE SU CUENTA DE ACCESO </h3></div>
+                                <div class="card-body">
+
+
+                                    <form class="user" action="@Url.Action("RegistrarCliente","Acceso")" method="post">
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control form-control-user", @id = "txtNombre", @placeholder = "Nombre", @autocomplete = "off", value = ViewData["Nombre"] })
+                                            </div>
+
+                                            <div class="col-sm-6">
+
+                                                @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control form-control-user", @id = "txtApellido", @placeholder = "Apellido", @autocomplete = "off", value = ViewData["Apellido"] })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            @Html.TextBoxFor(m => m.Correo, new { @class = "form-control form-control-user", @id = "txtCorreo", @placeholder = "Email Adress...", @autocomplete = "off", value = ViewData["Correo"] })
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                @Html.PasswordFor(m => m.Clave, new { @class = "form-control form-control-user", @id = "txtClave", @placeholder = "Password...", @autocomplete = "off" })
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                @Html.PasswordFor(m => m.ConfirmarClave, new { @class = "form-control form-control-user", @id = "txtConfirmarClave", @placeholder = "Confirmar Password...", @autocomplete = "off" })
+
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-primary btn-user btn-block" type="submit">
+                                                Crear Cuenta
+                                            </button>
+                                        </div>
+                                        <hr>
+                                        <a class="small" href="@Url.Action("Index","Acceso")" style="color: black;">Regresar al Login</a>
+
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="~/Scripts/bootstrap.bundle.js"></script>
+    <script>
+
+    @if (ViewBag.Error != null)
+     {
+    <text>
+         Swal.fire({
+         position: "top-end",
+         icon: "error",
+         title: "@ViewBag.Error",
+         showConfirmButton: false,
+         timer: 1000,
+        customClass:
+        {
+          popup: 'custom-alert'
+        }
+         });
+    </text>
+     }
+
+
+    //alert que se va a ejecutar cuando se creer la cuenta de forma exitosa redireccionar al fromulario de logueo
+   @if (TempData["SuccessMessage"] != null)
+   {
+     <text>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Cuenta Creada Exitosamente",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'custom-alert'
+            }
+        }).then((result) => {
+            window.location = '@Url.Action("Index", "Acceso")';
+        });
+      </text>
+    }
+    </script>
+</body>
+</html>

@@ -155,7 +155,7 @@ namespace CapaDatos
                 {
                     //pasando el id del usuario para Restablecer la clave
                     SqlCommand comando = new SqlCommand("update Cliente set Clave = @Clave,Restablecer = 1 where id_Cliente = @idCliente", conexion);
-                    comando.Parameters.AddWithValue("@idUsuario", idCliente);
+                    comando.Parameters.AddWithValue("@idCliente", idCliente);
                     comando.Parameters.AddWithValue("@Clave", Clave);
                     comando.CommandType = CommandType.Text;
                     conexion.Open();

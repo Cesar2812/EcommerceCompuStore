@@ -146,6 +146,9 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\images\1500x844-tiendas-virtuales.jpg" />
+    <Content Include="Content\images\destacadaecommerce.jpg" />
+    <Content Include="Content\images\Ecoomerce.jpg" />
+    <Content Include="Content\images\tv1.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -203,6 +206,8 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Acceso\Index.cshtml" />
+    <Content Include="Views\Acceso\RegistrarCliente.cshtml" />
+    <Content Include="Views\Acceso\RestablecerClaveCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

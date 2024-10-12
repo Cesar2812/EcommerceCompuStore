@@ -99,10 +99,7 @@ namespace CapaPresentacionAdmin.Controllers
             if (respuesta)
             {
                 TempData["SuccessMessage"] = "Clave Cambiada Exitosamente";
-                return View();
-
-
-                //return RedirectToAction("Index");
+                return View();   
             }
             else
             {

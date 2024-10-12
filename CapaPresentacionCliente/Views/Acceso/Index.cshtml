@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>Tienda CompuStore</title>
     <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
 
@@ -20,31 +22,35 @@
         }
 
         .card {
-            background-color: rgba(255, 255, 255, 0.5); 
+            background-color: rgba(255, 255, 255, 0.5);
         }
 
         .card-header {
-            background-color: rgba(255, 255, 255, 0.5); 
-            color: #000000; 
+            background-color: rgba(255, 255, 255, 0.5);
+            color: #000000;
         }
 
         .card-footer {
-            background-color: rgba(255, 255, 255, 0.5); 
- 
+            background-color: rgba(255, 255, 255, 0.5);
         }
 
-            /* Estilo para los enlaces en el pie de página */
             .card-footer a {
-                color: #000000; /* Color negro intenso */
+                color: #000000;
             }
 
-        /* Estilo para la palabra "Recuerdame" */
+
         .custom-control-label {
-            color: #000000; /* Color negro intenso para el label */
+            color: #000000;
+        }
+
+        .custom-alert {
+            width: 350px;
+            padding: 10px;
+            box-shadow: none;
+            border-radius: 8px;
         }
 
     </style>
-   
 </head>
 <body>
     <div id="layoutAuthentication">
@@ -57,15 +63,17 @@
 
                                 <div class="card-header"><h3 class="text-center font-weight-light my-8"> BIENVENIDO </h3></div>
                                 <div class="card-body">
-                                    <form class="user">
+
+
+                                    <form class="user" action="@Url.Action("Index","Acceso")" method="post">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                   id="exampleInputEmail" aria-describedby="emailHelp"
-                                                   placeholder="Email Address...">
+                                                   name="correo" aria-describedby="emailHelp"
+                                                   placeholder="Email Address..." autocomplete="off">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                   id="exampleInputPassword" placeholder="Password">
+                                                   name="clave" placeholder="Password" autocomplete="off">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -75,16 +83,18 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        <button class="btn btn-primary btn-user btn-block" type="submit">
                                             Entrar a la Tienda
-                                        </a>
+                                        </button>
                                     </form>
+
+
                                 </div>
 
                                 <hr>
                                 <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="register.html">Cree una Cuenta!!</a></div>
-                                    <a class="small" href="forgot-password.html">Olvido Su Contraseña?</a>
+                                    <div class="small"><a href="@Url.Action("RegistrarCliente","Acceso")"> ¿No tienes una cuenta? Cree una!! </a></div>
+                                    <a class="small" href="@Url.Action("RestablecerClaveCliente","Acceso")"> ¿Olvido Su Contraseña? </a>
                                 </div>
                             </div>
                         </div>
@@ -94,5 +104,25 @@
         </div>
     </div>
     <script src="~/Scripts/bootstrap.bundle.js"></script>
+    <script>
+
+    @if (ViewBag.Error != null)
+     {
+            <text>
+                 Swal.fire({
+                 position: "top-end",
+                 icon: "error",
+                 title: "@ViewBag.Error",
+                 showConfirmButton: false,
+                 timer: 1000,
+                customClass:
+                {
+                  popup: 'custom-alert'
+                }
+                 });
+            </text>
+     }
+
+    </script>
 </body>
 </html>
