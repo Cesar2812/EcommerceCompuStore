@@ -4,7 +4,7 @@ namespace CapaPresentacionCliente
 {
     public class BundleConfig
     {
-       
+
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new Bundle("~/bundles/jquery").Include(
@@ -14,8 +14,8 @@ namespace CapaPresentacionCliente
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.bundle.js",
-                      "~/Scripts/fontawesome/all.mim.js",
-                      "~/Scripts/loadingoverlay.mim.js",
+                      "~/Scripts/fontawesome/all.min.js",
+                      "~/Scripts/loadingoverlay.min.js",
                       "~/Scripts/sweetalert.min.js"));
 
 

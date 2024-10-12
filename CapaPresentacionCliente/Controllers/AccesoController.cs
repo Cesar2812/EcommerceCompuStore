@@ -1,9 +1,10 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
+using CapaPresentacionCliente.Filtros;
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using CapaPresentacionCliente.Filtros;
+using System.Web.Security;
 
 namespace CapaPresentacionCliente.Controllers
 {
@@ -87,14 +88,14 @@ namespace CapaPresentacionCliente.Controllers
                 //si el usuario accede por primera vez al sistema
                 if (cliente.Restablecer)
                 {
-                    
+
                     TempData["id_Cliente"] = cliente.id_Cliente;
                     return RedirectToAction("CambiarClaveCliente", "Acceso");
-                   
+
                 }
                 else
                 {
-                   
+                    FormsAuthentication.SetAuthCookie(cliente.Correo, false);
                     ViewBag.Error = null;
                     return RedirectToAction("Index", "Tienda");
 
