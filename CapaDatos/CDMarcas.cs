@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace CapaDatos
 {
@@ -153,6 +154,58 @@ namespace CapaDatos
                 Mensaje = ex.Message;
             }
             return (resultado);
+
+        }
+
+        //metodo para listar marcas 
+        public List<Marca> ListarMarcaporCategoria(int idCategoria)
+        {
+            List<Marca> lista = new List<Marca>();
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                     sb.AppendLine("Select distinct m.id_Marca,m.Descripcion from Producto p");
+                     sb.AppendLine("inner join Categoria as c on p.idCategoria=c.id_Categoria");
+                     sb.AppendLine("inner join Marca as m on p.idMarca=m.id_Marca and m.Activo=1");
+                     sb.AppendLine("where c.id_Categoria= iif(@idcategoria=0, c.id_Categoria,@idcategoria)");
+
+                    SqlCommand comando = new SqlCommand(sb.ToString(), conexion);
+                    comando.Parameters.AddWithValue("@idcategoria", idCategoria);
+
+                    comando.CommandType = CommandType.Text;
+
+                    conexion.Open();
+
+                    using (SqlDataReader read = comando.ExecuteReader())
+                    {
+                        //mientras se valla leyendo el resultado que agegre los datos a la lista
+                        while (read.Read())
+                        {
+                            //diciendole a la lista que anada un objeto de tipo categoria 
+                            lista.Add(
+                               new Marca()
+                               {
+                                   id_Marca = Convert.ToInt32(read["id_Marca"]),
+                                   Descripcion = read["Descripcion"].ToString(),
+                                  
+                                  
+                               }
+                            );
+
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+                lista = new List<Marca>();
+            }
+            return lista;
 
         }
     }
