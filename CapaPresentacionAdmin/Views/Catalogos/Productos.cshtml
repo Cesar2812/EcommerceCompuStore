@@ -124,9 +124,9 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Activo</label>
-                            <select id="comboActivo" class="form-select">
+                            <select id="comboActivo" class="form-select" aria-label="Default select example">
                                 <option value="1">Si</option>
-                                <option value="2">No</option>
+                                <option value="0">No</option>
                             </select>
                         </div>
                     </div>
@@ -355,7 +355,8 @@
                 $("#comboCateg").val(json.objCategoria.id_Categoria);
                 $("#txtPrecio").val(json.Precio);
                 $("#txtStock").val(json.Stock);
-                $("#comboActivo").val(json.Activo == true ? 1 : 0);
+                $("#comboActivo").val(json.Activo == true ? 1 : 0)
+                
 
                 //pintando imagen el input al momento de editar un producto
                 jQuery.ajax({
