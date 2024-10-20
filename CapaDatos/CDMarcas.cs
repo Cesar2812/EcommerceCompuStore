@@ -168,10 +168,10 @@ namespace CapaDatos
                 {
                     StringBuilder sb = new StringBuilder();
 
-                     sb.AppendLine("Select distinct m.id_Marca,m.Descripcion from Producto p");
-                     sb.AppendLine("inner join Categoria as c on p.idCategoria=c.id_Categoria");
-                     sb.AppendLine("inner join Marca as m on p.idMarca=m.id_Marca and m.Activo=1");
-                     sb.AppendLine("where c.id_Categoria= iif(@idcategoria=0, c.id_Categoria,@idcategoria)");
+                    sb.AppendLine("Select distinct m.id_Marca,m.Descripcion from Producto p");
+                    sb.AppendLine("inner join Categoria as c on p.idCategoria=c.id_Categoria");
+                    sb.AppendLine("inner join Marca as m on p.idMarca=m.id_Marca and m.Activo=1");
+                    sb.AppendLine("where c.id_Categoria= iif(@idcategoria=0, c.id_Categoria,@idcategoria)");
 
                     SqlCommand comando = new SqlCommand(sb.ToString(), conexion);
                     comando.Parameters.AddWithValue("@idcategoria", idCategoria);
@@ -191,8 +191,8 @@ namespace CapaDatos
                                {
                                    id_Marca = Convert.ToInt32(read["id_Marca"]),
                                    Descripcion = read["Descripcion"].ToString(),
-                                  
-                                  
+
+
                                }
                             );
 

@@ -37,7 +37,7 @@
                                 CATEGORIAS
                             </div>
                             <div id="contenedor_categ" class="card-body">
-                               
+
 
                             </div>
 
@@ -83,8 +83,10 @@
                 </div>
             </div>
 
+            <!--SECCION DE PRODUCTOS -->
             <div class="col-sm-9">
                 <div id="contenedorProductos" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
@@ -141,11 +143,12 @@
 
 @section scripts
 { 
-<script>
+    <script>
 
         $(document).ready(function () {
 
             MostrarCategorias();
+            MostrarProductos(0, 0);
         })
 
         //mostrandoCategorias
@@ -178,7 +181,7 @@
                         ).appendTo("#contenedor_categ")
 
 
-                    }) 
+                    })
 
                     MostrarMarcas();
                 },
@@ -205,7 +208,7 @@
                 {
                     $("#contenedor_marca").html("");
                     $("#contenedor_marca").LoadingOverlay("hide");
-                   
+
 
                     $("<div>").addClass("form-check").append(
 
@@ -217,8 +220,8 @@
 
                     //recorriendo cada elemento obtenido del response
                     $.each(response.data, function (i, element)
-                    { 
-                        console.log(element);
+                    {
+
 
                         $("<div>").addClass("form-check").append(
 
@@ -236,12 +239,69 @@
 
                 }
             })
-        } 
+        }
+
+        $(document).on("change", "input[name=categoria]", function () {
+            MostrarMarcas();
+        })
+
+     //meotodo para mostar Productos
+         function MostrarProductos(_idCategoria,_idMarca)
+         {
+             jQuery.ajax({
+                 url: "@Url.Action("ListarProductos","Tienda")",
+                 type: "POST",
+                 data: JSON.stringify({ idcategoria: _idCategoria, idMarca: _idMarca }),
+                 dataType: "json",
+                 contentType: "application/json; charset=utf-8",
+                 success: function (response)
+                 {
+                     $("#contenedorProductos").html("");
+                     $("#contenedorProductos").LoadingOverlay("hide");
+
+                      $.each(response.data, function (i, element) {
+                         $("<div>").addClass("col mb-5").append(
+                             $("<div>").addClass("card h-100").append(
+                                 $("<img>").addClass("card-img-top").attr({ "src": "data:image/" + element.Extension + ";base64," + element.Base64 }),
+                                 $("<div>").addClass("card-body p-4").append(
+                                 $("<div>").addClass("text-center").append(
+                                 $("<h5>").addClass("fw-bolder").text(element.Nombre),
+                                     "C$" + element.Precio.toFixed(2)
+
+                                 )
+                              ),
+                                        $("<div>").addClass("card-footer p-2 pt-0 border-top-0 bg-transparent").append(
+                                            $("<div>").addClass("d-grid gap-2").append(
+                                                @if (Session["UsuarioCliente"] != null)
+                                                {
+                                                    @:$("<button>").addClass("btn btn-success w-100 mt-auto agregarcarrito").data("id_Producto", element.id_Producto).append($("<i>").addClass("fas fa-shopping-cart me-1"),"Add Carrito"),
+                                                }
+                                                $("<a>").addClass("btn btn-dark w-100 mt-auto").attr({ "href": "@Url.Action("DetalleProducto", "Tienda")" + "?id_Producto=" + element.id_Producto }).append(
+                                                    $("<i>").addClass("fas fa-eye me-2"),
+                                                    "Ver Detalle"
+                                                )
+                                            )
+                                        )
+                                    )
+                                ).appendTo("#contenedorProductos");
+                            });
+                 },
+                 beforeSend: function () {
+                     $("#contenedorProductos").LoadingOverlay("show");
+                 }
+
+             })
+
+         }
+
+         $("#btnFiltro").click(function ()
+         {
+             var _idCategoria = $("input[name=categoria]:checked").val();
+             var _idMarca = $("input[name=marca]:checked").val();
+             MostrarProductos(_idCategoria, _idMarca)
+         })
 
 
-    $(document).on("change", "input[name=categoria]", function () {
-        MostrarMarcas();
-    })
 
 
 
@@ -249,5 +309,6 @@
 
 
 
-</script>   
+
+    </script>   
 }
