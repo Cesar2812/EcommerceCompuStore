@@ -30,7 +30,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Index","Tienda")">INICIO</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Index","Tienda")">NUESTROS PRODUCTOS</a></li>
                     @*<li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
@@ -46,9 +46,9 @@
 
                 <form class="d-flex">
                     @if (Session["UsuarioCliente"] == null)
-                    {
+                     {
                         <a class="btn btn-outline-success" aria-current="page" href="@Url.Action("Index","Acceso")"><i class="fas fa-sign-out-alt me-1"></i>INICIAR SESION </a>
-                    }
+                     }
                     else
                     {
                         <a class="btn btn-outline-dark" href="@Url.Action("Carrito","Tienda")">

@@ -16,24 +16,30 @@ namespace CapaPresentacionCliente.Controllers
         }
 
         //vista de detalle de producto
-        public ActionResult DetalleProducto(int id_Producto=0)
-        { 
+        public ActionResult DetalleProducto(int id_Producto = 0)
+        {
+            // Verifica si el id_Producto es nulo o 0
+            if (id_Producto <= 0)
+            {
+                // Redirige al usuario a la página de índice
+                return RedirectToAction("Index"); // Cambia "Index" por el nombre de tu acción de índice
+            }
             Producto producto = new Producto();
             bool conversion;
 
-            producto=new CNProducto().ListarProductos().Where(p=>p.id_Producto==id_Producto).FirstOrDefault();
-
-            //si se encuentra el Producto
-            if(producto != null)
+            producto = new CNProducto().ListarProductos().FirstOrDefault(p => p.id_Producto == id_Producto);
+            // Si el producto no se encuentra, redirige al índice
+            if (producto == null)
             {
-                producto.Base64 = Recursos.convertirBase64(Path.Combine(producto.RutaImagen, producto.NombreImagen),out conversion);
-                producto.Extension = Path.GetExtension(producto.NombreImagen);
-
+                return RedirectToAction("Index"); // Cambia "Index" por el nombre de tu acción de índice
             }
+
+            // Si se encuentra el Producto
+            producto.Base64 = Recursos.convertirBase64(Path.Combine(producto.RutaImagen, producto.NombreImagen), out conversion);
+            producto.Extension = Path.GetExtension(producto.NombreImagen);
+
             return View(producto);
         }
-
-
 
 
         //metodo para obtener Categorias
