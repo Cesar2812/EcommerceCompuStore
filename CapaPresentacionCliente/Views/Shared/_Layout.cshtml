@@ -90,7 +90,8 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
-    <script> 
+<script>
+
         $(document).ready(function () {
             MostrarCantidaCarrito();
         })
@@ -115,20 +116,20 @@
                     window.location.href = '/Acceso/CerrarSesion';
                 }
             });
-        } 
+        }
 
-        
+
         function MostrarCantidaCarrito()
-        { 
+        {
             if ($("#cantidadCarro").length > 0)
-            { 
+            {
                 jQuery.ajax({
                     url: '@Url.Action("CantidadEnCarrito", "Tienda")',
                     type: "GET",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data)
-                    { 
+                    {
                         $("#cantidadCarro").text(data.cantidad)
 
                     }
@@ -138,6 +139,36 @@
             }
 
         }
-    </script>
+
+   document.addEventListener("DOMContentLoaded", function() {
+        // Verificar si existe un mensaje en TempData para mostrar la alerta
+        @if (TempData["ClienteNombre"] != null)
+         {
+            <text>
+            Swal.fire({
+                position: "top-end",
+                title: '¡Bienvenido! @TempData["ClienteNombre"]',
+                icon: 'success',
+                customClass: {
+                    popup: 'swal-border'
+                },
+                timer: 2000,
+                showConfirmButton: false
+            });
+            </text>
+         }
+   });
+
+
+
+
+
+
+
+
+
+
+
+</script>
 </body>
 </html>

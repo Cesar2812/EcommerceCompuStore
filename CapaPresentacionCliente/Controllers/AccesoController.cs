@@ -86,6 +86,7 @@ namespace CapaPresentacionCliente.Controllers
             {
                 Session["UsuarioCliente"] = cliente; //se obtiene el usuario en su autenticacion por correo
                 //si el usuario accede por primera vez al sistema
+                
                 if (cliente.Restablecer)
                 {
 
@@ -95,6 +96,7 @@ namespace CapaPresentacionCliente.Controllers
                 }
                 else
                 {
+                    TempData["ClienteNombre"] = cliente.Nombre;
                     FormsAuthentication.SetAuthCookie(cliente.Correo, false);
                     ViewBag.Error = null;
                     return RedirectToAction("Index", "Tienda");

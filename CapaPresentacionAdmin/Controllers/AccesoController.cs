@@ -50,6 +50,7 @@ namespace CapaPresentacionAdmin.Controllers
             {
                 Session["Usuario"] = usuario.Correo; //se obtiene el usuario en su autenticacion por correo
                 //si el usuario accede por primera vez al sistema
+                
                 if (usuario.Restablecer)
                 {
                     TempData["id_Usuario"] = usuario.id_Usuario;
@@ -57,8 +58,8 @@ namespace CapaPresentacionAdmin.Controllers
                     return RedirectToAction("CambiarClave");
 
                 }
-
-                //si el usuario fue encontrado
+                //si el usuario fue encontrado 
+                TempData["NombreUsuario"] = usuario.Nombre;
                 FormsAuthentication.SetAuthCookie(usuario.Correo, false); //creando un tipo de autenticacion por correo
                 ViewBag.Error = null;
                 return RedirectToAction("Index", "Home");// entrando a la vista principal del panel

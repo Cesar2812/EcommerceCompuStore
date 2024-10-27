@@ -128,6 +128,28 @@
                   }
               });
           }
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Verificar si existe un mensaje en TempData para mostrar la alerta
+        @if (TempData["NombreUsuario"] != null)
+         {
+            <text>
+            Swal.fire({
+                title: '¡Bienvenido!@TempData["NombreUsuario"]',
+                icon: 'success',
+                customClass: {
+                    popup: 'swal-border'
+                },
+                timer: 1550,
+                showConfirmButton: false
+            });
+            </text>
+         }
+    });
+
+
+
   </script>
 </body>
 
