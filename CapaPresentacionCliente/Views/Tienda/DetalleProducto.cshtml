@@ -29,7 +29,7 @@
 
                     @if (Session["UsuarioCliente"] != null)
                      {
-                        <button class="btn btn-success agregarcarrito flex-shrink-0 w-50" type="button" data-id_Producto="@Html.DisplayTextFor(m => m.id_Producto)">
+                        <button class="btn btn-success agregarcarrito flex-shrink-0 w-50" type="button" data-id_producto="@Html.DisplayFor(m => m.id_Producto)">
                             <i class="fas fa-cart-plus"></i>
                             Agregar al Carrito
                         </button>
@@ -45,7 +45,32 @@
 
 @section scripts
 {
-    <script>
+<script>
+     //metodo para agregar al carrito desde ver detalle
+     $(document).on("click", "button.agregarcarrito", function () {
+         console.log($(this).data("id_producto"))
+
+            jQuery.ajax({
+                url: '@Url.Action("AgregarAlCarrito", "Tienda")',
+                type: "POST",
+                data: JSON.stringify({ idProducto: $(this).data("id_producto") }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.respuesta) {
+                        MostrarCantidaCarrito();
+                        swal("","Producto Agregado Correctamente al Carrito", "success");
+                    }
+                    else
+                    {
+                        swal("", data.mensaje, "warning");
+
+                    }
+                }
+
+            });
+
+     })
 
         $("#btnVolver").click(function() {
             var categoria = sessionStorage.getItem("categoria");
@@ -59,6 +84,10 @@
             }
         });
 
-    </script>
+
+        
+
+</script>
+
 }
 

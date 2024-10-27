@@ -84,7 +84,7 @@ namespace CapaPresentacionCliente.Controllers
             }
             else
             {
-                Session["UsuarioCliente"] = cliente.Correo; //se obtiene el usuario en su autenticacion por correo
+                Session["UsuarioCliente"] = cliente; //se obtiene el usuario en su autenticacion por correo
                 //si el usuario accede por primera vez al sistema
                 if (cliente.Restablecer)
                 {

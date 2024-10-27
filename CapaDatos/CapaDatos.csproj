@@ -44,8 +44,10 @@
   <ItemGroup>
     <Compile Include="CDCategorias.cs" />
     <Compile Include="CDCLiente.cs" />
+    <Compile Include="CDCliente_Producto.cs" />
     <Compile Include="CDProducto.cs" />
     <Compile Include="CDReportes.cs" />
+    <Compile Include="CDUbicacion.cs" />
     <Compile Include="CDUsuarios.cs" />
     <Compile Include="CDMarcas.cs" />
     <Compile Include="Conexion.cs" />
