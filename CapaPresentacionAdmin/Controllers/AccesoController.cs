@@ -49,8 +49,8 @@ namespace CapaPresentacionAdmin.Controllers
             else
             {
                 Session["Usuario"] = usuario.Correo; //se obtiene el usuario en su autenticacion por correo
-                //si el usuario accede por primera vez al sistema
-                
+                                                     //si el usuario accede por primera vez al sistema
+
                 if (usuario.Restablecer)
                 {
                     TempData["id_Usuario"] = usuario.id_Usuario;
