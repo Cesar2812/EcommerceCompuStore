@@ -181,9 +181,10 @@
 
 @section scripts
 { 
- <script> 
+<script>
 
-        $(document).ready(function () { 
+
+        $(document).ready(function () {
           var urlParams = new URLSearchParams(window.location.search);
           var _idCategoria = urlParams.get('categoria') || sessionStorage.getItem("categoria") || 0;
           var _idMarca = urlParams.get('marca') || sessionStorage.getItem("marca") || 0;
@@ -195,7 +196,7 @@
 
             //MostrarProductos(0, 0);
 
-        }) 
+        })
 
         //mostrandoCategorias en el card
         function MostrarCategorias() {
@@ -289,7 +290,7 @@
             MostrarMarcas();
       })
 
-       
+
       //meotodo para mostar Productos
       function MostrarProductos(_idCategoria,_idMarca)
       {
@@ -350,50 +351,41 @@
         sessionStorage.setItem("marca", _idMarca);
 
         MostrarProductos(_idCategoria, _idMarca)
-            
-      }) 
 
-     //metodo para agregaral carrito
-     $(document).on("click", "button.agregarcarrito", function () {
-         console.log($(this).data("id_Producto"))
+      })
 
-         jQuery.ajax({
-             url: '@Url.Action("AgregarAlCarrito", "Tienda")',
-             type: "POST",
-             data: JSON.stringify({ idProducto: $(this).data("id_Producto") }),
-             dataType: "json",
-             contentType: "application/json; charset=utf-8",
-             success: function (data) {
-                 if (data.respuesta) {
-                     MostrarCantidaCarrito();
+       $(document).on("click", "button.agregarcarrito", function () {
+            jQuery.ajax({
+                url: '@Url.Action("AgregarAlCarrito", "Tienda")',
+                type: "POST",
+                data: JSON.stringify({ idProducto: $(this).data("id_Producto") }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.respuesta) {
+                        MostrarCantidaCarrito();
+                        swal({
+                            title: "Producto Agregado al Carrito",
+                            text: "¿Desea ir al Carrito?",
+                            type: "success",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-success",
+                            cancelButtonClass:"btn-danger",
+                            confirmButtonText: "Si",
+                            cancelButtonText: "No",
+                            closeOnConfirm: true
+                        }, function () {
+                            window.location.href = '@Url.Action("Carrito","Tienda")'
+                        });
+                    } else {
+                        
+                        swal("", data.mensaje, "warning");
+                    }
+                }
+            });
+       });
 
-                     swal({
-                         title: "Producto Agregado al Carrito",
-                         text: "Desea ir al Carrito?",
-                         type: "success",
-                         showCancelButton: true,
-                         confirmButtonClass: "btn-success",
-                         cancelButtonClass:"btn-danger",
-                         confirmButtonText: "Si",
-                         cancelButtonText: "No",
-                         closeOnConfirm: true
 
+</script>   
 
-                     }, function () {
-                         window.location.href = '@Url.Action("Carrito","Tienda")'
-                     })
-
-                 }
-                 else
-                 { 
-                     swal("", data.mensaje, "warning");
-
-                 }
-             }
-
-         });
-
-     })
-
-    </script>   
 }

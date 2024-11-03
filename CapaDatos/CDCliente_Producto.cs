@@ -12,7 +12,7 @@ namespace CapaDatos
         //devuelve si un  producto existe dentro del carrito de un cliente
         public bool ExisteCarrito(int idCliente, int idProducto)
         {
-            bool resultado = true;
+            bool resultado = false;
 
             try
             {
@@ -40,6 +40,7 @@ namespace CapaDatos
 
             return resultado;
         }
+
 
         //metodo para agregar al carrito
         public bool OperacionCarrito(int idCliente, int idProducto, bool sumar, out string mensaje)

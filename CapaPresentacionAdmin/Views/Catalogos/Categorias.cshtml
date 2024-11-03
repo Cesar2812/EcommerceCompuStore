@@ -215,7 +215,7 @@
             },
             function () {
                 //aplicando logica de tipo query para eliminar la categoria
-                 jQuery.ajax({
+                jQuery.ajax({
                     url: '@Url.Action("EliminarCategoria","Catalogos")',
                     type: "POST",
                     data: JSON.stringify({ id: data.id_Categoria }),

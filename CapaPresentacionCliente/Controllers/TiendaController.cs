@@ -119,6 +119,8 @@ namespace CapaPresentacionCliente.Controllers
             if (existe)
             {
                 mensaje = "El producto ya existe en el carrito";
+               
+
             }
             else
             {
@@ -168,6 +170,7 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
+
         //metodo para agregar al carrito
         [HttpPost]
         public JsonResult OperacionCarro(int idProducto, bool sumar)
@@ -178,9 +181,10 @@ namespace CapaPresentacionCliente.Controllers
 
             string mensaje = string.Empty;
 
-            respuesta = new CNCliente_Producto().OperacionCarrito(idCliente, idProducto, true, out mensaje);
+            respuesta = new CNCliente_Producto().OperacionCarrito(idCliente, idProducto, sumar, out mensaje);
             return Json(new { respuesta = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
+
 
         //metodo para eliminar un producto en el carrito
         [HttpPost]
@@ -198,6 +202,7 @@ namespace CapaPresentacionCliente.Controllers
 
 
         }
+
 
         //metodo para obtener departamento
         [HttpPost]

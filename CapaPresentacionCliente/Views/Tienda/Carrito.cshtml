@@ -28,6 +28,7 @@
                                                 <img class="rounded ms-2" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" style="width:90px; height:90px" />
 
                                             </div>
+
                                             <!--MARCA Y NOMBRE DEL PRODUCTO-->
                                             <div class="col-sm-4 align-self-center">
                                                 <span class="font-weight-bold d-block">Nombre Producto</span>
@@ -59,6 +60,7 @@
                                                 </div>
 
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -127,7 +129,8 @@
 
 @section scripts
 { 
- <script> 
+<script>
+
 
      $(document).ready(function ()
      {
@@ -143,7 +146,7 @@
                  $("#productos-carrito").LoadingOverlay("hide");
 
                  $.each(response.data, function (i, item)
-                 {    
+                 {
                      $("<div>").addClass("card mb-2 card-producto").append(
                          $("<div>").addClass("card-body").append(
                              $("<div>").addClass("row").append(
@@ -170,14 +173,14 @@
                                          $("<button>").addClass("btn btn-danger btn-restar rounded-0").append($("<i>").addClass("fas fa-minus")),
                                          $("<input>").addClass("form-control input-cantidad p-1 text-center rounded-0").attr({ "disabled": "disabled" }).css({ "width": "40px" }).data("objProd", item.objProd).val(item.Cantidad),
                                          $("<button>").addClass("btn btn-success btn-sumar rounded-0 me-1").append($("<i>").addClass("fas fa-plus")),
-                                         $("<button>").addClass("btn btn-outline-warning btn-eliminar d-flex justify-content-center align-items-center").css({ "width": "35px" }).append($("<i>").addClass("far fa-trash-alt"))
+                                         $("<button>").addClass("btn btn-outline-warning btn-eliminar d-flex justify-content-center align-items-center").css({ "width": "35px" }).append($("<i>").addClass("far fa-trash-alt")).data("idProducto", item.objProd.id_Producto),
 
                                      )
 
                                  )
 
 
-                                 
+
 
 
                              )
@@ -186,7 +189,7 @@
 
                      ).appendTo("#productos-carrito")
 
-                 }) 
+                 })
 
                  sumarTotal();
              },
@@ -196,14 +199,14 @@
 
              },
              beforeSend: function ()
-             { 
+             {
                  $("#productos-carrito").LoadingOverlay("show");
 
              }
 
          })
 
-         ListarDepartamentos();     
+         ListarDepartamentos();
      })
 
 
@@ -226,7 +229,7 @@
                             $("<option>").attr({ "value": item.idDepartamento }).text(item.NombreDepartamento).appendTo("#comboDepartamento")
 
 
-                        }) 
+                        })
                         ListarMunicipio();
 
                     }
@@ -236,7 +239,7 @@
 
             })
 
-     } 
+     }
 
      $("#comboDepartamento").on("change", function ()
      {
@@ -245,7 +248,7 @@
 
       //funcion para listar Municipios en base a un Departamento
       function ListarMunicipio()
-      { 
+      {
           $("#comboMunicipio").html("")
 
           $("<option>").attr({ "value": "00", "disabled": "disabled", "selected": "true" }).text("Seleccionar Municipio").appendTo("#comboMunicipio")
@@ -274,7 +277,7 @@
 
            })
 
-     } 
+     }
 
      //funcion para sumar los precios de los productos
      function sumarTotal() {
@@ -289,23 +292,155 @@
              sumaTotal += subtotal;
 
 
-         }) 
+         })
 
          $("#Total").text(sumaTotal.toFixed(2))
-         $("#Total").data("sumatotal", sumaTotal)// para enviarlo despues a la base de datos 
-
-
-
+         $("#Total").data("sumatotal", sumaTotal)// para enviarlo despues a la base de datos
      }
 
 
-    </script>
-    
-    
-    
-    
-    
-    
-    
+
+     //Aumentar la cantidad de Producto dentro del carrito
+     $(document).on("click", ".btn-sumar", function ()
+     {
+         var div_container = $(this).parent("div.d-flex");
+
+         var input_cantidad = $(div_container).find("input.input-cantidad");
+
+         var btn = $(this)
+
+         var idproducto = $(input_cantidad).data("objProd").id_Producto;
+
+         jQuery.ajax({
+
+             url: '@Url.Action("OperacionCarro", "Tienda")',
+             type: "POST",
+             data: JSON.stringify({ idProducto: idproducto, sumar: true }),
+             dataType: "json",
+             contentType: "application/json; charset=utf-8",
+             success: function (data)
+             {
+                 $(btn).LoadingOverlay("hide")
+
+                 if (data.respuesta) {
+                     var cantidad = parseInt($(input_cantidad).val()) + 1;
+                     $(input_cantidad).val(cantidad);
+                     sumarTotal();
+
+                 } else
+                 {
+                     swal("", data.mensaje, "warning");
+
+                 }
+             },
+             beforeSend: function ()
+             {
+                 $(btn).LoadingOverlay("show")
+             },
+             error: function (error)
+             {
+                 $(btn).LoadingOverlay("hide")
+
+             }
+
+
+
+         })
+     })
+
+     //funcion para restar en el carrito
+    $(document).on("click", ".btn-restar", function ()
+    {
+        var div_container = $(this).parent("div.d-flex");
+
+        var input_cantidad = $(div_container).find("input.input-cantidad");
+
+        var btn = $(this)
+
+        var idproducto = $(input_cantidad).data("objProd").id_Producto;
+
+        var cantidad = parseInt($(input_cantidad).val()) -1;
+
+        if (cantidad >= 1)
+        {
+            jQuery.ajax({
+
+                url: '@Url.Action("OperacionCarro", "Tienda")',
+                type: "POST",
+                data: JSON.stringify({ idProducto: idproducto, sumar: false }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data)
+                {
+                    $(btn).LoadingOverlay("hide")
+
+                    if (data.respuesta) {
+
+                        $(input_cantidad).val(cantidad)
+                        sumarTotal();
+
+                    } else
+                    {
+                        swal("", data.mensaje, "warning");
+
+                    }
+                },
+                beforeSend: function ()
+                {
+                    $(btn).LoadingOverlay("show")
+                },
+                error: function (error)
+                {
+                    $(btn).LoadingOverlay("hide")
+
+                }
+            })
+        }
+    })
+
+
+
+    //metodo para eliminar producto del carrito
+    $(document).on("click", ".btn-eliminar", function () {
+        var idproducto = $(this).data("idProducto");
+       var card_producto = $(this).parents("div.card-producto");
+
+            // SweetAlert para confirmar eliminación
+            Swal.fire({
+                title: "¿Esta Seguro?",
+                text: "¿Desea eliminar el Producto del Carrito?",
+                icon: "warning",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Sí",
+                cancelButtonText: "No"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    $.ajax({
+                        url: '@Url.Action("EliminarProductoCarrito", "Tienda")',
+                        type: "POST",
+                        data: JSON.stringify({ idProducto: idproducto }),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data.respuesta) {
+                                card_producto.remove();
+                                MostrarCantidaCarrito();
+                                sumarTotal();
+                            } else {
+                                Swal.fire("", data.mensaje, "warning");
+                            }
+                        }
+                    });
+                }
+            });
+    });
+
+
+
+    </script> 
 }
 
