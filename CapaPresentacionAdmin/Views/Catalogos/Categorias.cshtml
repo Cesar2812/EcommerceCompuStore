@@ -109,7 +109,7 @@
 
 
 @section scripts{
-    <script>
+<script>
 
         var descripcion = $("#txtDescripcion").val();
         //funciones del formulario de categoria
@@ -134,7 +134,7 @@
                 { "data": "Descripcion" },
                 {
                     //renderizando la columna Activo
-                    "data": "Activo", "render": function (valor) {
+                    "data": "Estado", "render": function (valor) {
                         if (valor) {
                             return '<span class="badge badge-pill bg-success">Disponible</span>'
                         } else {
@@ -159,6 +159,8 @@
 
         });
 
+
+
         //metodo para abrir formulario modal
         function abrirModal(json) {
             //al incio limpia los campos del formulario modal
@@ -173,10 +175,12 @@
             if (json != null) {
                 $("#txtId").val(json.id_Categoria)
                 $("#txtDescripcion").val(json.Descripcion)// le paso el atributo nombre de la data obtenida
-                $("#comboActivo").val(json.Activo == true ? 1 : 0)
+                $("#comboActivo").val(json.Estado == true ? 1 : 0)
             }
             $("#formModal").modal("show");
         }
+
+
 
         //funcion para abrir el formulario modal para editar al hacer click en el boton del lapiz del datatable
         //cada vez que cuando se haga click en el boton editar dentro del tbody realizara la funcion
@@ -193,6 +197,7 @@
             abrirModal(dataObtenida)
 
         })
+
 
         //metodo para elimianar una categoria seleccionada
         $("#tabla tbody").on("click", ".btn-eliminar", function () {
@@ -249,14 +254,17 @@
             console.log(data);
         })
 
+
+
         //metodo para guardar o editar categoria
         function Guardar()
         {
             var Categoria = {
                 id_Categoria: $("#txtId").val(),
                 Descripcion: $("#txtDescripcion").val(),
-                Activo: $("#comboActivo").val()==1 ? true: false
+                Estado: $("#comboActivo").val()==1 ? true: false
             }
+
 
             //utilizando jquery para el post de insert al servidor
             jQuery.ajax({
@@ -327,6 +335,6 @@
                 }
             })
         }
-    </script>
+</script>
 }
 

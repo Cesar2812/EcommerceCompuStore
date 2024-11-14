@@ -16,7 +16,7 @@ namespace CapaDatos
             {
                 using (SqlConnection conexion = new SqlConnection(Conexion.cn))
                 {
-                    string consulta = "select id_Categoria,Descripcion,Activo from Categoria";
+                    string consulta = "select id_Categoria,Descripcion,Estado from Categoria";
 
                     SqlCommand cmd = new SqlCommand(consulta, conexion);
 
@@ -35,7 +35,7 @@ namespace CapaDatos
                                {
                                    id_Categoria = Convert.ToInt32(read["id_Categoria"]),
                                    Descripcion = read["Descripcion"].ToString(),
-                                   Activo = Convert.ToBoolean(read["Activo"])
+                                   Estado = Convert.ToBoolean(read["Estado"])
                                }
                             );
 
@@ -70,7 +70,7 @@ namespace CapaDatos
                     //le paso el sp
                     SqlCommand comando = new SqlCommand("sp_RegistrarCategoria", conexion);
                     comando.Parameters.AddWithValue("@Descripcion", objCategoria.Descripcion);
-                    comando.Parameters.AddWithValue("@Activo", objCategoria.Activo);
+                    comando.Parameters.AddWithValue("@Estado", objCategoria.Estado);
                     comando.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;//pasando el parametro de respuesta del servidor ya sea 0 o 1
                     comando.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;//pasando la respuesta del servidor despues del registro ya sea malo o bueno en base a la validacion en el server
                     comando.CommandType = CommandType.StoredProcedure;
@@ -107,7 +107,7 @@ namespace CapaDatos
                     SqlCommand comando = new SqlCommand("sp_EditarCategoria", conexion);
                     comando.Parameters.AddWithValue("@id_Categoria", objCateg.id_Categoria);
                     comando.Parameters.AddWithValue("@Descripcion", objCateg.Descripcion);
-                    comando.Parameters.AddWithValue("@Activo", objCateg.Activo);
+                    comando.Parameters.AddWithValue("@Estado", objCateg.Estado);
                     comando.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     comando.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     comando.CommandType = CommandType.StoredProcedure;

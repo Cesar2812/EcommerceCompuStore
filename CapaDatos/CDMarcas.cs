@@ -18,7 +18,7 @@ namespace CapaDatos
             {
                 using (SqlConnection conexion = new SqlConnection(Conexion.cn))
                 {
-                    string consulta = "select id_Marca,Descripcion,Activo  from Marca";
+                    string consulta = "select id_Marca,Descripcion,Estado  from Marca";
 
                     SqlCommand comando = new SqlCommand(consulta, conexion);
 
@@ -37,7 +37,7 @@ namespace CapaDatos
                                {
                                    id_Marca = Convert.ToInt32(read["id_Marca"]),
                                    Descripcion = read["Descripcion"].ToString(),
-                                   Activo = Convert.ToBoolean(read["Activo"])
+                                   Estado = Convert.ToBoolean(read["Estado"])
                                }
                             );
 
@@ -67,7 +67,7 @@ namespace CapaDatos
                     //le paso el sp
                     SqlCommand comando = new SqlCommand("sp_RegistrarMarca", conexion);
                     comando.Parameters.AddWithValue("@Descripcion", objMarca.Descripcion);
-                    comando.Parameters.AddWithValue("@Activo", objMarca.Activo);
+                    comando.Parameters.AddWithValue("@Estado", objMarca.Estado);
                     comando.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;//pasando el parametro de respuesta del servidor ya sea 0 o 1
                     comando.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;//pasando la respuesta del servidor despues del registro ya sea malo o bueno en base a la validacion en el server
                     comando.CommandType = CommandType.StoredProcedure;
@@ -103,7 +103,7 @@ namespace CapaDatos
                     SqlCommand comando = new SqlCommand("sp_EditarMarca", conexion);
                     comando.Parameters.AddWithValue("@id_Marca", objMarca.id_Marca);
                     comando.Parameters.AddWithValue("@Descripcion", objMarca.Descripcion);
-                    comando.Parameters.AddWithValue("@Activo", objMarca.Activo);
+                    comando.Parameters.AddWithValue("@Estado", objMarca.Estado);
                     comando.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     comando.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     comando.CommandType = CommandType.StoredProcedure;
@@ -170,7 +170,7 @@ namespace CapaDatos
 
                     sb.AppendLine("Select distinct m.id_Marca,m.Descripcion from Producto p");
                     sb.AppendLine("inner join Categoria as c on p.idCategoria=c.id_Categoria");
-                    sb.AppendLine("inner join Marca as m on p.idMarca=m.id_Marca and m.Activo=1");
+                    sb.AppendLine("inner join Marca as m on p.idMarca=m.id_Marca and m.Estado=1");
                     sb.AppendLine("where c.id_Categoria= iif(@idcategoria=0, c.id_Categoria,@idcategoria)");
 
                     SqlCommand comando = new SqlCommand(sb.ToString(), conexion);

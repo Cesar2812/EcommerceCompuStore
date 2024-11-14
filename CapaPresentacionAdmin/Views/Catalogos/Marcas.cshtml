@@ -134,7 +134,7 @@
                 { "data": "Descripcion" },
                 {
                     //renderizando la columna Activo
-                    "data": "Activo", "render": function (valor) {
+                    "data": "Estado", "render": function (valor) {
                         if (valor) {
                             return '<span class="badge badge-pill bg-success">Disponible</span>'
                         } else {
@@ -173,7 +173,7 @@
             if (json != null) {
                 $("#txtId").val(json.id_Marca)
                 $("#txtDescripcion").val(json.Descripcion)// le paso el atributo nombre de la data obtenida
-                $("#comboActivo").val(json.Activo == true ? 1 : 0)
+                $("#comboActivo").val(json.Estado == true ? 1 : 0)
             }
             $("#formModal").modal("show");
         }
@@ -255,7 +255,7 @@
             var Marca = {
                 id_Marca: $("#txtId").val(),
                 Descripcion: $("#txtDescripcion").val(),
-                Activo: $("#comboActivo").val()==1 ? true: false
+                Estado: $("#comboActivo").val() == 1 ? true : false
             }
 
             //utilizando jquery para el post de insert al servidor
