@@ -47,7 +47,7 @@ namespace CapaDatos
         }
 
 
-        //metodo para ver el reporte de ventas por fecha pasando un sp
+        //metodo para ver el reporte de ventas por fecha pasando un sp a la vista principal del admin
         public List<ReporteVentas> ReporteVentas(string fechainicio, string fechafin, string transaccion) //parametrizando el metodo por los datos que se interesa buscar
         {
             List<ReporteVentas> lista = new List<ReporteVentas>(); //creando una lista con los campos del reporte

@@ -43,7 +43,7 @@
                     <th>Categoria</th>
                     <th>Precio</th>
                     <th>Stock</th>
-                    <th>Activo</th>
+                    <th>Estado</th>
                     <th></th>
                 </tr>
             </thead>
@@ -123,10 +123,10 @@
                             <input type="number" class="form-control" id="txtStock" name="stock" autocomplete="off"/>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Activo</label>
+                            <label class="form-label">Estado</label>
                             <select id="comboActivo" class="form-select" aria-label="Default select example">
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
+                                <option value="1">Disponible</option>
+                                <option value="0">No Disponible</option>
                             </select>
                         </div>
                     </div>
@@ -216,11 +216,11 @@
 
                 {
                     //renderizando la columna Activo
-                    "data": "Activo", "render": function (valor) {
+                    "data": "Estado", "render": function (valor) {
                         if (valor) {
-                            return '<span class="badge badge-pill bg-success">Esta Activo</span>'
+                            return '<span class="badge badge-pill bg-success">Disponible</span>'
                         } else {
-                            return '<span class="badge badge-pill bg-danger">No Esta Activo</span>'
+                            return '<span class="badge badge-pill bg-danger">No Disponible</span>'
                         }
                     }
                 },
@@ -355,7 +355,7 @@
                 $("#comboCateg").val(json.objCategoria.id_Categoria);
                 $("#txtPrecio").val(json.Precio);
                 $("#txtStock").val(json.Stock);
-                $("#comboActivo").val(json.Activo == true ? 1 : 0)
+                $("#comboActivo").val(json.Estado == true ? 1 : 0)
                 
 
                 //pintando imagen el input al momento de editar un producto
@@ -486,7 +486,7 @@
                 PrecioTexto: $("#txtPrecio").val(),
                 Precio: $("#txtPrecio").val(),
                 Stock: $("#txtStock").val(),
-                Activo: $("#comboActivo").val()==1 ? true: false
+                Estado: $("#comboActivo").val()==1 ? true: false
             }
 
             var request = new FormData();

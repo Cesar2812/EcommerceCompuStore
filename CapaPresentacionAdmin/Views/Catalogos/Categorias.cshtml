@@ -11,7 +11,7 @@
 
 <!--Muestra las secciones para devolver entre-->
 <ol class="breadcrumb mb-4 mt-2">
-    <li class="breadcrumb-item"><a href="@Url.Action("Usuarios","Usuarios")">Usuarios</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Informenes</a></li>
     <li class="breadcrumb-item active">Categorias</li>
 </ol>
 
@@ -38,7 +38,7 @@
             <thead>
                 <tr>
                     <th>Descripcion</th>
-                    <th>Activo</th>
+                    <th>Estado</th>
                     <th></th>
                 </tr>
             </thead>
@@ -75,10 +75,10 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <label for="comboActivo" class="form-label">Activo</label>
+                        <label for="comboActivo" class="form-label">Estado</label>
                         <select id="comboActivo" class="form-select" aria-label="Default select example">
-                            <option value="1">Si</option>
-                            <option value="0">No</option>
+                            <option value="1">Disponible</option>
+                            <option value="0">No Disponible</option>
 
                         </select>
                     </div>
@@ -136,9 +136,9 @@
                     //renderizando la columna Activo
                     "data": "Activo", "render": function (valor) {
                         if (valor) {
-                            return '<span class="badge badge-pill bg-success">Esta Activa</span>'
+                            return '<span class="badge badge-pill bg-success">Disponible</span>'
                         } else {
-                            return '<span class="badge badge-pill bg-danger">No Esta Activa</span>'
+                            return '<span class="badge badge-pill bg-danger">No Disponible</span>'
                         }
                     }
                 },

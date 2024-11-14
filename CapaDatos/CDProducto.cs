@@ -26,7 +26,7 @@ namespace CapaDatos
                     sb.AppendLine("select p.id_Producto,p.Nombre,p.Descripcion,");
                     sb.AppendLine("m.id_Marca,m.Descripcion[DesMarca],");
                     sb.AppendLine("c.id_Categoria,c.Descripcion[DesCatg],");
-                    sb.AppendLine("p.Precio,p.Stock,p.RutaImagen,p.NombreImagen,p.Activo");
+                    sb.AppendLine("p.Precio,p.Stock,p.RutaImagen,p.NombreImagen,p.Estado");
                     sb.AppendLine("from Producto p");
                     sb.AppendLine("inner join Marca m on p.idMarca = m.id_Marca");
                     sb.AppendLine("inner join Categoria c on p.idCategoria = c.id_Categoria");
@@ -50,7 +50,7 @@ namespace CapaDatos
                                 Stock = Convert.ToInt32(rdr["Stock"]),
                                 RutaImagen = rdr["RutaImagen"].ToString(),
                                 NombreImagen = rdr["NombreImagen"].ToString(),
-                                Activo = Convert.ToBoolean(rdr["Activo"])
+                                Estado = Convert.ToBoolean(rdr["Estado"])
                             });
 
                         }
@@ -84,7 +84,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@idCategoria", objp.objCategoria.id_Categoria);
                     cmd.Parameters.AddWithValue("@Precio", objp.Precio);
                     cmd.Parameters.AddWithValue("@Stock", objp.Stock);
-                    cmd.Parameters.AddWithValue("@Activo", objp.Activo);
+                    cmd.Parameters.AddWithValue("@Estado", objp.Estado);
                     cmd.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;//parametro de direccion de salida
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;//diciendole que el comando es un tipo sp
@@ -125,7 +125,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@idCategoria", objp.objCategoria.id_Categoria);
                     cmd.Parameters.AddWithValue("@Precio", objp.Precio);
                     cmd.Parameters.AddWithValue("@Stock", objp.Stock);
-                    cmd.Parameters.AddWithValue("@Activo", objp.Activo);
+                    cmd.Parameters.AddWithValue("@Estado", objp.Estado);
                     cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;

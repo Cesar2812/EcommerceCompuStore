@@ -19,7 +19,7 @@
 
         public string NombreImagen { get; set; }
 
-        public bool Activo { get; set; }
+        public bool Estado { get; set; }
 
         public string Base64 { get; set; }
 

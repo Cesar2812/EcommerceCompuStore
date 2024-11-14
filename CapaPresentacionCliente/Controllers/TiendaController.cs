@@ -71,6 +71,8 @@ namespace CapaPresentacionCliente.Controllers
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet); //retornando las marcas en un JSON
         }
 
+
+
         //Metodo para listar Productos en base a una categoria y marca seleccionada
         [HttpPost]
         public JsonResult ListarProductos(int idcategoria, int idMarca)
@@ -91,11 +93,11 @@ namespace CapaPresentacionCliente.Controllers
                 RutaImagen = p.RutaImagen,
                 Base64 = Recursos.convertirBase64(Path.Combine(p.RutaImagen, p.NombreImagen), out conversion),
                 Extension = Path.GetExtension(p.NombreImagen),
-                Activo = p.Activo
+                Estado = p.Estado
             }).Where(p =>
                 p.objCategoria.id_Categoria == (idcategoria == 0 ? p.objCategoria.id_Categoria : idcategoria) &&
                 p.objMarca.id_Marca == (idMarca == 0 ? p.objMarca.id_Marca : idMarca) &&
-                p.Stock > 0 && p.Activo == true
+                p.Stock > 0 && p.Estado == true
             ).ToList();
 
             var jsonResult = Json(new { data = lista }, JsonRequestBehavior.AllowGet);
@@ -139,6 +141,7 @@ namespace CapaPresentacionCliente.Controllers
             return Json(new { cantidad = cantidad }, JsonRequestBehavior.AllowGet);
 
         }
+
 
 
         //metodo para listarlos productos en el carrito por parte de un cliente para hacer la compra
@@ -186,6 +189,7 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
+
         //metodo para eliminar un producto en el carrito
         [HttpPost]
         public JsonResult EliminarProductoCarrito(int idProducto)
@@ -200,8 +204,8 @@ namespace CapaPresentacionCliente.Controllers
 
             return Json(new { respuesta = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
-
         }
+
 
 
         //metodo para obtener departamento
@@ -214,6 +218,7 @@ namespace CapaPresentacionCliente.Controllers
 
             return Json(new { lista = lista }, JsonRequestBehavior.AllowGet);
         }
+
 
         //metodo para obtener municipio por departamento
         [HttpPost]
