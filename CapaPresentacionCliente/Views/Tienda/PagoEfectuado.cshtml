@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "PagoEfectuado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <br /><br />
+
+        @{
+            if ((bool)ViewData["Status"])
+            {
+                <h5 class="text-success">Gracias por Comprar en CompuStore</h5>
+                <i class="far fa-check-circle fa-9x text-success"></i>
+
+                <h3 class="text-success"> Su pago se realizo correctamente</h3>
+
+                <h2>N° Transaccion:@ViewData["idTransaccion"]</h2>
+
+                <br />
+
+                <a href="@Url.Action("Index","Tienda")" class="btn btn-primary"> volver a tienda</a>
+
+            }
+        else
+        {
+                <h5 class="text-danger">Lo sentimos</h5>
+
+                <i class="fas fa-exclamation-circle fa-9x text-danger"></i>
+
+                <h3 class="text-danger"> El Pago no fue realizado</h3>
+
+                <br />
+
+                <a href="@Url.Action("Index","Tienda")" class="btn btn-primary"> Volver a tienda</a>
+
+
+
+        }
+
+
+
+
+        }
+
+
+    </div>
+
+</div>
+
+
+

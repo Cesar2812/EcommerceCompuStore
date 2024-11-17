@@ -122,13 +122,13 @@
                             <label class="form-label">Stock</label>
                             <input type="number" class="form-control" id="txtStock" name="stock" autocomplete="off"/>
                         </div>
-                        <div class="mb-3">
+                        @*<div class="mb-3">
                             <label class="form-label">Estado</label>
                             <select id="comboActivo" class="form-select" aria-label="Default select example">
                                 <option value="1">Disponible</option>
                                 <option value="0">No Disponible</option>
                             </select>
-                        </div>
+                        </div>*@
                     </div>
 
                 </form>
@@ -215,7 +215,7 @@
                 { "data": "Stock" },
 
                 {
-                    //renderizando la columna Activo
+                    //renderizando la columna Estado
                     "data": "Estado", "render": function (valor) {
                         if (valor) {
                             return '<span class="badge badge-pill bg-success">Disponible</span>'
@@ -340,7 +340,7 @@
             $("#comboCateg").val($("#comboCateg option:first").val());
             $("#txtPrecio").val("");
             $("#txtStock").val("");
-            $("#comboActivo").val(1);
+            
 
             $("#mensajeError").hide();
 
@@ -355,7 +355,7 @@
                 $("#comboCateg").val(json.objCategoria.id_Categoria);
                 $("#txtPrecio").val(json.Precio);
                 $("#txtStock").val(json.Stock);
-                $("#comboActivo").val(json.Estado == true ? 1 : 0)
+                
                 
 
                 //pintando imagen el input al momento de editar un producto
@@ -486,7 +486,7 @@
                 PrecioTexto: $("#txtPrecio").val(),
                 Precio: $("#txtPrecio").val(),
                 Stock: $("#txtStock").val(),
-                Estado: $("#comboActivo").val()==1 ? true: false
+                
             }
 
             var request = new FormData();
@@ -509,6 +509,7 @@
 
                         if (data.idGenerado != 0) {
                             Producto.id_Producto = data.idGenerado;
+                            Producto.Estado = 1
 
                             tablaData.row.add(Producto).draw(false);
                             $("#formModal").modal("hide");
@@ -530,7 +531,8 @@
                     } // si lo anterior no se cumple entonces va a editar
                     else {
                         if (data.operacionExitosa)
-                        {
+                        { 
+                            Producto.Estado = 1
                             //carga la tabla con el nuevo usuario editado
                             tablaData.row(filaSeleccionada).data(Producto).draw(false);
                             filaSeleccionada = null;

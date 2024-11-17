@@ -50,6 +50,7 @@
     <Compile Include="CDUbicacion.cs" />
     <Compile Include="CDUsuarios.cs" />
     <Compile Include="CDMarcas.cs" />
+    <Compile Include="CDVenta.cs" />
     <Compile Include="Conexion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

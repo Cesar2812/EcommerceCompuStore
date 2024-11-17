@@ -67,7 +67,7 @@
                             </div> 
 
                             <div class="d-flex justify-content-end">
-                                <label class="align-self-center"><b>TOTAL C$ <span id="Total">500</span></b></label>
+                                <label class="align-self-center"><b>TOTAL $ <span id="Total">500</span></b></label>
                             </div>
 
 
@@ -163,7 +163,7 @@
 
                                  //3
                                  $("<div>").addClass("col-sm-2 align-self-center").append(
-                                     $("<span>").text("C$ "+item.objProd.Precio)
+                                     $("<span>").text("$ "+item.objProd.Precio)
 
                                  ),
 
@@ -248,7 +248,7 @@
 
       //funcion para listar Municipios en base a un Departamento
       function ListarMunicipio()
-      {
+     {
           $("#comboMunicipio").html("")
 
           $("<option>").attr({ "value": "00", "disabled": "disabled", "selected": "true" }).text("Seleccionar Municipio").appendTo("#comboMunicipio")
@@ -437,7 +437,85 @@
                     });
                 }
             });
-    });
+    }); 
+
+    function RealizarPago() {
+
+        if(parseInt($("#cantidadCarro").text())==0){
+            Swal.fire("", "No hay productos en el carro", "warning");
+            return
+        }
+
+        if ($("#comboMunicipio").val() == null || $("#txtContacto").val() == "" || $("#txtDireccion").val() == "" || $("#txtTelefono").val() == "")
+        {
+            Swal.fire("", "Debe Completar los datos del envio", "warning");
+            return
+        } 
+
+        var Venta = {
+            TotalProducto: $("input.input-cantidad").length,
+            MontoTotal: 0,
+            Contacto: $("#txtContacto").val(),
+            idMunicipio: $("#comboMunicipio").val(),
+            Telefono: $("#txtTelefono").val(),
+            Direccion: $("#txtDireccion").val()
+        }  
+
+        var lista_carrito = [];
+
+        $("input.input-cantidad").each(function (i) {
+
+            var producto = $(this).data("objProd");
+            var cantidad = parseFloat($(this).val())
+
+            lista_carrito.push({
+                objProd: producto,
+                Cantidad:cantidad
+
+            })
+
+        })
+
+
+        jQuery.ajax({
+            url: '@Url.Action("ProcesarPago","Tienda")',
+            type: "POST",
+            data: JSON.stringify({ olistaCarrito: lista_carrito, oVenta: Venta }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) { 
+                $.LoadingOverlay("hide")
+                if (data.Status) {
+
+                    var jsonResult = data.Response;
+
+                    var links = jsonResult.links;
+
+                    var resultado = links.find(item => item.rel === "approve");
+
+                    window.location.href = resultado.href
+
+
+                } else {
+                    swal("", "Vuelva a intenatrlo mas tarde", "warning");
+                }
+            }, beforeSend: function ()
+            {
+                $.LoadingOverlay("show")
+
+            },
+            error: function (error)
+            {
+
+                $.LoadingOverlay("hide")
+            }
+
+
+        })
+
+
+
+    }
 
 
 

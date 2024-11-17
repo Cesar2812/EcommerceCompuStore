@@ -6,15 +6,15 @@ namespace CapaEntidad
     {
         public int id_Venta { get; set; }
 
-        public Cliente objCliente { get; set; }
+        public int id_Cliente { get; set; }
 
         public int TotalProducto { get; set; }
 
         public decimal MontoTotal { get; set; }
 
-        public string Contacto { get; set; } 
+        public string Contacto { get; set; }
 
-        public Municipio objmunicipio { get; set; }
+        public string idMunicipio { get; set; }
 
         public string Telefono { get; set; }
 

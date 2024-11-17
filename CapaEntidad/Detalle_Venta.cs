@@ -11,5 +11,7 @@
         public int Cantidad { get; set; }
 
         public decimal Total { get; set; }
+
+        public string NumeroTransaccion { get; set; }
     }
 }
