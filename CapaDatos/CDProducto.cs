@@ -84,7 +84,6 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@idCategoria", objp.objCategoria.id_Categoria);
                     cmd.Parameters.AddWithValue("@Precio", objp.Precio);
                     cmd.Parameters.AddWithValue("@Stock", objp.Stock);
-
                     cmd.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;//parametro de direccion de salida
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;//diciendole que el comando es un tipo sp

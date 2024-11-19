@@ -311,15 +311,16 @@
                 stock:
                 {
                     required: true,
-                    number:true
+                    number: true,
+                    min:0
                 },
             },
             messages:
             {
                 Nombre: "- El campo Nombre es obligatorio",
                 descripcion: "- El campo Descripcion es obligatorio",
-                Precio: { required: "- El campo Precio es Obligatorio", preciodecimal: "- El fromato correcto del precio es ##.##"},
-                stock: { required: "- El campo Stock es Obligatorio", preciodecimal: "- Debe ingresar solo numeros en el stock" }
+                Precio: { required: "- El campo Precio es Obligatorio", preciodecimal: "- El fromato correcto del precio es ##.##" },
+                stock: { required: "- El campo Stock es Obligatorio", number: "- Debe ingresar solo numeros en el stock", min: "- El stock no puede ser menor a 0"}
             },
             errorElement: "div",
             errorLabelContainer:".alert-danger"
