@@ -35,6 +35,7 @@ namespace CapaPresentacionCliente.Controllers
 
 
 
+
         //metodo para que se registre el cliente
         [HttpPost]
         public ActionResult RegistrarCliente(Cliente obj)
@@ -66,6 +67,8 @@ namespace CapaPresentacionCliente.Controllers
                 return View();
             }
         }
+
+
 
 
         //metodo de incio de sesion del cliente

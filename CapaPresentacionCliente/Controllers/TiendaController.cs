@@ -29,6 +29,7 @@ namespace CapaPresentacionCliente.Controllers
             return View();
         }
 
+
         //vista de detalle de producto
         public ActionResult DetalleProducto(int id_Producto = 0)
         {

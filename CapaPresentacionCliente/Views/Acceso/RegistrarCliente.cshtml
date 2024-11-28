@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 
 <html>
-<head>
+<head> 
     <meta name="viewport" content="width=device-width" />
     <title>RegistrarCliente</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -59,7 +59,7 @@
                                 <div class="card-header"><h3 class="text-center font-weight-light my-8"> CREACION DE CUENTA </h3></div>
                                 <div class="card-body">
 
-
+                                    
                                     <form class="user" action="@Url.Action("RegistrarCliente","Acceso")" method="post">
                                         <div class="form-group row">
 
@@ -114,7 +114,7 @@
 
     @if (ViewBag.Error != null)
      {
-    <text>
+      <text>
          Swal.fire({
          position: "top-end",
          icon: "error",
@@ -122,9 +122,9 @@
          showConfirmButton: false,
          timer: 1000,
         customClass:
-        {
+         {
           popup: 'custom-alert'
-        }
+         }
          });
     </text>
      }
