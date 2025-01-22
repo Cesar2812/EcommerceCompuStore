@@ -16,7 +16,7 @@ namespace CapaNegocio
 
         public List<Detalle_Venta> ListarCompras(int idCliente)
         {
-            return objCapaDatoVenta.ListarCompras(idCliente);   
+            return objCapaDatoVenta.ListarCompras(idCliente);
         }
 
 

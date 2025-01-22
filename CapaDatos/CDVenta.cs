@@ -77,17 +77,17 @@ namespace CapaDatos
                             {
                                 objProducto = new Producto()
                                 {
-                                    
+
                                     Nombre = rdr["Nombre"].ToString(),
                                     Precio = Convert.ToDecimal(rdr["Precio"], new CultureInfo("es-NI")),
                                     RutaImagen = rdr["RutaImagen"].ToString(),
                                     NombreImagen = rdr["NombreImagen"].ToString(),
-                                    
+
 
                                 },
                                 Cantidad = Convert.ToInt32(rdr["Cantidad"]),
-                                Total= Convert.ToDecimal(rdr["Total"], new CultureInfo("es-NI")),
-                                NumeroTransaccion= rdr["NumeroTransaccion"].ToString()
+                                Total = Convert.ToDecimal(rdr["Total"], new CultureInfo("es-NI")),
+                                NumeroTransaccion = rdr["NumeroTransaccion"].ToString()
 
                             });
 
