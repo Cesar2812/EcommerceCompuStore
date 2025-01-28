@@ -1,4 +1,5 @@
 ﻿using CapaEntidad;
+using CapaEntidad.Paypal;
 using CapaNegocio;
 using CapaPresentacionCliente.Filtros;
 using System;
@@ -9,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CapaEntidad.Paypal;
 
 
 namespace CapaPresentacionCliente.Controllers
@@ -242,7 +242,7 @@ namespace CapaPresentacionCliente.Controllers
 
         [HttpPost]
         public async Task<JsonResult> ProcesarPago(List<Cliente_Producto> olistaCarrito, Venta oVenta)
-        { 
+        {
             decimal total = 0;
 
             DataTable detalle_Venta = new DataTable();
@@ -253,7 +253,7 @@ namespace CapaPresentacionCliente.Controllers
             detalle_Venta.Columns.Add("Cantidad", typeof(int));
             detalle_Venta.Columns.Add("Total", typeof(decimal));
 
-            List<Item>olistaItem= new List<Item>();
+            List<Item> olistaItem = new List<Item>();
 
             //iterando la lista del carrito
             foreach (Cliente_Producto oCarrito in olistaCarrito)
@@ -264,12 +264,12 @@ namespace CapaPresentacionCliente.Controllers
 
                 olistaItem.Add(new Item()
                 {
-                    name=oCarrito.objProd.Nombre,
-                    quantity=oCarrito.Cantidad.ToString(),  
-                    unit_amount= new UnitAmount()
+                    name = oCarrito.objProd.Nombre,
+                    quantity = oCarrito.Cantidad.ToString(),
+                    unit_amount = new UnitAmount()
                     {
-                        currency_code="USD",
-                        value=oCarrito.objProd.Precio.ToString("G",new CultureInfo("es-NI")),
+                        currency_code = "USD",
+                        value = oCarrito.objProd.Precio.ToString("G", new CultureInfo("es-NI")),
                     }
 
                 });
@@ -285,13 +285,13 @@ namespace CapaPresentacionCliente.Controllers
 
             PurchaseUnit purchasetUnit = new PurchaseUnit()
             {
-                amount= new Amount()
+                amount = new Amount()
                 {
-                    currency_code="USD",
-                    value=total.ToString("G", new CultureInfo("es-NI")),
-                    breakdown= new Breakdown()
+                    currency_code = "USD",
+                    value = total.ToString("G", new CultureInfo("es-NI")),
+                    breakdown = new Breakdown()
                     {
-                        item_total=new ItemTotal()
+                        item_total = new ItemTotal()
                         {
                             currency_code = "USD",
                             value = total.ToString("G", new CultureInfo("es-NI")),
@@ -299,24 +299,24 @@ namespace CapaPresentacionCliente.Controllers
                         }
                     }
                 },
-                description="Compra de Articulos de CompuStore",
-                items=olistaItem
+                description = "Compra de Articulos de CompuStore",
+                items = olistaItem
             };
 
             checkout_order oChekckout = new checkout_order()
             {
-                intent="CAPTURE",
-                purchase_units= new List<PurchaseUnit>()
+                intent = "CAPTURE",
+                purchase_units = new List<PurchaseUnit>()
                 {
                      purchasetUnit
                 },
-                application_context= new ApplicationContext()
+                application_context = new ApplicationContext()
                 {
-                    brand_name="CompuStore.com",
-                    landing_page="NO_PREFERENCE",
-                    user_action="PAY_NOW",
-                    return_url= "https://localhost:44309/Tienda/PagoEfectuado",
-                    cancel_url= "https://localhost:44309/Tienda/Carrito"
+                    brand_name = "CompuStore.com",
+                    landing_page = "NO_PREFERENCE",
+                    user_action = "PAY_NOW",
+                    return_url = "https://localhost:44309/Tienda/PagoEfectuado",
+                    cancel_url = "https://localhost:44309/Tienda/Carrito"
                 }
             };
 
@@ -326,7 +326,7 @@ namespace CapaPresentacionCliente.Controllers
             TempData["Venta"] = oVenta;
             TempData["DetalleVenta"] = detalle_Venta;
 
-            CNPaypal opaypal= new CNPaypal();
+            CNPaypal opaypal = new CNPaypal();
             Response_Paypal<Response_checkout> response_paypal = new Response_Paypal<Response_checkout>();
             response_paypal = await opaypal.CrearSolicitud(oChekckout);
 
@@ -340,12 +340,12 @@ namespace CapaPresentacionCliente.Controllers
         public async Task<ActionResult> PagoEfectuado()
         {
             string token = Request.QueryString["token"];
-            CNPaypal paypall= new CNPaypal();
+            CNPaypal paypall = new CNPaypal();
             Response_Paypal<Response_capture> response_paypal = new Response_Paypal<Response_capture>();
-            response_paypal=await paypall.AprobarPago(token);
+            response_paypal = await paypall.AprobarPago(token);
 
 
-            
+
 
             ViewData["Status"] = response_paypal.Status;
 
@@ -383,7 +383,7 @@ namespace CapaPresentacionCliente.Controllers
             {
                 objProducto = new Producto()
                 {
-                   
+
                     Nombre = oc.objProducto.Nombre,
                     Precio = oc.objProducto.Precio,
                     Base64 = Recursos.convertirBase64(Path.Combine(oc.objProducto.RutaImagen, oc.objProducto.NombreImagen), out conversion),

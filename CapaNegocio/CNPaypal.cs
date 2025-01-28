@@ -56,7 +56,7 @@ namespace CapaNegocio
                 var authToken = Encoding.ASCII.GetBytes($"{clientID}:{secret}");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authToken));
 
-                
+
                 var data = new StringContent("{}", Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await client.PostAsync($"/v2/checkout/orders/{token}/capture", data);
