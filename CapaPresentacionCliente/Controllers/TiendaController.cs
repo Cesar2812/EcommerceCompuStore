@@ -15,16 +15,18 @@ using System.Web.Mvc;
 namespace CapaPresentacionCliente.Controllers
 {
     public class TiendaController : Controller
-    {
-        //Vista de incio
+    { 
+
+        //Vista de incio que carga los productos del catalogo de la base de datos 
         public ActionResult Index()
         {
             return View();
         }
 
+
         //vista del carrito
         [AuthFilter]
-        public ActionResult Carrito()
+        public ActionResult Carrito() // metodo action para ir al carrrito, no se puede ir sin antes iniciar sesion
         {
             return View();
         }
@@ -55,6 +57,7 @@ namespace CapaPresentacionCliente.Controllers
 
             return View(producto);
         }
+
 
 
         //metodo para obtener Categorias
@@ -128,32 +131,29 @@ namespace CapaPresentacionCliente.Controllers
             if (existe)
             {
                 mensaje = "El producto ya existe en el carrito";
-
-
             }
             else
             {
                 respuesta = new CNCliente_Producto().OperacionCarrito(idCliente, idProducto, true, out mensaje);
-
             }
             return Json(new { respuesta = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+
         //devuelve la cantidad de productos del cliente como Query al iniciar Sesion 
         [HttpGet]
-        public JsonResult CantidadEnCarrito()
+        public JsonResult CantidadEnCarrito() //funcion que muestra o devuelve la cantidad de productos en el carrito por un cliente especifico en el inicio de sesion
         {
             int idCliente = ((Cliente)Session["UsuarioCliente"]).id_Cliente;
             int cantidad = new CNCliente_Producto().CantidadEnCarrito(idCliente);
             return Json(new { cantidad = cantidad }, JsonRequestBehavior.AllowGet);
-
         }
 
 
 
         //metodo para listarlos productos en el carrito por parte de un cliente para hacer la compra
         [HttpPost]
-        public JsonResult ListarProductosCarrito()
+        public JsonResult ListarProductosCarrito() //controlador que muestra una lista de productos en el carrito 
         {
             int idCliente = ((Cliente)Session["UsuarioCliente"]).id_Cliente;
 
@@ -183,7 +183,7 @@ namespace CapaPresentacionCliente.Controllers
 
         //metodo para agregar al carrito
         [HttpPost]
-        public JsonResult OperacionCarro(int idProducto, bool sumar)
+        public JsonResult OperacionCarro(int idProducto, bool sumar) //metodo para agregar productos al carrito
         {
             int idCliente = ((Cliente)Session["UsuarioCliente"]).id_Cliente;
 
@@ -194,6 +194,7 @@ namespace CapaPresentacionCliente.Controllers
             respuesta = new CNCliente_Producto().OperacionCarrito(idCliente, idProducto, sumar, out mensaje);
             return Json(new { respuesta = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
+
 
 
 
@@ -227,6 +228,7 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
+
         //metodo para obtener municipio por departamento
         [HttpPost]
         public JsonResult ObtenerMunicipio(string iddepartamento)
@@ -240,7 +242,7 @@ namespace CapaPresentacionCliente.Controllers
 
 
 
-        [HttpPost]
+        [HttpPost] //metodo de tipo Task o de hilo para que ambos procesos se ejecuten secuencialmente mediante una dependencia funcional de la API
         public async Task<JsonResult> ProcesarPago(List<Cliente_Producto> olistaCarrito, Venta oVenta)
         {
             decimal total = 0;
@@ -255,7 +257,7 @@ namespace CapaPresentacionCliente.Controllers
 
             List<Item> olistaItem = new List<Item>();
 
-            //iterando la lista del carrito
+            //iterando la lista del carrito para pasarlo a PayPal
             foreach (Cliente_Producto oCarrito in olistaCarrito)
             {
                 decimal subTotal = Convert.ToDecimal(oCarrito.Cantidad.ToString()) * oCarrito.objProd.Precio;
@@ -274,16 +276,16 @@ namespace CapaPresentacionCliente.Controllers
 
                 });
 
+                //almacennado el detalle de venta para que valla a la tabla detalle de la base de datos
                 detalle_Venta.Rows.Add(new object[]
                 {
                     oCarrito.objProd.id_Producto,
                     oCarrito.Cantidad,
                     subTotal
                 });
-
             }
 
-            PurchaseUnit purchasetUnit = new PurchaseUnit()
+            PurchaseUnit purchasetUnit = new PurchaseUnit() //unidades de compras
             {
                 amount = new Amount()
                 {
@@ -303,7 +305,7 @@ namespace CapaPresentacionCliente.Controllers
                 items = olistaItem
             };
 
-            checkout_order oChekckout = new checkout_order()
+            checkout_order oChekckout = new checkout_order() //orden de pago
             {
                 intent = "CAPTURE",
                 purchase_units = new List<PurchaseUnit>()
@@ -315,7 +317,7 @@ namespace CapaPresentacionCliente.Controllers
                     brand_name = "CompuStore.com",
                     landing_page = "NO_PREFERENCE",
                     user_action = "PAY_NOW",
-                    return_url = "https://localhost:44309/Tienda/PagoEfectuado",
+                    return_url = "https://localhost:44309/Tienda/PagoEfectuado", //hay que cambiar estas lineas para producccion, cambiar tambien el protocolo
                     cancel_url = "https://localhost:44309/Tienda/Carrito"
                 }
             };
@@ -336,8 +338,9 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
+
         [AuthFilter]
-        public async Task<ActionResult> PagoEfectuado()
+        public async Task<ActionResult> PagoEfectuado() //metodo que llama a PayPal
         {
             string token = Request.QueryString["token"];
             CNPaypal paypall = new CNPaypal();
@@ -371,7 +374,7 @@ namespace CapaPresentacionCliente.Controllers
 
         //metodo para el hsitorial de compras del cliente
         [AuthFilter]
-        public ActionResult ListarComprasCliente()
+        public ActionResult ListarComprasCliente() //funcion o controlador que llama al historial de compras del cliente
         {
             int idCliente = ((Cliente)Session["UsuarioCliente"]).id_Cliente;
 

@@ -11,24 +11,24 @@ namespace CapaPresentacionCliente.Controllers
     public class AccesoController : Controller
     {
         // GET: Acceso
-        public ActionResult Index()
+        public ActionResult Index()//controlador que redirige al login del usuario Cliente para acceder a la tienda 
         {
             return View();
         }
 
-        public ActionResult RegistrarCliente()
+        public ActionResult RegistrarCliente() //controlador que redirige al Formulario para registrar un nuevo cliente 
         {
             return View();
         }
 
-        public ActionResult RestablecerClaveCliente()
+        public ActionResult RestablecerClaveCliente() //controlador para restablecer o recuperar la clave del cliente
         {
             return View();
         }
 
         //formulario para cambiar clave
         [AuthFilter]
-        public ActionResult CambiarClaveCliente()
+        public ActionResult CambiarClaveCliente() //formulario para cambiar la clave del cliente 
         {
             return View();
         }
@@ -107,6 +107,8 @@ namespace CapaPresentacionCliente.Controllers
                 }
             }
         }
+
+
 
         //metodo para Restablecer clave
         [HttpPost]
