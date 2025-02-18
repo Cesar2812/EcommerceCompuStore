@@ -60,7 +60,8 @@ namespace CapaPresentacionCliente.Controllers
 
 
 
-        //metodo para obtener Categorias
+
+        //metodo para obtener Categorias en el CARD que permita buscar 
         [HttpGet]
         public JsonResult ListaCategorias()
         {
@@ -70,6 +71,7 @@ namespace CapaPresentacionCliente.Controllers
             lista = new CNCategorias().ListarCategoria();// almacenando categorias en la lista
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet); //retornando categorias en un JSON
         }
+
 
         [HttpPost]
         public JsonResult ListaMarcaPorCategoria(int idCategoria)
@@ -116,6 +118,7 @@ namespace CapaPresentacionCliente.Controllers
 
         }
 
+
         //metodo para agregar al carrito
         [HttpPost]
         public JsonResult AgregarAlCarrito(int idProducto)
@@ -138,6 +141,7 @@ namespace CapaPresentacionCliente.Controllers
             }
             return Json(new { respuesta = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
+
 
 
         //devuelve la cantidad de productos del cliente como Query al iniciar Sesion 
