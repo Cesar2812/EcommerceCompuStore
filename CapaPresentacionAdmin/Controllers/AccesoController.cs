@@ -10,7 +10,8 @@ namespace CapaPresentacionAdmin.Controllers
 {
 
     public class AccesoController : Controller
-    {
+    {  
+
         // formulario de login
         public ActionResult Index()
         {
@@ -31,6 +32,7 @@ namespace CapaPresentacionAdmin.Controllers
         }
 
 
+        //Inicio de Sesion
         [HttpPost]
         public ActionResult Index(string correo, string clave)
         {
@@ -65,7 +67,10 @@ namespace CapaPresentacionAdmin.Controllers
                 return RedirectToAction("Index", "Home");// entrando a la vista principal del panel
             }
 
-        }
+        } 
+
+
+        //metodo Action para cambiar clave, cuando es primera vez que el usuario inicia sesion
         [HttpPost]
         public ActionResult CambiarClave(string id_Usuario, string claveActual, string nuevaClave, string confirmarClave)
         {
@@ -121,7 +126,7 @@ namespace CapaPresentacionAdmin.Controllers
         }
 
 
-        //metodo para cambiar clave
+        //metodo para restablecer la contrasena
         [HttpPost]
         public ActionResult RestablecerClave(string correo)
         {
@@ -156,7 +161,7 @@ namespace CapaPresentacionAdmin.Controllers
             }
         }
 
-        //metodo para cerrar sesion
+        //metodo para cerrar sesion desde la vista admin 
         public ActionResult CerrarSesion()
         {
             // Elimina la sesión del usuario

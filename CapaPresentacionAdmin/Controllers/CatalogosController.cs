@@ -12,7 +12,8 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
-{
+{ 
+    //se le aplica un filtro a todos los modulos o menus de la app del admin para que no se pueda accceder sin antes iniciar sesion
     [AuthFilter]
     public class CatalogosController : Controller
     {
@@ -134,8 +135,11 @@ namespace CapaPresentacionAdmin.Controllers
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet);//metodo get porque agarra la data
         }
 
+
+
+
         //metodo para registrarProductos
-        //metodo post porque es una peticion de insercion por parte del usuario
+        //metodo post porque es una peticion de insercion por parte del usuario hacia la Base De Datos
         [HttpPost]
         public JsonResult GuardarProductos(string objeto, HttpPostedFileBase archivoImagen)
         {
@@ -146,24 +150,24 @@ namespace CapaPresentacionAdmin.Controllers
 
             //convirtiendo el string en un objetoProducto
             Producto objProd = new Producto();
-            objProd = JsonConvert.DeserializeObject<Producto>(objeto);// descerializando el objeto string y se convierte en un prodcto 
+            objProd = JsonConvert.DeserializeObject<Producto>(objeto);// descerializando el objeto string y se convierte en un objeto de tipo producto 
 
-            //validando el precio del formato
+            //validando el formato del precio 
             decimal precio;
 
             if (decimal.TryParse(objProd.PrecioTexto, NumberStyles.AllowDecimalPoint, new CultureInfo("es-NI"), out precio))
             {
-                objProd.Precio = precio;
+                objProd.Precio = precio;//almacenando en el obj precio el valor del precio 
             }
             else
             {
                 return Json(new { operacionExitosa = false, Mensaje = "El formato del Precio debe de ser #####.##" }, JsonRequestBehavior.AllowGet);
             }
 
-            //si la opcion es ingresar osea se pasa un id=0
+            //si la opcion es ingresar osea se pasa un id nuevo del obj a nivel de servidor osea es un id nuevo igual a 0
             if (objProd.id_Producto == 0)
             {
-                int idProductoGenerado = new CNProducto().RegistrarProducto(objProd, out Mensaje);
+                int idProductoGenerado = new CNProducto().RegistrarProducto(objProd, out Mensaje);//metodo que retorna un mensaje y el valor del id
 
                 if (idProductoGenerado != 0)
                 {
@@ -179,19 +183,19 @@ namespace CapaPresentacionAdmin.Controllers
                 operacionExitosa = new CNProducto().EditarProducto(objProd, out Mensaje);
             }
 
-            //registrando Imagen
+            //registrando Imagen osea la oprecion exitosa es guardar porque es true
             if (operacionExitosa)
             {
-                if (archivoImagen != null)
+                if (archivoImagen != null)// si el archivo de la imagen es diferente de null osea se ha elegido una imagen 
                 {
-                    //haciendo lectura de la lleve que contiene el webConfig
+                    //haciendo lectura de la ruta que contiene el webConfig
                     string rutaGuardar = ConfigurationManager.AppSettings["ServidorFotos"];
-                    string extension = Path.GetExtension(archivoImagen.FileName);
-                    string nombreImagen = string.Concat(objProd.id_Producto.ToString(), extension);// poniendole el nombre de la imagen
+                    string extension = Path.GetExtension(archivoImagen.FileName);//obteniendo la extension del archivo de la imagen 
+                    string nombreImagen = string.Concat(objProd.id_Producto.ToString(), extension);// poniendole el nombre de la imagen y el el id del producto almacenado 
 
                     try
                     {
-                        archivoImagen.SaveAs(Path.Combine(rutaGuardar, nombreImagen)); // guardando la imagen
+                        archivoImagen.SaveAs(Path.Combine(rutaGuardar, nombreImagen)); // guardando la imagen y se le pasa la ruta y el nombre 
 
                     }
                     catch (Exception ex)
@@ -200,11 +204,11 @@ namespace CapaPresentacionAdmin.Controllers
                         guardarImagenExito = false;
                     }
 
-                    if (guardarImagenExito)
+                    if (guardarImagenExito)// si la imagen se carga de forma exitosa osea es true 
                     {
                         objProd.RutaImagen = rutaGuardar;
                         objProd.NombreImagen = nombreImagen;
-                        bool rspta = new CNProducto().GuardarDataImagen(objProd, out Mensaje);
+                        bool rspta = new CNProducto().GuardarDataImagen(objProd, out Mensaje);// guardando el nombre de la imagen en la base de datos 
                     }
                     else
                     {

@@ -20,7 +20,7 @@ namespace CapaPresentacionAdmin.Controllers
             return View();
         }
 
-        //llamando el controlador para mostrar el reporte
+        //llamando el controlador para mostrar el reporte sobre los dashboard de los productos
         [HttpGet]//tipo get ya que devuelve el reporte
         public JsonResult VistaDashboard()
         {
@@ -43,7 +43,7 @@ namespace CapaPresentacionAdmin.Controllers
 
 
         //metodo para exportar a excel la data
-        [HttpPost]// es de tipo post ya que se realiza una peticion para exportar la data
+        [HttpPost]// es de tipo post ya que se realiza una peticion para exportar la data en excel es un sp que se ejecuta a nivel de servidor SQL 
         public FileResult ExportarVentas(string fechainicio, string fechafin, string transaccion)
         {
             //creando lista de la clase reporte de ventas
@@ -63,7 +63,7 @@ namespace CapaPresentacionAdmin.Controllers
             dt.Columns.Add("Total", typeof(decimal));
             dt.Columns.Add("NumeroTransaccion", typeof(string));
 
-            //enviando los elementos de la lista
+            //enviando los elementos de la lista a un dataTable Virtual
             foreach (ReporteVentas rp in lista)
             {
                 dt.Rows.Add(new object[]

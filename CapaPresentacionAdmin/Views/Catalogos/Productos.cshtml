@@ -347,7 +347,7 @@
             $("#mensajeError").hide();
 
             //al hacer click en el boton editar carga en el modal la data obtenida
-            //osea que si el formulario es distinto de null ocuarre eso ya que al inicio el formulario esta en null
+            //osea que si el formulario es distinto de null ocuarre eso ya que al inicio el formulario va a ser para editar
             if (json != null)
             {
                 $("#txtId").val(json.id_Producto)
@@ -360,7 +360,7 @@
                 
                 
 
-                //pintando imagen el input al momento de editar un producto
+                //pintando imagen el input al momento de editar un producto es un metodo POST ya que manda el id para mostrar la imagen en la etiqueta
                 jQuery.ajax({
                     url: '@Url.Action("ImagenProducto","Catalogos")',
                     type: "POST",
