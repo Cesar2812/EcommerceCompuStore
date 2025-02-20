@@ -33,7 +33,7 @@ namespace CapaDatos
                             lista.Add(
                                new Categoria()
                                {
-                                   id_Categoria = Convert.ToInt32(read["id_Categoria"]),
+                                   id_Categoria= Convert.ToInt32(read["id_Categoria"]),
                                    Descripcion = read["Descripcion"].ToString(),
                                    Estado = Convert.ToBoolean(read["Estado"])
                                }
