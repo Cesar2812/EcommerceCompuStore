@@ -170,7 +170,7 @@
                             <th>Producto</th>
                             <th>Precio</th>
                             <th>Cantidad</th>
-                            <th>Total</th>
+                            <th>Sub-Total</th>
                             <th> N° De Transaccion</th>
                         </tr>
                     </thead>
@@ -192,7 +192,7 @@
     $(document).ready(function () {
 
 
-          //Rporte de los Card 
+          //Rporte de los Card obteniendo la data 
           jQuery.ajax({
              url: '@Url.Action("VistaDashboard","Home")',//llamando al controlador
              type: "GET",
@@ -207,7 +207,8 @@
                $("#totalClientes").text(objeto.TotalClientes)
                $("#totalVentas").text(objeto.TotalVenta)
                $("#totalProductos").text(objeto.TotalProducto)
-               $("#gananciasTotales").text(objeto.GananciaTotal)
+               $("#gananciasTotales").text(parseFloat(objeto.GananciaTotal).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
              }
           });
 
@@ -270,31 +271,4 @@
     })
 
 </script>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    }
+}

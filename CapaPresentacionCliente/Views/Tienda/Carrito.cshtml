@@ -132,7 +132,7 @@
 { 
 <script>
 
-
+    //metodo para listar productos en el carrito de la tienda 
      $(document).ready(function ()
      {
          jQuery.ajax({
@@ -174,13 +174,6 @@
                                          "</div>"
                                      )
                                  ),
-
-
-                                
-
-
-
-
                                  //4
                                  $("<div>").addClass("col-sm-2 align-self-center").append(
                                      $("<div>").addClass("d-flex").append(
@@ -255,7 +248,7 @@
      })
 
       //funcion para listar Municipios en base a un Departamento
-      function ListarMunicipio()
+     function ListarMunicipio()
      {
           $("#comboMunicipio").html("")
 
@@ -457,6 +450,8 @@
             });
     }); 
 
+
+    //funcion para realizar pago mediante Paypal
     function RealizarPago() {
 
         if(parseInt($("#cantidadCarro").text())==0){
@@ -470,13 +465,15 @@
             return
         } 
 
+        //creando un json de la venta 
         var Venta = {
             TotalProducto: $("input.input-cantidad").length,
             MontoTotal: 0,
             Contacto: $("#txtContacto").val(),
             idMunicipio: $("#comboMunicipio").val(),
             Telefono: $("#txtTelefono").val(),
-            Direccion: $("#txtDireccion").val()
+            Direccion: $("#txtDireccion").val(),
+            MontoTotalIva:0,
         }  
 
         var lista_carrito = [];

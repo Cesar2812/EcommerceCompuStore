@@ -55,6 +55,7 @@
                                                     <th>Precio</th>
                                                     <th>Cantidad</th>
                                                     <th>Sub-Total</th>
+                                                    <th>Total+IVA</th>
                                                     <th>Fecha De Compra</th>
                                                 </tr>
                                             </thead>
@@ -63,18 +64,28 @@
                                                     <td>
                                                         <img class="card-img-top mb-5 mb-md-0" src="data:image/@item.objProducto.Extension; base64,@item.objProducto.Base64" style="width:120px; height:120px" />
                                                     </td>
+
                                                     <td valign="middle">
                                                         @item.objProducto.Nombre
                                                     </td>
+
                                                     <td valign="middle">
-                                                        $ @item.objProducto.Precio USD
+                                                        C$ @item.objProducto.Precio.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("en-US")) NIO
                                                     </td>
+
+
                                                     <td valign="middle">
                                                         @item.Cantidad
                                                     </td>
+
                                                     <td valign="middle">
-                                                        $ @item.Total USD
+                                                        C$ @item.Total.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("en-US")) NIO
                                                     </td>
+
+                                                    <td valign="middle">
+                                                        C$ @item.TotalIVA.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("en-US")) NIO
+                                                    </td>
+
                                                     <td valign="middle">
                                                         @item.FechaVenta
                                                     </td>
@@ -138,9 +149,6 @@
                         </li>
                     </ul>
                 </nav>
-
-
-
             }
             else
             {
@@ -152,8 +160,6 @@
                     </div>
                 </div>
             }
-
         }
-
     </div>
 </div>

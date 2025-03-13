@@ -225,8 +225,6 @@ namespace CapaPresentacionCliente.Controllers
 
         }
 
-
-
         //metodo para obtener departamento
         [HttpPost]
         public JsonResult ObtenerDepartamento()
@@ -256,7 +254,11 @@ namespace CapaPresentacionCliente.Controllers
         [HttpPost] //metodo de tipo Task o de hilo para que ambos procesos se ejecuten secuencialmente mediante una dependencia funcional de la API
         public async Task<JsonResult> ProcesarPago(List<Cliente_Producto> olistaCarrito, Venta oVenta)
         {
+            const decimal tasadolar = 36.50m;
             decimal total = 0;
+            decimal totalIva = 0;
+            decimal Total = 0;
+            decimal TotalEnDolar = 0;
 
             DataTable detalle_Venta = new DataTable();
 
@@ -268,12 +270,15 @@ namespace CapaPresentacionCliente.Controllers
 
             List<Item> olistaItem = new List<Item>();
 
-            //iterando la lista del carrito para pasarlo a PayPal
+            //iterando la lista del carrito para pasarlo a PayPal junto con el precio 
             foreach (Cliente_Producto oCarrito in olistaCarrito)
             {
                 decimal subTotal = Convert.ToDecimal(oCarrito.Cantidad.ToString()) * oCarrito.objProd.Precio;
 
-                total += subTotal;
+                total += subTotal;//subtotal sin iva
+                totalIva = Math.Round(total * 0.15m);//aplicandole el Iva al SubTotal
+                Total = Math.Round(total + totalIva);//sumandole la tasa de Iva al subTotal
+                TotalEnDolar = Math.Round(Total / tasadolar);
 
                 olistaItem.Add(new Item()
                 {
@@ -301,13 +306,13 @@ namespace CapaPresentacionCliente.Controllers
                 amount = new Amount()
                 {
                     currency_code = "USD",
-                    value = total.ToString("G", new CultureInfo("es-NI")),
+                    value = TotalEnDolar.ToString("G", new CultureInfo("es-NI")),
                     breakdown = new Breakdown()
                     {
                         item_total = new ItemTotal()
                         {
                             currency_code = "USD",
-                            value = total.ToString("G", new CultureInfo("es-NI")),
+                            value = TotalEnDolar.ToString("G", new CultureInfo("es-NI")),
 
                         }
                     }
@@ -334,6 +339,7 @@ namespace CapaPresentacionCliente.Controllers
             };
 
             oVenta.MontoTotal = total;
+            oVenta.MontoTotalIva = Total;
             oVenta.id_Cliente = ((Cliente)Session["UsuarioCliente"]).id_Cliente;
 
             TempData["Venta"] = oVenta;
@@ -380,7 +386,7 @@ namespace CapaPresentacionCliente.Controllers
             return View();
         }
 
-
+        //controlador para listar las compras de un cliente 
         [AuthFilter]
         public ActionResult ListarComprasCliente(int page = 1)
         {
@@ -398,6 +404,7 @@ namespace CapaPresentacionCliente.Controllers
                 },
                 Cantidad = oc.Cantidad,
                 Total = oc.Total,
+                TotalIVA= Math.Round(oc.Total + (oc.Total * 0.15m), 2),//calculando el IVA del Producto
                 NumeroTransaccion = oc.NumeroTransaccion,
                 FechaVenta = oc.FechaVenta
             }).OrderByDescending(x => x.FechaVenta).ToList();

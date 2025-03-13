@@ -17,5 +17,7 @@ namespace CapaEntidad
         public string NumeroTransaccion { get; set; }
 
         public DateTime FechaVenta { get; set; }
+
+        public decimal TotalIVA { get; set; }
     }
 }

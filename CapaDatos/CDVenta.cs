@@ -27,6 +27,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@Telefono", objVenta.Telefono);
                     cmd.Parameters.AddWithValue("@direccion", objVenta.Direccion);
                     cmd.Parameters.AddWithValue("@idTransaccion", objVenta.NumeroTransaccion);
+                    cmd.Parameters.AddWithValue("@MontoTotalIva", objVenta.MontoTotalIva);
                     cmd.Parameters.AddWithValue("@DetalleVenta", Detalle_Venta);
                     cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
@@ -53,7 +54,7 @@ namespace CapaDatos
         }
 
 
-        //funcion para listar las compras de un cliente en especifico
+        //funcion para listar las compras de un cliente en especifico dentro de la vista del cliente
         public List<Detalle_Venta> ListarCompras(int idCliente)
         {
             //declarando lista de Productos

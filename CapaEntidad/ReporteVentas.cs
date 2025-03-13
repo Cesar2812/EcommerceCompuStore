@@ -15,5 +15,7 @@
         public decimal Total { get; set; }
 
         public string NumeroTransaccion { get; set; }
+
+        public decimal TotalIva { get; set; }
     }
 }

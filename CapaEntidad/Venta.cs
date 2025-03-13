@@ -25,5 +25,6 @@ namespace CapaEntidad
         public string FechaTexto { get; set; }
 
         public List<Detalle_Venta> objDetalleVenta { get; set; }
+        public decimal MontoTotalIva { get; set; }
     }
 }

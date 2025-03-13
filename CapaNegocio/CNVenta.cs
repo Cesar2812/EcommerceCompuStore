@@ -14,12 +14,10 @@ namespace CapaNegocio
 
         }
 
+        //listado de compras del cliente
         public List<Detalle_Venta> ListarCompras(int idCliente)
         {
             return objCapaDatoVenta.ListarCompras(idCliente);
         }
-
-
-
     }
 }
