@@ -8,13 +8,14 @@ namespace CapaDatos
 {
     public class CDCategorias
     {
+        SqlConnection conexion;
         public List<Categoria> ListarCategorias()
         {
             List<Categoria> lista = new List<Categoria>();
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     string consulta = "select id_Categoria,Descripcion,Estado from Categoria";
 
@@ -33,7 +34,7 @@ namespace CapaDatos
                             lista.Add(
                                new Categoria()
                                {
-                                   id_Categoria= Convert.ToInt32(read["id_Categoria"]),
+                                   id_Categoria = Convert.ToInt32(read["id_Categoria"]),
                                    Descripcion = read["Descripcion"].ToString(),
                                    Estado = Convert.ToBoolean(read["Estado"])
                                }
@@ -41,9 +42,7 @@ namespace CapaDatos
 
                         }
                     }
-
                 }
-
             }
             catch
             {
@@ -51,10 +50,13 @@ namespace CapaDatos
                 lista = new List<Categoria>();
 
             }
-
-            //al final retorna toda la lista de categoria
+            finally
+            {
+                conexion = new SqlConnection();
+                conexion.Close();//cerrendo conexion para liberar recursos 
+            }
+            // retorna toda la lista de categoria
             return lista;
-
         }
 
         //metodo para registrar Categoria
@@ -65,7 +67,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     //le paso el sp
                     SqlCommand comando = new SqlCommand("sp_RegistrarCategoria", conexion);
@@ -90,19 +92,23 @@ namespace CapaDatos
                 Mensaje = ex.Message;
                 idAutogenerado = 0;
             }
+            finally
+            {
+                conexion = new SqlConnection();
+                conexion.Close();
+            }
             return idAutogenerado;
         }
-
 
         //metodo para editar Categoria
         public bool EditarCatgeoria(Categoria objCateg, out string Mensaje)
         {
-            bool resultado = false;
+            bool resultado;
             Mensaje = string.Empty;
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand comando = new SqlCommand("sp_EditarCategoria", conexion);
                     comando.Parameters.AddWithValue("@id_Categoria", objCateg.id_Categoria);
@@ -125,6 +131,11 @@ namespace CapaDatos
                 resultado = false;
                 Mensaje = ex.Message;
             }
+            finally
+            {
+                conexion = new SqlConnection();
+                conexion.Close();
+            }
 
             return resultado;
         }
@@ -132,12 +143,12 @@ namespace CapaDatos
         //metodo para eilimnar Categoria
         public bool EliminarCategoria(int id, out string Mensaje)
         {
-            bool resultado = false;
+            bool resultado;
             Mensaje = string.Empty;
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand comando = new SqlCommand("sp_EliminarCategoria", conexion);
                     comando.Parameters.AddWithValue("@id_Categoria", id);
@@ -157,8 +168,12 @@ namespace CapaDatos
                 resultado = false;
                 Mensaje = ex.Message;
             }
+            finally
+            {
+                conexion = new SqlConnection();
+                conexion.Close();
+            }
             return (resultado);
-
         }
     }
 }

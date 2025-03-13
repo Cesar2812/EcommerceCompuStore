@@ -4,96 +4,156 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .pagination .page-item {
+        margin: 0 5px; 
+    }
 
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-sm-12">
-            @{
+    .pagination .page-link {
+        color: black; 
+        border-radius: 5px; 
+    }
+
+        .pagination .page-item.active .page-link,
+        .pagination .page-link:hover {
+            background-color: black !important; 
+            color: white !important; 
+            border-color: black !important; 
+        }
+</style>
+
+<div class="container-fluid">
+    <div class="row mt-3">
+        <!-- Reducido el margen superior -->
+
+         <div class="card mb-4 border w-100" style="background-color: #00415d; color: white;">
+            <div class="card-body text-center">
+                <h3 class="m-0">Historial De Compras Realizadas</h3>
+            </div>
+        </div>
+
+        @{
             if (Model.Count > 0)
-            { 
-                foreach(var item in Model)
-                { 
-                        <div class="row mb-3">
-                            <div class="col-sm-12">
-                                <div class="card">
-                                    <div class="card-body bg-light">
-                                       <h6>N°TRANSACCION: @item.NumeroTransaccion</h6>
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Imagen</th>
-                                                        <th>Producto</th>
-                                                        <th>Precio</th>
-                                                        <th>Cantidad</th>
-                                                        <th>Sub-Total</th>
+            {
+                //int pageSize = 2;
+                int pageNumber = ViewBag.PageNumber ?? 1;
+                int totalPages = ViewBag.TotalPages ?? 1;
 
-
-                                                    </tr>
-
-                                                </thead>
-
-                                                <tbody class="bg-white">
-                                                    <tr>
-                                                        <td>
-                                                            <img class="card-img-top mb-5 mb-md-0" src="data:image/@item.objProducto.Extension; base64,@item.objProducto.Base64" style="width:120px; height:120px" />
-                                                        </td>
-
-                                                        <td valign="middle">
-                                                            @item.objProducto.Nombre
-                                                        </td>
-
-                                                        <td valign="middle">
-                                                            $ @item.objProducto.Precio USD
-                                                        </td>
-
-                                                        <td valign="middle">
-                                                            @item.Cantidad
-                                                        </td>
-
-                                                        <td valign="middle">
-                                                           $ @item.Total USD
-
-                                                        </td>  
-
-
-
-                                                    </tr>
-
-                                                </tbody>
-
-
-                                            </table>
-                                        </div>
-
+                foreach (var item in Model)
+                {
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-md-10 mx-auto">
+                            <div class="card">
+                                <div class="card-body bg-light">
+                                    <h6>N°TRANSACCION: @item.NumeroTransaccion</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Imagen</th>
+                                                    <th>Producto</th>
+                                                    <th>Precio</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Sub-Total</th>
+                                                    <th>Fecha De Compra</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white">
+                                                <tr>
+                                                    <td>
+                                                        <img class="card-img-top mb-5 mb-md-0" src="data:image/@item.objProducto.Extension; base64,@item.objProducto.Base64" style="width:120px; height:120px" />
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @item.objProducto.Nombre
+                                                    </td>
+                                                    <td valign="middle">
+                                                        $ @item.objProducto.Precio USD
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @item.Cantidad
+                                                    </td>
+                                                    <td valign="middle">
+                                                        $ @item.Total USD
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @item.FechaVenta
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                    </div>
                 }
+
+                <!--PAGINADOR-->
+                
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item @(pageNumber == 1 ? "disabled" : "")">
+                            <a class="page-link" href="@Url.Action("ListarComprasCliente", new { page = pageNumber - 1 })">Anterior</a>
+                        </li>
+
+                        @if (totalPages > 5)
+                        {
+                            <li class="page-item @(pageNumber == 1 ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("ListarComprasCliente", new { page = 1 })">1</a>
+                            </li>
+
+                            if (pageNumber > 3)
+                            {
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            }
+
+                            for (int i = Math.Max(2, pageNumber - 2); i <= Math.Min(totalPages - 1, pageNumber + 2); i++)
+                            {
+                                <li class="page-item @(i == pageNumber ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("ListarComprasCliente", new { page = i })">@i</a>
+                                </li>
+                            }
+
+                            if (pageNumber < totalPages - 2)
+                            {
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            }
+
+                            <li class="page-item @(pageNumber == totalPages ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("ListarComprasCliente", new { page = totalPages })">@totalPages</a>
+                            </li>
+                        }
+                        else
+                        {
+                            for (int i = 1; i <= totalPages; i++)
+                            {
+                                <li class="page-item @(i == pageNumber ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("ListarComprasCliente", new { page = i })">@i</a>
+                                </li>
+                            }
+                        }
+
+                        <li class="page-item @(pageNumber == totalPages ? "disabled" : "")">
+                            <a class="page-link" href="@Url.Action("ListarComprasCliente", new { page = pageNumber + 1 })">Siguiente</a>
+                        </li>
+                    </ul>
+                </nav>
+
+
 
             }
             else
-            {  
-                    <div class="row mb-3">
-                        <div class="col-sm-12 text-center">
-                            <h1>
-                                No Se Encontraron Registros de Compras
-                            </h1>
-                        </div>
+            {
+                <div class="row mb-3">
+                    <div class="col-sm-12 text-center">
+                        <h1>
+                            No Se Encontraron Registros de Compras
+                        </h1>
                     </div>
-
-
+                </div>
             }
 
-            }
-
-        </div>
-
+        }
 
     </div>
-
-
 </div>
-

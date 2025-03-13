@@ -15,7 +15,7 @@ using System.Web.Mvc;
 namespace CapaPresentacionCliente.Controllers
 {
     public class TiendaController : Controller
-    { 
+    {
 
         //Vista de incio que carga los productos del catalogo de la base de datos 
         public ActionResult Index()
@@ -84,15 +84,15 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
-
-        //Metodo para listar Productos en base a una categoria y marca seleccionada
+        // Método para listar productos con paginación
         [HttpPost]
-        public JsonResult ListarProductos(int idcategoria, int idMarca)
+        public JsonResult ListarProductos(int idcategoria, int idMarca, int pageNumber = 1, int pageSize = 8)
         {
             List<Producto> lista = new List<Producto>();
 
             bool conversion;
 
+            // Lista los productos filtrados por categoría y marca
             lista = new CNProducto().ListarProductos().Select(p => new Producto()
             {
                 id_Producto = p.id_Producto,
@@ -110,14 +110,21 @@ namespace CapaPresentacionCliente.Controllers
                 p.objCategoria.id_Categoria == (idcategoria == 0 ? p.objCategoria.id_Categoria : idcategoria) &&
                 p.objMarca.id_Marca == (idMarca == 0 ? p.objMarca.id_Marca : idMarca) &&
                 p.Stock > 0 && p.Estado == true
-            ).ToList();
+            ).Skip((pageNumber - 1) * pageSize) // Salta los productos de las páginas anteriores
+             .Take(pageSize) // Toma solo la cantidad de productos de la página actual
+             .ToList();
 
-            var jsonResult = Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+            // Obtén el total de productos para la paginación
+            var totalProductos = new CNProducto().ListarProductos().Where(p =>
+                p.objCategoria.id_Categoria == (idcategoria == 0 ? p.objCategoria.id_Categoria : idcategoria) &&
+                p.objMarca.id_Marca == (idMarca == 0 ? p.objMarca.id_Marca : idMarca) &&
+                p.Stock > 0 && p.Estado == true
+            ).Count();
+
+            var jsonResult = Json(new { data = lista, total = totalProductos }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
-
         }
-
 
         //metodo para agregar al carrito
         [HttpPost]
@@ -374,35 +381,36 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
-
-
-        //metodo para el hsitorial de compras del cliente
         [AuthFilter]
-        public ActionResult ListarComprasCliente() //funcion o controlador que llama al historial de compras del cliente
+        public ActionResult ListarComprasCliente(int page = 1)
         {
+            int pageSize = 2; // Cantidad de registros por página
             int idCliente = ((Cliente)Session["UsuarioCliente"]).id_Cliente;
 
-            List<Detalle_Venta> lista = new List<Detalle_Venta>();
-
-            bool conversion;
-
-            lista = new CNVenta().ListarCompras(idCliente).Select(oc => new Detalle_Venta()
+            List<Detalle_Venta> lista = new CNVenta().ListarCompras(idCliente).Select(oc => new Detalle_Venta()
             {
                 objProducto = new Producto()
                 {
-
                     Nombre = oc.objProducto.Nombre,
                     Precio = oc.objProducto.Precio,
-                    Base64 = Recursos.convertirBase64(Path.Combine(oc.objProducto.RutaImagen, oc.objProducto.NombreImagen), out conversion),
+                    Base64 = Recursos.convertirBase64(Path.Combine(oc.objProducto.RutaImagen, oc.objProducto.NombreImagen), out bool conversion),
                     Extension = Path.GetExtension(oc.objProducto.NombreImagen)
                 },
                 Cantidad = oc.Cantidad,
                 Total = oc.Total,
                 NumeroTransaccion = oc.NumeroTransaccion,
-            }).ToList();
+                FechaVenta = oc.FechaVenta
+            }).OrderByDescending(x => x.FechaVenta).ToList();
 
-            return View(lista); //devolviendo lista de productos comprados por un cliente
+            int totalItems = lista.Count;
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            var paginatedList = lista.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewBag.PageNumber = page;
+            ViewBag.TotalPages = totalPages;
+
+            return View(paginatedList);
         }
-
     }
 }

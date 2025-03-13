@@ -1,14 +1,12 @@
-﻿ 
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Catalogo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <!-- Header-->
-<header class="bg-dark py-5">
+<header class="bg-black py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">COMPRA EN COMPUSTORE</h1>
+            <h1 class="display-4 fw-bolder">SOMOS  CompuStore</h1>
             <p class="lead fw-normal text-white-50 mb-0"> TECNOLOGIA EN TUS MANOS</p>
         </div>
     </div>
@@ -18,7 +16,25 @@
     .cursor-pointer {
         cursor: pointer;
     }
+    #paginador {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 485px; 
+    }
 
+    #paginador .page-item {
+        margin-right: 5px; /* Agrega un pequeño margen entre los botones */
+    }
+
+    #paginador .page-link {
+        color: black !important; /* Establece el color del texto a negro */
+    }
+
+    #paginador .page-item .active {
+        background-color: black; /* Fondo negro */
+        color: white !important; /* Texto blanco */
+    }
 </style>
 
 <!--SECCION DE PRODUCTOS, CATEGORIAS Y MARCAS -->
@@ -33,7 +49,7 @@
                     <div class="col-sm-12">
                         <!--SECCION DE CATEGORIAS -->
                         <div class="card">
-                            <div class="card-header bg-dark text-white">
+                            <div class="card-header bg-black text-white">
                                 CATEGORIAS
                             </div>
                             <div id="contenedor_categ" class="card-body">
@@ -48,12 +64,11 @@
 
                 </div>
 
-
                 <div class="row mb-3">
                     <div class="col-sm-12">
                         <!--SECCION DE MARCAS -->
                         <div class="card">
-                            <div class="card-header bg-dark text-white">
+                            <div class="card-header bg-black text-white">
                                 MARCAS
                             </div>
 
@@ -67,7 +82,6 @@
 
 
                     </div>
-
                 </div>
 
                 <div class="row mb-3">
@@ -79,48 +93,7 @@
 
                         </div>
                     </div>
-
                 </div>
-
-
-                <div class="row mb-3">
-                    <div class="col-sm-12">
-                        <!--SECCION DE INFORMACION -->
-                        <div class="card">
-                            <div class="card-header bg-dark text-white">
-                                ENCUENTRANOS EN
-                            </div>
-
-                            <div id="contenedor" class="card-body">
-                                <!-- Icono de Facebook con redireccionamiento -->
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="fab fa-facebook fa-lg me-2"></i>
-                                    <a href="https://www.facebook.com/profile.php?id=100069170620924" target="_blank" class="text-dark">
-                                        Facebook
-                                    </a>
-
-                                </div>
-
-                                <!-- Icono de WhatsApp con número de teléfono -->
-                                <div class="d-flex align-items-center mb-3">
-                                    <i class="fab fa-whatsapp fa-lg me-2"></i>
-                                    <a href="https://api.whatsapp.com/send?phone=%2B50588647205&context=ARCDtEE495BXCVdLoGFf8U-ZVL5s-4RE8Z6a7yT7Bxp5tybnrQGYTS8ntcHJG3nIjq4zThXJy0aJahAcKjYV004KrhtNzcMgCLx7kM4e9B44QHwQYCvjAm3i5oTShrle-SHywbRVuhuBI-WGxp7WtXtASg&source=FB_Page&app=facebook&entry_point=page_cta&sfnsn=wa" target="_blank" class="text-dark">
-                                        WhatsApp
-                                    </a>
-                                </div>
-
-                                <!-- Icono de Ubicación -->
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-map-marker-alt fa-lg me-2"></i>
-                                    <a href="https://goo.gl/maps/tuUbicacionEnGoogleMaps" target="_blank" class="text-dark">
-                                        Ubicación
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <!--SECCION DE PRODUCTOS -->
@@ -147,7 +120,6 @@
                         </div>
                     </div>
 
-
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Sale badge-->
@@ -170,18 +142,24 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
+            <!--PAGINADOR-->
+            <nav aria-label="Page navigation example">
+                <ul id="paginador" class="pagination justify-content-center">
+                    <!-- Aquí se generarán los enlaces de paginación -->
+                </ul>
+            </nav>
         </div>
     </div>
 </section>
 
-
 @section scripts
 { 
 <script>
+
+    var currentPage = 1;  // Página actual
+    var pageSize = 8; // Tamaño de la página
 
 
         $(document).ready(function () {
@@ -240,7 +218,8 @@
             })
         }
 
-    //mostrando Marcas
+
+        //mostrando Marcas en el card
         function MostrarMarcas()
         {
             //obteniendo el id de la Categoria
@@ -264,7 +243,6 @@
 
                         ).appendTo("#contenedor_marca")
 
-
                         //recorriendo cada elemento obtenido del response
                         $.each(response.data, function (i, element)
                         {
@@ -286,60 +264,117 @@
         }
 
 
+      //mostrando Marcas por categorias filtradas
       $(document).on("change", "input[name=categoria]", function () {
             MostrarMarcas();
       })
 
 
-      //meotodo para mostar Productos
-      function MostrarProductos(_idCategoria,_idMarca)
-      {
-             jQuery.ajax({
-                 url: "@Url.Action("ListarProductos","Tienda")",
-                 type: "POST",
-                 data: JSON.stringify({ idcategoria: _idCategoria, idMarca: _idMarca }),
-                 dataType: "json",
-                 contentType: "application/json; charset=utf-8",
-                 success: function (response)
-                 {
-                     $("#contenedorProductos").html("");
-                     $("#contenedorProductos").LoadingOverlay("hide");
+  // Método para mostrar los productos con paginación
+  function MostrarProductos(_idCategoria, _idMarca, pageNumber = 1) {
+       jQuery.ajax({
+                  url: "@Url.Action("ListarProductos", "Tienda")",
+                  type: "POST",
+                  data: JSON.stringify({ idcategoria: _idCategoria, idMarca: _idMarca, pageNumber: pageNumber, pageSize: pageSize }),
+                  dataType: "json",
+                  contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                   $("#contenedorProductos").html("");
+                   $("#contenedorProductos").LoadingOverlay("hide");
 
-                    $.each(response.data, function (i, element) {
-                       $("<div>").addClass("col mb-5").append(
-                          $("<div>").addClass("card h-100").append(
-                              $("<img>").addClass("card-img-top").attr({ "src": "data:image/" + element.Extension + ";base64," + element.Base64 }),
-                              $("<div>").addClass("card-body p-4").append(
-                                 $("<div>").addClass("text-center").append(
-                                 $("<h5>").addClass("fw-bolder").text(element.Nombre),
-                                     "$" + element.Precio.toFixed(2)
+                         $.each(response.data, function (i, element) {
+                             $("<div>").addClass("col mb-5").append(
+                                 $("<div>").addClass("card h-100").append(
+                                     $("<img>").addClass("card-img-top").attr({ "src": "data:image/" + element.Extension + ";base64," + element.Base64 }),
+                                     $("<div>").addClass("card-body p-4").append(
+                                         $("<div>").addClass("text-center").append(
+                                             $("<h5>").addClass("fw-bolder").text(element.Nombre),
+                                             "$" + element.Precio.toFixed(2)
+                                         )
+                                     ),
+                                     $("<div>").addClass("card-footer p-2 pt-0 border-top-0 bg-transparent").append(
+                                       $("<div>").addClass("d-grid gap-2").append(
+                                             @if (Session["UsuarioCliente"] != null) {
+                                                 @:$("<button>").addClass("btn btn-success w-100 mt-auto agregarcarrito").data("id_Producto", element.id_Producto).append($("<i>").addClass("fas fa-shopping-cart me-1"), "Add Carrito"),
+                                             }
+                                             $("<a>").addClass("btn btn-dark w-100 mt-auto")
+                                             .attr("href", '@Url.Action("DetalleProducto", "Tienda")' + '?id_Producto=' + element.id_Producto)
+                                             .append(
+                                              $("<i>").addClass("fas fa-eye me-2"),
+                                             "Ver Detalle"
+                                              )
 
-                                 )
-                              ),
-                              $("<div>").addClass("card-footer p-2 pt-0 border-top-0 bg-transparent").append(
-                                 $("<div>").addClass("d-grid gap-2").append(
-                                    @if (Session["UsuarioCliente"] != null)
-                                     {
-                                      @:$("<button>").addClass("btn btn-success w-100 mt-auto agregarcarrito").data("id_Producto", element.id_Producto).append($("<i>").addClass("fas fa-shopping-cart me-1"), "Add Carrito"),
-                                     }
-
-                                     $("<a>").addClass("btn btn-dark w-100 mt-auto").attr({ "href": "@Url.Action("DetalleProducto", "Tienda")" + "?id_Producto=" + element.id_Producto}).append(
-                                        $("<i>").addClass("fas fa-eye me-2"),
-                                        "Ver Detalle"
+                                       )
                                      )
                                  )
-                              )
-                          )
-                       ).appendTo("#contenedorProductos");
-                    });
-                 },
-                 beforeSend: function () {
-                     $("#contenedorProductos").LoadingOverlay("show");
-                 }
+                             ).appendTo("#contenedorProductos");
+                         });
 
-             })
+                         // Mostrar paginación
+                         var totalPages = Math.ceil(response.total / pageSize);
+                         mostrarPaginador(totalPages, pageNumber);
+            },
+           beforeSend: function () {
+             $("#contenedorProductos").LoadingOverlay("show");
+           }
+       });
+  }
 
-      }
+    function mostrarPaginador(totalPages, currentPage) {
+        var paginador = $("#paginador");
+        paginador.html(""); // Limpiar paginador actual
+
+        if (totalPages > 1) {
+            // Botón Anterior
+            var prevPageLink = $("<a>").addClass("page-link cursor-pointer btn-lg fs-5").text("Anterior").attr("href", "#");
+            if (currentPage === 1) {
+                prevPageLink.addClass("disabled");  // Deshabilitar si estamos en la primera página
+            } else {
+                prevPageLink.on("click", function (e) {
+                    e.preventDefault();
+                    currentPage--;
+                    MostrarProductos($("input[name=categoria]:checked").val(), $("input[name=marca]:checked").val(), currentPage);
+                });
+            }
+            paginador.append($("<li>").addClass("page-item").append(prevPageLink));
+
+            // Páginas numéricas
+            for (var i = 1; i <= totalPages; i++) {
+                var pageLink = $("<a>").addClass("page-link cursor-pointer btn-lg fs-5").text(i).attr("href", "#");
+                var pageItem = $("<li>").addClass("page-item");
+                if (i === currentPage) {
+                    pageLink.addClass("active");  // Añadir clase 'active' al número actual
+                }
+                pageLink.on("click", function (e) {
+                    e.preventDefault();
+                    currentPage = parseInt($(this).text());
+
+                    // Remover la clase 'active' de todos los elementos
+                    $(".page-item").removeClass("active");
+
+                    // Añadir la clase 'active' al número de página clickeado
+                    $(this).parent().addClass("active");
+
+                    MostrarProductos($("input[name=categoria]:checked").val(), $("input[name=marca]:checked").val(), currentPage);
+                });
+                pageItem.append(pageLink);
+                paginador.append(pageItem);
+            }
+
+            // Botón Siguiente
+            var nextPageLink = $("<a>").addClass("page-link cursor-pointer btn-lg fs-5").text("Siguiente").attr("href", "#");
+            if (currentPage === totalPages) {
+                nextPageLink.addClass("disabled");  // Deshabilitar si estamos en la última página
+            } else {
+                nextPageLink.on("click", function (e) {
+                    e.preventDefault();
+                    currentPage++;
+                    MostrarProductos($("input[name=categoria]:checked").val(), $("input[name=marca]:checked").val(), currentPage);
+                });
+            }
+            paginador.append($("<li>").addClass("page-item").append(nextPageLink));
+        }
+    }
 
       $("#btnFiltro").click(function ()
       {
@@ -350,7 +385,12 @@
         sessionStorage.setItem("categoria", _idCategoria);
         sessionStorage.setItem("marca", _idMarca);
 
-        MostrarProductos(_idCategoria, _idMarca)
+          MostrarProductos(_idCategoria, _idMarca)
+
+          // Restablecer la página actual a 1
+          currentPage = 1;
+          MostrarProductos(_idCategoria, _idMarca, currentPage);
+
 
       })
 
@@ -378,14 +418,11 @@
                             window.location.href = '@Url.Action("Carrito","Tienda")'
                         });
                     } else {
-                        
+
                         swal("", data.mensaje, "warning");
                     }
                 }
             });
        });
-
-
-</script>   
-
+    </script>   
 }

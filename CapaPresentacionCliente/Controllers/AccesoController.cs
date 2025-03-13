@@ -34,14 +34,11 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
-
-
         //metodo para que se registre el cliente
         [HttpPost]
         public ActionResult RegistrarCliente(Cliente obj)
         {
             int resultado;
-
             string mensaje = string.Empty;
 
             ViewData["Nombre"] = string.IsNullOrEmpty(obj.Nombre) ? "" : obj.Nombre;
@@ -53,22 +50,23 @@ namespace CapaPresentacionCliente.Controllers
                 ViewBag.Error = "Las Claves no coinciden";
                 return View();
             }
-
-            resultado = new CNCliente().Registrar(obj, out mensaje);
-
-            if (resultado > 0)
-            {
-                TempData["SuccessMessage"] = "Cuenta Creada Exitosamente";
-                return View();
-            }
             else
             {
-                ViewBag.Error = mensaje;
-                return View();
+                resultado = new CNCliente().Registrar(obj, out mensaje);
+
+                if (resultado > 0)
+                {
+                    TempData["SuccessMessage"] = "Cuenta Creada Exitosamente";
+                    return View();
+                }
+                else
+                {
+                    ViewBag.Error = mensaje;
+                    return View();
+                }
+
             }
         }
-
-
 
 
         //metodo de incio de sesion del cliente
@@ -108,8 +106,6 @@ namespace CapaPresentacionCliente.Controllers
             }
         }
 
-
-
         //metodo para Restablecer clave
         [HttpPost]
         public ActionResult RestablecerClaveCliente(string correo)
@@ -144,6 +140,7 @@ namespace CapaPresentacionCliente.Controllers
             }
 
         }
+
 
 
         //metodo para cambiar clave del cliente

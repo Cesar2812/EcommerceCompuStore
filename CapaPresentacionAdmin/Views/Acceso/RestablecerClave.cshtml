@@ -23,6 +23,21 @@
             border-radius: 8px;
         }
 
+        .btn-login {
+            background-color: #00415d;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px;
+            width: 35%;
+            border: none;
+            border-radius: 8px;
+        }
+
+            .btn-login:hover {
+                background-color: #00415d;
+                color: white;
+            }
+
     </style>
 </head>
 <body class="bg-dark-gray">
@@ -33,7 +48,8 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-5">
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4"> Recuperacion De Contraseña </h3></div>
+                                <div class="card-header">
+                                <h3 class="text-center my-4" style="color: #00415d;"> RECUPERACION DE CLAVE </h3></div>
                                 <div class="card-body">
                                     <div class="small mb-3 text-muted"> Ingrese su Correo y le enviaremos una nueva Contraseña.</div>
 
@@ -46,8 +62,10 @@
 
                                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                             <a class="small" href="@Url.Action("Index","Acceso")"> Regresar al Login </a>
-                                            <button class="btn btn-primary" type="submit" > Restablecer </button>
+                                            <button class="btn btn-login" type="submit"> Restablecer </button>
+                                            @*<button class="btn btn-primary" type="submit" > Restablecer </button>*@
                                         </div>
+
                                     </form>
 
                                 </div>

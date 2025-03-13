@@ -10,7 +10,7 @@ namespace CapaPresentacionAdmin.Controllers
 {
 
     public class AccesoController : Controller
-    {  
+    {
 
         // formulario de login
         public ActionResult Index()
@@ -67,7 +67,7 @@ namespace CapaPresentacionAdmin.Controllers
                 return RedirectToAction("Index", "Home");// entrando a la vista principal del panel
             }
 
-        } 
+        }
 
 
         //metodo Action para cambiar clave, cuando es primera vez que el usuario inicia sesion

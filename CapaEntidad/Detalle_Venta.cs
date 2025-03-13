@@ -1,4 +1,6 @@
-﻿namespace CapaEntidad
+﻿using System;
+
+namespace CapaEntidad
 {
     public class Detalle_Venta
     {
@@ -13,5 +15,7 @@
         public decimal Total { get; set; }
 
         public string NumeroTransaccion { get; set; }
+
+        public DateTime FechaVenta { get; set; }
     }
 }

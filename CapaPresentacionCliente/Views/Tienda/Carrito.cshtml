@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Carrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -176,13 +175,7 @@
                                          $("<button>").addClass("btn btn-outline-warning btn-eliminar d-flex justify-content-center align-items-center").css({ "width": "35px" }).append($("<i>").addClass("far fa-trash-alt")).data("idProducto", item.objProd.id_Producto),
 
                                      )
-
                                  )
-
-
-
-
-
                              )
 
                          )
@@ -210,7 +203,7 @@
      })
 
 
-        //funcion para listar los departamentos
+        //funcion para listar los departamentos y los municipios determinados
      function ListarDepartamentos()
      {
             $("<option>").attr({ "value": "00","disabled":"disabled","selected":"true"}).text("Seleccionar Departamento").appendTo("#comboDepartamento")

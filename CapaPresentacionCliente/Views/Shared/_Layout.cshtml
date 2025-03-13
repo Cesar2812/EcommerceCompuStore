@@ -8,9 +8,22 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     @Styles.Render("~/Content/css")
-    @*@Scripts.Render("~/bundles/modernizr")*@
+    <style>
+        /*ESTILOS DEL FOOTER*/
+        .dropdown-item:focus,
+        .dropdown-item:active {
+            background-color: transparent !important; 
+            color: inherit !important; 
+            outline: none !important; 
+            box-shadow: none !important; 
+        }
+
+        .dropdown-item.clicked {
+            color: black !important; 
+            font-weight: bold; 
+        }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -19,10 +32,11 @@
         <div class="container-fluid px-4">
             <a class="navbar-brand ps-3" href="@Url.Action("Index","Tienda")">
                 <div class="d-flex align-items-center">
-                    <img src="~/Content/images/LogoCompustore.png" alt="Logo" style="height: 60px; width: 160px; margin-right: 10px;">
+                    <img src="~/Content/images/LOGO.png" alt="Logo" style="height: 60px; width: 160px; margin-right: 10px;">
 
                 </div>
             </a>
+
 
             <!--MENU HAMBURGUESA-->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -30,24 +44,17 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Index","Tienda")">NUESTROS PRODUCTOS</a></li>
-                    @*<li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>*@
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Inicio","Tienda")">INCIO</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Nosotros","Tienda")">NOSOTROS</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Servicios","Tienda")">SERVICIOS</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Index","Tienda")">CATALOGO</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Ubicacion","Tienda")">UBICACION</a></li>
                 </ul>
-
 
                 <form class="d-flex">
                     @if (Session["UsuarioCliente"] == null)
                      {
-                        <a class="btn btn-outline-success" aria-current="page" href="@Url.Action("Index","Acceso")"><i class="fas fa-sign-out-alt me-1"></i>INICIAR SESION </a>
+                        <a class="btn btn-outline-dark" aria-current="page" href="@Url.Action("Index","Acceso")"><i class="fas fa-user me-1"></i>INICIAR SESION </a>
                      }
                     else
                     {
@@ -55,7 +62,7 @@
                         <a class="btn btn-outline-dark" href="@Url.Action("Carrito","Tienda")">
                             <i class="fas fa-shopping-cart me-1"></i>
                             Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="cantidadCarro">0</span>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="cantidadCarro"></span>
                         </a>
 
                         <!-- BARRA DE NAVEGACION DE LA DERECHA PARA LOS USUARIOS-->
@@ -64,7 +71,7 @@
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item"><b>@User.Identity.Name</b></a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("ListarComprasCliente","Tienda")">Mis Compras</a></li>
+                                    <li><a class="dropdown-item"id="misCompras" href="@Url.Action("ListarComprasCliente","Tienda")">Mis Compras</a></li>
                                     <li><hr class="dropdown-divider" /></li>
                                     <li>
                                         <a class="btn btn-danger text-white mx-auto" href="javascript:void(0);" onclick="confirmLogout();" style="width: 145px; padding: 0.345rem 0.60rem; border-radius: 0.25rem; text-align: center; display: block;">Cerrar Sesión</a>
@@ -79,8 +86,6 @@
         </div>
     </nav>
     <!--FIN DE LA BARRA DE NAVEGACION-->
-
-
     <!--SECCION DONDE SE RECARGAN LAS PAGINAS SECIONADAS-->
     @RenderBody()
     <!---------------------------------------->
@@ -90,12 +95,136 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
-<script>
+    <!--INICIO DEL FOOTER-->
+    <footer class="text-center text-lg-start text-white"
+            style="background-color: black">
+        <!-- SECCION REDES SOCIALES -->
+        <section class="d-flex justify-content-between p-4"
+                 style="background-color: black">
+            <!--TEXTO DE LA IZQUIERDA-->
+            <div class="me-5">
+                <span style="color: white;">ENCUENTRANOS EN NUESTRAS REDES SOCIALES:</span>
+            </div>
+            <!-- FIN DEL TEXTO DE LA IZQUIERDA-->
+            <!--ICONOS DE LA DERECHA-->
+            <div>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <!--FIN DE ICONOS DE LA DERECHA-->
+        </section>
+        <!--FINAL DE LA SECCION DE REDES SOCIALES-->
+        <!--SECCION DE LINKS Y LOGO-->
+        <section class="">
+            <div class="container text-center text-md-start mt-5">
+                <!-- GRID FILA-->
+                <div class="row mt-3">
+                    <!--GID COLUMNA-->
+
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!--CONTENIDO-->
+                        <img src="~/Content/images/LOGO.png" alt="Company Logo" style="height: 60px; width: 160px;">
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: white; height: 2px" />
+                        <p>
+                            Somos CompuStore la tienda lider en la Ciudad de Granada
+                            ofreciendoles todo tipo de productos tecnologicos y soporte a
+                            sus Equipos
+
+                        </p>
+                    </div>
+
+
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!--REDIRRECION A LOS CONTROLADORES-->
+                        <h6 class="text-uppercase fw-bold">NUESTRO SITIO</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: white; height: 2px" />
+                        <p>
+                            <a href="#!" class="text-white">Inicio</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Nosotros</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Servicios</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Catalogo</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Ubicacion</a>
+                        </p>
+                    </div>
+
+
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!--REDIRECCION AL INICIO DE SESION Y CRACION DE CUENTAS Y PAYPAL-->
+                        <h6 class="text-uppercase fw-bold">PARA TI</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: white; height: 2px" />
+                        <p>
+                            <a href="#!" class="text-white">Crear Cuenta</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Recuperar Contraseña</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Revisar Cuenta PayPal</a>
+                        </p>
+
+                    </div>
+
+                    <!--SECCION DE CONTACTOS-->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+                        <h6 class="text-uppercase fw-bold">CONTACTANOS</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: white; height: 2px" />
+                        <p style="display: flex; align-items: center;"><i class="fas fa-home mr-3"></i> Granada,Calle Real Xalteva,Frente a Farmacia Praga</p>
+                        <p style="display: flex; align-items: center;"><i class="fas fa-envelope mr-3"></i> compuStoregranada@gmail.com</p>
+                        <p style="display: flex; align-items: center;"><i class="fas fa-phone mr-3"></i> +505 78216684</p>
+
+                    </div>
+                    <!--FINAL DE LAS COLUMNAS-->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+
+        <!--SECCION DEL COPYRIGTH-->
+        <div class="text-center p-3"
+             style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2025 Copyright:
+            <a class="text-white" href="https://mdbootstrap.com/">  compuStoreGranada@gmail.com</a>
+        </div>
+        <!--FIN DEL COPYRIGHT-->
+    </footer>
+    <!--FIN DEL FOOTER -->
+
+  <script>
 
         $(document).ready(function () {
             MostrarCantidaCarrito();
         })
 
+        //metodo para cerrar sesion
         function confirmLogout() {
             Swal.fire({
                 position: "top-end",
@@ -119,6 +248,7 @@
         }
 
 
+        //funcion para mostrar la cantidad de productos en el carrito del cliente
         function MostrarCantidaCarrito()
         {
             if ($("#cantidadCarro").length > 0)
@@ -140,14 +270,15 @@
 
         }
 
-   document.addEventListener("DOMContentLoaded", function() {
+        //alert de bienvenida al cliente 
+      document.addEventListener("DOMContentLoaded", function() {
         // Verificar si existe un mensaje en TempData para mostrar la alerta
         @if (TempData["ClienteNombre"] != null)
          {
             <text>
             Swal.fire({
                 position: "top-end",
-                title: '¡Bienvenido a CompuStore! @TempData["ClienteNombre"]',
+                title: '¡Bienvenido a la Tienda CompuStore! @TempData["ClienteNombre"]',
                 icon: 'success',
                 customClass: {
                     popup: 'swal-border'
@@ -157,9 +288,12 @@
             });
             </text>
          }
-   });
+      });
 
+      document.getElementById("misCompras").addEventListener("click", function () {
+          this.classList.add("clicked");
+      });
 
-</script>
+  </script>
 </body>
 </html>

@@ -87,12 +87,11 @@ namespace CapaDatos
                                 },
                                 Cantidad = Convert.ToInt32(rdr["Cantidad"]),
                                 Total = Convert.ToDecimal(rdr["Total"], new CultureInfo("es-NI")),
-                                NumeroTransaccion = rdr["NumeroTransaccion"].ToString()
+                                NumeroTransaccion = rdr["NumeroTransaccion"].ToString(),
+                                FechaVenta = Convert.ToDateTime(rdr["FechaDeVenta"])
 
                             });
-
                         }
-
                     }
                 }
             }

@@ -12,7 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
-{ 
+{
     //se le aplica un filtro a todos los modulos o menus de la app del admin para que no se pueda accceder sin antes iniciar sesion
     [AuthFilter]
     public class CatalogosController : Controller

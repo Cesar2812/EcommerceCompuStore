@@ -149,14 +149,11 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\brands.css" />
     <Content Include="Content\brands.min.css" />
+    <Content Include="favicon.ico" />
     <Content Include="Content\fontawesome.css" />
     <Content Include="Content\fontawesome.min.css" />
-    <Content Include="Content\images\1500x844-tiendas-virtuales.jpg" />
-    <Content Include="Content\images\carro.png" />
-    <Content Include="Content\images\destacadaecommerce.jpg" />
-    <Content Include="Content\images\Ecoomerce.jpg" />
+    <Content Include="Content\images\LOGO.png" />
     <Content Include="Content\images\LogoCompustore.png" />
-    <Content Include="Content\images\tv1.jpg" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />
     <Content Include="Content\solid.css" />
@@ -167,7 +164,6 @@
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\v4-shims.css" />
     <Content Include="Content\v4-shims.min.css" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />

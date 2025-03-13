@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 <html>
@@ -25,6 +24,21 @@
             box-shadow: none; 
             border-radius: 8px;
         }
+
+        .btn-login {
+            background-color: #00415d;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px;
+            width: 35%;
+            border: none;
+            border-radius: 8px;
+        }
+
+            .btn-login:hover {
+                background-color: #00415d;
+                color: white;
+            }
     </style>
 
 </head>
@@ -38,7 +52,7 @@
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header text-center">
                                     <div class="logo-container">
-                                        <img src="~/Content/images/LogoCompustore.png" alt="Logo" class="mb-3" style="max-width: 100%; height: auto;" />
+                                        <img src="~/Content/images/LOGO.png" alt="Logo" class="mb-3" style="max-width: 82%; height: auto;" />
                                     </div>
                                 </div>
 
@@ -61,7 +75,8 @@
 
                                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                             <a class="small" href="@Url.Action("RestablecerClave","Acceso")">¿Has Olvidado Tu Contraseña?</a>
-                                            <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+                                            @*@<button type="submit" class="btn btn-primary">Iniciar Sesion</button>*@
+                                            <button class="btn btn-login" type="submit">Iniciar Sesion</button>
                                         </div>
                                     </form>
                                 </div>

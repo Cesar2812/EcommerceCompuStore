@@ -12,17 +12,22 @@ namespace CapaNegocio
     public class CNCliente
     {
         private CDCLiente objCapaDatoCliente = new CDCLiente();
+
+
+        //listando datos del cliente
+        public List<Cliente> ListarCliente()
+        {
+            return objCapaDatoCliente.ListarCliente();
+        }
+
         //metodo para registrar Cliente
         public int Registrar(Cliente objCliente, out string Mensaje)
         {
             Mensaje = string.Empty;
 
-            //validacion del nombre no sea vacion
-            //entonces
             if (string.IsNullOrEmpty(objCliente.Nombre) || string.IsNullOrWhiteSpace(objCliente.Nombre))
             {
                 Mensaje = "Es Necesario Ingresar su Nombre";
-
             }
             else if (string.IsNullOrEmpty(objCliente.Apellido) || string.IsNullOrWhiteSpace(objCliente.Apellido))
             {
@@ -31,16 +36,16 @@ namespace CapaNegocio
             else if (string.IsNullOrEmpty(objCliente.Correo) || string.IsNullOrWhiteSpace(objCliente.Correo))
             {
                 Mensaje = "Es Necesario Ingresar su Correo";
-
+            }
+            else if (string.IsNullOrEmpty(objCliente.Clave) || string.IsNullOrWhiteSpace(objCliente.Clave))
+            {
+                Mensaje = "La clave no puede estar vacía";
             }
 
-            //si cumple todo entonces
             if (string.IsNullOrEmpty(Mensaje))
             {
-                //encriptando clave con metodo realizado
                 objCliente.Clave = ConvertirSha256(objCliente.Clave);
-                return objCapaDatoCliente.RegistrarCliente(objCliente, out Mensaje);//pasando el sp a la capa de negocio
-
+                return objCapaDatoCliente.RegistrarCliente(objCliente, out Mensaje);
             }
             else
             {
@@ -48,18 +53,16 @@ namespace CapaNegocio
             }
         }
 
-        //listando datos del cliente
-        public List<Cliente> ListarCliente()
-        {
-            return objCapaDatoCliente.ListarCliente();
-        }
-
 
         //metodo para encriptar la clave
         public static string ConvertirSha256(string texto)
         {
-            StringBuilder Sb = new StringBuilder();
+            if (string.IsNullOrEmpty(texto) || string.IsNullOrWhiteSpace(texto))
+            {
+                throw new ArgumentException("La clave no puede estar vacía");
+            }
 
+            StringBuilder Sb = new StringBuilder();
             using (SHA256 hash = SHA256Managed.Create())
             {
                 Encoding enc = Encoding.UTF8;
@@ -67,18 +70,18 @@ namespace CapaNegocio
                 foreach (byte b in result)
                 {
                     Sb.Append(b.ToString("x2"));
-
                 }
             }
-
             return Sb.ToString();
         }
+
 
         //metodo para cambiarCalve
         public bool CambiarClave(int idCliente, string nuevaClave, out string Mensaje)
         {
             return objCapaDatoCliente.CambiarClave(idCliente, nuevaClave, out Mensaje);
         }
+
 
         //Metodo para restablecer la clave
         public bool RestablecerClave(int idCliente, string correo, out string Mensaje)
@@ -117,6 +120,7 @@ namespace CapaNegocio
             }
         }
 
+
         //metodo para enviar correo al cliente para restablecer la clave
         public static bool EnviarCorreo(string correo, string asunto, string mensaje)
         {
@@ -151,6 +155,7 @@ namespace CapaNegocio
 
             return resultado;
         }
+
 
         public static string GenerarClave()
         {

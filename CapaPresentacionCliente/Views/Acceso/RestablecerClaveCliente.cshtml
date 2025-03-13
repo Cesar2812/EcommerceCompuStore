@@ -1,43 +1,94 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>RestablecerClaveCliente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recuperar Clave</title>
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    @Styles.Render("~/Content/css")
     <style>
         body {
-            background-image: url('../Content/images/destacadaecommerce.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
+            padding-top: 50px;
+            background-color: none;
         }
 
-        .card {
-            background-color: rgba(255, 255, 255, 0.3);
-            opacity: 1;
+        .container {
+            margin-bottom: 50px;
         }
 
-        .card-header {
-            background-color: rgba(255, 255, 255, 0.3);
-            color: #000000;
+        .panel-login {
+            background-color: whitesmoke;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 2px 3px 0px rgba(0.5,0.5,0.5,0.5);
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
         }
 
-        .card-footer {
-            background-color: rgba(255, 255, 255, 0.3);
+        .panel-heading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #00415d;
+            margin-bottom: 20px;
+            gap: 2px;
+            flex-wrap: nowrap;
+            text-align: center;
         }
 
-        .custom-control-label {
-            color: #000000;
+            .panel-heading img {
+                max-width: 120px;
+                height: auto;
+            }
+
+            .panel-heading span {
+                white-space: nowrap;
+                font-size: 24px;
+                margin-left: 10px;
+            }
+
+        .panel-body .form-group input {
+            height: 45px;
+            border: 1px solid #ddd;
+            font-size: 16px;
         }
+
+        .btn-login {
+            background-color: #00415d;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+
+            .btn-login:hover {
+                background-color: #00415d;
+                color: white;
+            }
+
+        .btn-register {
+            background-color: #1CB94E;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+
+            .btn-register:hover {
+                background-color: #1CA347;
+            }
 
         .custom-alert {
             width: 350px;
@@ -45,87 +96,235 @@
             box-shadow: none;
             border-radius: 8px;
         }
-    </style>
 
+        .form-group.remember {
+            display: flex;
+            align-items: center;
+        }
+
+            .form-group.remember label {
+                margin-left: 10px;
+                font-size: 16px;
+            }
+
+        .password-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+            .password-container input {
+                width: 100%;
+                padding-right: 40px;
+            }
+
+            .password-container .toggle-password {
+                position: absolute;
+                right: 10px;
+                cursor: pointer;
+            }
+    </style>
 </head>
 <body>
-    <div id="layoutAuthentication">
-        <div id="layoutAuthentication_content">
-            <main>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="panel panel-login">
 
-                                <div class="card-header"><h3 class="text-center font-weight-light my-8">RECUPERACION DE CLAVE</h3></div>
-                                <div class="card-body">
+                    <div class="panel-heading">
+                        <img src="../Content/images/logo.png" alt="Logo">
+                        <span> RECUPERAR CONTRASEÑA </span>
+                    </div>
 
-                                    <form class="user" action="@Url.Action("RestablecerClaveCliente","Acceso")" method="post">
+                    <div class="panel-body">
+                        <form class="user" action="@Url.Action("RestablecerClaveCliente","Acceso")" method="post">
 
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                   name="correo" aria-describedby="emailHelp"
-                                                   placeholder="Enter Email Address...">
-                                        </div>
-
-                                        <button  class="btn btn-primary btn-user btn-block" type="submit">
-                                            Recuperar Contraseña
-                                        </button>
-
-                                    </form>
-
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="@Url.Action("Index","Acceso")">Regresar al login !</a>
-                                    </div>
-
-                                </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control form-control-user"
+                                       name="correo" aria-describedby="emailHelp"
+                                       placeholder="Correo Electronico">
                             </div>
+
+                            <button class="btn btn-login" type="submit"> Recuperar Contraseña</button>
+
+
+                        </form>
+
+                        <div class="panel-footer text-center">
+                            <a href="@Url.Action("Index","Acceso")"> ¡Regrese Al Login!</a><br>
                         </div>
+
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
     </div>
+
+    <!--INICIO DEL FOOTER-->
+    <footer class="text-center text-lg-start text-white"
+            style="background-color: black">
+        <!-- SECCION REDES SOCIALES -->
+        <section class="d-flex justify-content-between p-4"
+                 style="background-color: black">
+            <!--TEXTO DE LA IZQUIERDA-->
+            <div class="me-5">
+                <span style="color: white;">ENCUENTRANOS EN NUESTRAS REDES SOCIALES:</span>
+            </div>
+            <!-- FIN DEL TEXTO DE LA IZQUIERDA-->
+            <!--ICONOS DE LA DERECHA-->
+            <div>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="" class="text-white me-4">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <!--FIN DE ICONOS DE LA DERECHA-->
+        </section>
+        <!--FINAL DE LA SECCION DE REDES SOCIALES-->
+        <!--SECCION DE LINKS Y LOGO-->
+        <section class="">
+            <div class="container text-center text-md-start mt-5">
+                <!-- GRID FILA-->
+                <div class="row mt-3">
+                    <!--GID COLUMNA-->
+
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!--CONTENIDO-->
+                        <img src="~/Content/images/LOGO.png" alt="Company Logo" style="height: 60px; width: 160px;">
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: white; height: 2px" />
+                        <p>
+                            Somos CompuStore la tienda lider en la Ciudad de Granada
+                            ofreciendoles todo tipo de productos tecnologicos y soporte a
+                            sus Equipos
+
+                        </p>
+                    </div>
+
+
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!--REDIRRECION A LOS CONTROLADORES-->
+                        <h6 class="text-uppercase fw-bold">NUESTRO SITIO</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: white; height: 2px" />
+                        <p>
+                            <a href="#!" class="text-white">Inicio</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Nosotros</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Servicios</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Catalogo</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Ubicacion</a>
+                        </p>
+                    </div>
+
+
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!--REDIRECCION AL INICIO DE SESION Y CRACION DE CUENTAS Y PAYPAL-->
+                        <h6 class="text-uppercase fw-bold">PARA TI</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: white; height: 2px" />
+                        <p>
+                            <a href="#!" class="text-white">Crear Cuenta</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Recuperar Contraseña</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-white">Revisar Cuenta PayPal</a>
+                        </p>
+
+                    </div>
+
+                    <!--SECCION DE CONTACTOS-->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+                        <h6 class="text-uppercase fw-bold">CONTACTANOS</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: white; height: 2px" />
+                        <p style="display: flex; align-items: center;"><i class="fas fa-home mr-3"></i> Granada,Calle Real Xalteva,Frente a Farmacia Praga</p>
+                        <p style="display: flex; align-items: center;"><i class="fas fa-envelope mr-3"></i> compuStoregranada@gmail.com</p>
+                        <p style="display: flex; align-items: center;"><i class="fas fa-phone mr-3"></i> +505 78216684</p>
+
+                    </div>
+                    <!--FINAL DE LAS COLUMNAS-->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+
+        <!--SECCION DEL COPYRIGTH-->
+        <div class="text-center p-3"
+             style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2025 Copyright:
+            <a class="text-white" href="https://mdbootstrap.com/">  compuStoreGranada@gmail.com</a>
+        </div>
+        <!--FIN DEL COPYRIGHT-->
+    </footer>
+    <!--FIN DEL FOOTER -->
+
+
     <script src="~/Scripts/bootstrap.bundle.js"></script>
+
     <script>
 
-    @if (ViewBag.Error != null)
-     {
-    <text>
-         Swal.fire({
-         position: "top-end",
-         icon: "error",
-         title: "@ViewBag.Error",
-         showConfirmButton: false,
-         timer: 1000,
-        customClass:
-        {
-          popup: 'custom-alert'
-        }
-         });
-    </text>
-     }
+        @if (ViewBag.Error != null)
+         {
+            <text>
+                 Swal.fire({
+                 position: "top-end",
+                 icon: "error",
+                 title: "@ViewBag.Error",
+                 showConfirmButton: false,
+                 timer: 1000,
+                customClass:
+                {
+                  popup: 'custom-alert'
+                }
+                 });
+            </text>
+         }
 
 
     //alert que se va a ejecutar cuando se cambie  de forma exitosa la clave redireccionar al fromulario de logueo
    @if (TempData["SuccessMessage"] != null)
-   {
-     <text>
-        Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Clave Recuperada Exitosamente",
-            showConfirmButton: false,
-            timer: 1500,
-            customClass: {
-                popup: 'custom-alert'
-            }
-        }).then((result) => {
-            window.location = '@Url.Action("Index", "Acceso")';
-        });
-      </text>
+    {
+         <text>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Clave Recuperada Exitosamente",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'custom-alert'
+                }
+            }).then((result) => {
+                window.location = '@Url.Action("Index", "Acceso")';
+            });
+          </text>
     }
     </script>
+
 </body>
 </html>
