@@ -44,17 +44,17 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Inicio","Tienda")">INCIO</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Inicio","Tienda")">INICIO</a></li>
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Nosotros","Tienda")">NOSOTROS</a></li>
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Servicios","Tienda")">SERVICIOS</a></li>
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Index","Tienda")">CATALOGO</a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Ubicacion","Tienda")">UBICACION</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Ubicacion","Tienda")">CONTACTOS</a></li>
                 </ul>
 
                 <form class="d-flex">
                     @if (Session["UsuarioCliente"] == null)
                      {
-                        <a class="btn btn-outline-dark" aria-current="page" href="@Url.Action("Index","Acceso")"><i class="fas fa-user me-1"></i>INICIAR SESION </a>
+                        <a class="btn btn-outline-dark" aria-current="page" href="@Url.Action("Index","Acceso")"><i class="fas fa-user me-1"></i> IDENTIFICATE </a>
                      }
                     else
                     {

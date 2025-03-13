@@ -2,7 +2,6 @@
     ViewBag.Title = "Carrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="container my-5">
     <div class="row">
         <div class="card">
@@ -12,10 +11,10 @@
                     <div class="col sm-9"> 
                         <div class="me-2">
                             <div class="d-flex justify-content-between">
-                                <h5 class="ms-2 mt-2">MIS PRODUCTOS A COMPRAR</h5>
+                                <h5 class="ms-2 mt-2">MIS PRODUCTOS</h5>
                                 <a class="btn btn-primary" href="@Url.Action("Index","Tienda")"><i class="fas fa-cart-plus"></i> Seguir Comprando</a>
                             </div>
-                            <hr class="mt-2 mb-2"/>
+                            <hr class="mt-2 mb-2" />
 
                             <div id="productos-carrito">
                                 <div class="card mb-2 card-producto">
@@ -53,7 +52,7 @@
                                                         <i class="fas fa-plus"></i>
                                                     </button>
 
-                                                    <button class="btn btn-outline-warning btn-eliminar d-flex justify-content-center align-items-center"style="width: 35px;">
+                                                    <button class="btn btn-outline-warning btn-eliminar d-flex justify-content-center align-items-center" style="width: 35px;">
                                                         <i class="far fa-trash-alt"></i>
                                                     </button>
                                                 </div>
@@ -63,13 +62,19 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
-
-                            <div class="d-flex justify-content-end">
-                                <label class="align-self-center"><b>TOTAL $ <span id="Total">500</span></b></label>
                             </div>
 
+                            <div class="d-flex justify-content-end">
+                                <label class="align-self-center"><b>SUB-TOTAL:  C$ <span id="Total">500</span></b></label>
+                            </div>
 
+                            <div class="d-flex justify-content-end">
+                                <label class="align-self-center"><b>+ IVA  <span id="iva">15%</span></b></label>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <label class="align-self-center"><b>TOTAL:  C$ <span id="TotalmasIva">500</span></b></label>
+                            </div>
                         </div>
 
                     </div>
@@ -78,7 +83,7 @@
                     <div class="col sm-3">
                         <div class="card">
                             <div class="card-body bg-light">
-                                <h5 class="card-title"> DATOS DE LA VENTA Y DETALLE DE ENVIO</h5>
+                                <h5 class="card-title"> DATOS DE SU COMPRA Y DETALLE DEL ENVIO</h5>
                                 <form>
 
                                     <div class="mb-2">
@@ -117,12 +122,9 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -162,9 +164,22 @@
 
                                  //3
                                  $("<div>").addClass("col-sm-2 align-self-center").append(
-                                     $("<span>").text("$ "+item.objProd.Precio)
-
+                                     $("<span>").html(
+                                         "<div style='display: flex; align-items: center; margin-left: -10px;'>" +  // Ajuste a la izquierda
+                                         "<span style='margin-right: 5px;'>C$</span>" +
+                                         "<span>" +
+                                         item.objProd.Precio.toLocaleString("es-HN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+                                         "" +
+                                         "</span>" +
+                                         "</div>"
+                                     )
                                  ),
+
+
+                                
+
+
+
 
                                  //4
                                  $("<div>").addClass("col-sm-2 align-self-center").append(
@@ -272,23 +287,33 @@
 
      }
 
+
      //funcion para sumar los precios de los productos
      function sumarTotal() {
          var sumaTotal = parseFloat(0)
+         var sumaiva = parseFloat(0)
+
+         var SumaTotalIva = parseFloat(0)
 
          $("input.input-cantidad").each(function (i) {
              var precio = $(this).data("objProd").Precio;
              var cantidad = parseFloat($(this).val())
 
-             var subtotal = precio * cantidad;
+             var subtotal = precio * cantidad;// multiplicacion del precio por la cantidad
 
-             sumaTotal += subtotal;
+             sumaTotal += subtotal;//suma del subtotal(precio * cantidad)
 
+             sumaiva = sumaTotal * 0.15;//aplicacion del iva al total
 
+             SumaTotalIva = sumaTotal + sumaiva //suma del subtotal mas el iva aplicado
          })
 
-         $("#Total").text(sumaTotal.toFixed(2))
-         $("#Total").data("sumatotal", sumaTotal)// para enviarlo despues a la base de datos
+         
+         $("#Total").text(sumaTotal.toLocaleString("es-HN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
+         $("#Total").data("sumatotal", sumaTotal) // para enviarlo después a la base de datos
+         $("#TotalmasIva").text(SumaTotalIva.toLocaleString("es-HN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
+         $("#TotalmasIva").data("sumatotaliva", SumaTotalIva)// para enviarlo a la base de datos
+       
      }
 
 
@@ -502,16 +527,8 @@
 
                 $.LoadingOverlay("hide")
             }
-
-
         })
-
-
-
     }
-
-
-
-    </script> 
+ </script> 
 }
 
