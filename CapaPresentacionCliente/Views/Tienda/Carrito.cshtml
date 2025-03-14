@@ -112,8 +112,8 @@
                                     </div>
 
                                     <div class="d-grid">
-                                        <button class="btn btn-success" type="button" onclick="RealizarPago()">
-                                            <i class="fab fa-paypal"></i> TERMINAR Y PROCESAR EL PAGO
+                                        <button class="btn btn-warning" type="button" onclick="RealizarPago()">
+                                            <i class="fab fa-paypal"></i> PAGAR CON PAYPAL
 
                                         </button>
                                     </div>
@@ -272,12 +272,8 @@
                           })
 
                        }
-
-
                   }
-
            })
-
      }
 
 
@@ -353,9 +349,6 @@
                  $(btn).LoadingOverlay("hide")
 
              }
-
-
-
          })
      })
 
@@ -410,7 +403,6 @@
     })
 
 
-
     //metodo para eliminar producto del carrito
     $(document).on("click", ".btn-eliminar", function () {
         var idproducto = $(this).data("idProducto");
@@ -449,7 +441,6 @@
                 }
             });
     }); 
-
 
     //funcion para realizar pago mediante Paypal
     function RealizarPago() {
@@ -528,4 +519,3 @@
     }
  </script> 
 }
-

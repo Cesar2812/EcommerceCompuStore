@@ -306,13 +306,13 @@ namespace CapaPresentacionCliente.Controllers
                 amount = new Amount()
                 {
                     currency_code = "USD",
-                    value = TotalEnDolar.ToString("G", new CultureInfo("es-NI")),
+                    value = total.ToString("G", new CultureInfo("es-NI")),
                     breakdown = new Breakdown()
                     {
                         item_total = new ItemTotal()
                         {
                             currency_code = "USD",
-                            value = TotalEnDolar.ToString("G", new CultureInfo("es-NI")),
+                            value = total.ToString("G", new CultureInfo("es-NI")),
 
                         }
                     }
