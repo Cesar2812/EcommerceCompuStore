@@ -52,7 +52,7 @@
                                                         <i class="fas fa-plus"></i>
                                                     </button>
 
-                                                    <button class="btn btn-outline-warning btn-eliminar d-flex justify-content-center align-items-center" style="width: 35px;">
+                                                    <button class="btn btn-outline-danger btn-eliminar d-flex justify-content-center align-items-center" style="width: 35px;">
                                                         <i class="far fa-trash-alt"></i>
                                                     </button>
                                                 </div>
@@ -97,11 +97,6 @@
                                     </div>
 
                                     <div class="mb-2">
-                                        <label for="exampleInputEmail1" class="form-label"> Nombre Del Cliente o Contacto </label>
-                                        <input type="text" class="form-control form-control-sm" id="txtContacto" autocomplete="off" />
-                                    </div>
-
-                                    <div class="mb-2">
                                         <label for="exampleInputEmail1" class="form-label"> Direccion </label>
                                         <input type="text" class="form-control form-control-sm" id="txtDireccion" autocomplete="off" />
                                     </div>
@@ -113,9 +108,16 @@
 
                                     <div class="d-grid">
                                         <button class="btn btn-warning" type="button" onclick="RealizarPago()">
-                                            <i class="fab fa-paypal"></i> PAGAR CON PAYPAL
-
+                                            <img src="~/Content/images/Paypal-removebg-preview.png" alt="PayPal" width="110" height="30">
                                         </button>
+                                    </div>
+
+                                    <div class="d-grid" style="display: flex; align-items: center;margin-inline-start: 150px">
+                                        <img src="~/Content/images/Tarjetas.png" alt="PayPal" width="205" height="35" style="margin:0 0px">
+                                    </div>
+
+                                    <div class="d-grid" style="display: flex; align-items: center;margin-inline-start: 165px">
+                                        <span style="margin: 0 5px;">Tecnología de<img src="~/Content/images/Paypal-removebg-preview.png" alt="PayPal" width="80" style="margin: 0 ;"></span>
                                     </div>
 
                                 </form>
@@ -177,10 +179,10 @@
                                  //4
                                  $("<div>").addClass("col-sm-2 align-self-center").append(
                                      $("<div>").addClass("d-flex").append(
-                                         $("<button>").addClass("btn btn-danger btn-restar rounded-0").append($("<i>").addClass("fas fa-minus")),
+                                         $("<button>").addClass("btn btn-warning btn-restar rounded-0").append($("<i>").addClass("fas fa-minus")),
                                          $("<input>").addClass("form-control input-cantidad p-1 text-center rounded-0").attr({ "disabled": "disabled" }).css({ "width": "40px" }).data("objProd", item.objProd).val(item.Cantidad),
                                          $("<button>").addClass("btn btn-success btn-sumar rounded-0 me-1").append($("<i>").addClass("fas fa-plus")),
-                                         $("<button>").addClass("btn btn-outline-warning btn-eliminar d-flex justify-content-center align-items-center").css({ "width": "35px" }).append($("<i>").addClass("far fa-trash-alt")).data("idProducto", item.objProd.id_Producto),
+                                         $("<button>").addClass("btn btn-outline-danger btn-eliminar d-flex justify-content-center align-items-center").css({ "width": "35px" }).append($("<i>").addClass("far fa-trash-alt")).data("idProducto", item.objProd.id_Producto),
 
                                      )
                                  )
@@ -234,10 +236,7 @@
                         ListarMunicipio();
 
                     }
-
-
                 }
-
             })
 
      }
@@ -302,7 +301,8 @@
          $("#Total").data("sumatotal", sumaTotal) // para enviarlo después a la base de datos
          $("#TotalmasIva").text(SumaTotalIva.toLocaleString("es-HN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
          $("#TotalmasIva").data("sumatotaliva", SumaTotalIva)// para enviarlo a la base de datos
-       
+         $("#iva").text(sumaiva.toLocaleString("es-HN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))//cambiando el label del iva con el valor del calculo 
+         $("#iva").data("sumadeiva", sumaiva)
      }
 
 
@@ -442,6 +442,7 @@
             });
     }); 
 
+
     //funcion para realizar pago mediante Paypal
     function RealizarPago() {
 
@@ -460,7 +461,6 @@
         var Venta = {
             TotalProducto: $("input.input-cantidad").length,
             MontoTotal: 0,
-            Contacto: $("#txtContacto").val(),
             idMunicipio: $("#comboMunicipio").val(),
             Telefono: $("#txtTelefono").val(),
             Direccion: $("#txtDireccion").val(),
@@ -503,7 +503,7 @@
 
 
                 } else {
-                    swal("", "Vuelva a intenatrlo mas tarde", "warning");
+                    swal("", "Vuelva a intentarlo mas tarde", "warning");
                 }
             }, beforeSend: function ()
             {

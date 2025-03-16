@@ -2,6 +2,7 @@
 using CapaEntidad.Paypal;
 using CapaNegocio;
 using CapaPresentacionCliente.Filtros;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -259,6 +260,7 @@ namespace CapaPresentacionCliente.Controllers
             decimal totalIva = 0;
             decimal Total = 0;
             decimal TotalEnDolar = 0;
+            decimal tasaDolarPrecio = 0;
 
             DataTable detalle_Venta = new DataTable();
 
@@ -272,13 +274,24 @@ namespace CapaPresentacionCliente.Controllers
 
             //iterando la lista del carrito para pasarlo a PayPal junto con el precio 
             foreach (Cliente_Producto oCarrito in olistaCarrito)
-            {
-                decimal subTotal = Convert.ToDecimal(oCarrito.Cantidad.ToString()) * oCarrito.objProd.Precio;
+            {   
+                //tomando el valor del subtotal
+                decimal subTotal = Convert.ToDecimal(oCarrito.Cantidad.ToString()) * oCarrito.objProd.Precio;//multiplicando el precio por la cantidad
 
+                //SUMATORIAS DEL IVA AL PRECIO EN C$
                 total += subTotal;//subtotal sin iva
                 totalIva = Math.Round(total * 0.15m);//aplicandole el Iva al SubTotal
                 Total = Math.Round(total + totalIva);//sumandole la tasa de Iva al subTotal
-                TotalEnDolar = Math.Round(Total / tasadolar);
+
+
+                //CONVERSION DE LOS PRECIOS A DOLARES CON IVA 
+                decimal totalEndolarprecio = oCarrito.objProd.Precio / tasadolar; //convirtiendo a el precio en cordobas a dolar aqui sin iva
+                tasaDolarPrecio = (oCarrito.objProd.Precio * 0.15m) / tasadolar;//sacando el excedente de iba que es en cordobas a dolar 
+                decimal tota = Math.Round(totalEndolarprecio + tasaDolarPrecio);//aplicandole al precio en dolar el ecedente en dolares en iva de cordobas 
+
+
+                TotalEnDolar = Math.Round(Total / tasadolar);//convirtiendo el precio total con iva en dolar
+
 
                 olistaItem.Add(new Item()
                 {
@@ -287,10 +300,12 @@ namespace CapaPresentacionCliente.Controllers
                     unit_amount = new UnitAmount()
                     {
                         currency_code = "USD",
-                        value = oCarrito.objProd.Precio.ToString("G", new CultureInfo("es-NI")),
+                        value = tota.ToString("G", new CultureInfo("es-NI")),
                     }
 
                 });
+
+                
 
                 //almacennado el detalle de venta para que valla a la tabla detalle de la base de datos
                 detalle_Venta.Rows.Add(new object[]
@@ -306,13 +321,13 @@ namespace CapaPresentacionCliente.Controllers
                 amount = new Amount()
                 {
                     currency_code = "USD",
-                    value = total.ToString("G", new CultureInfo("es-NI")),
+                    value = TotalEnDolar.ToString("G", new CultureInfo("es-NI")),
                     breakdown = new Breakdown()
                     {
                         item_total = new ItemTotal()
                         {
                             currency_code = "USD",
-                            value = total.ToString("G", new CultureInfo("es-NI")),
+                            value = TotalEnDolar.ToString("G", new CultureInfo("es-NI")),
 
                         }
                     }
@@ -320,6 +335,7 @@ namespace CapaPresentacionCliente.Controllers
                 description = "Compra de Articulos de CompuStore",
                 items = olistaItem
             };
+
 
             checkout_order oChekckout = new checkout_order() //orden de pago
             {
@@ -338,8 +354,8 @@ namespace CapaPresentacionCliente.Controllers
                 }
             };
 
-            oVenta.MontoTotal = total;
-            oVenta.MontoTotalIva = Total;
+            oVenta.MontoTotal = total;//campo enviado a la base de datos
+            oVenta.MontoTotalIva = Total;//enviado a la base de datos
             oVenta.id_Cliente = ((Cliente)Session["UsuarioCliente"]).id_Cliente;
 
             TempData["Venta"] = oVenta;
@@ -349,13 +365,16 @@ namespace CapaPresentacionCliente.Controllers
             Response_Paypal<Response_checkout> response_paypal = new Response_Paypal<Response_checkout>();
             response_paypal = await opaypal.CrearSolicitud(oChekckout);
 
+            //para ver el string de datos que se pasan a Paypal
+            string jsonDebug = JsonConvert.SerializeObject(oChekckout, Formatting.Indented);
+            Console.WriteLine(jsonDebug);
 
             return Json(response_paypal, JsonRequestBehavior.AllowGet);
-
         }
 
 
 
+        //metodo de pago efectuado
         [AuthFilter]
         public async Task<ActionResult> PagoEfectuado() //metodo que llama a PayPal
         {
@@ -363,9 +382,6 @@ namespace CapaPresentacionCliente.Controllers
             CNPaypal paypall = new CNPaypal();
             Response_Paypal<Response_capture> response_paypal = new Response_Paypal<Response_capture>();
             response_paypal = await paypall.AprobarPago(token);
-
-
-
 
             ViewData["Status"] = response_paypal.Status;
 
@@ -385,6 +401,7 @@ namespace CapaPresentacionCliente.Controllers
 
             return View();
         }
+
 
         //controlador para listar las compras de un cliente 
         [AuthFilter]

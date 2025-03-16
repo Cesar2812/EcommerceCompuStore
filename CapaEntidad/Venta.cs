@@ -12,8 +12,6 @@ namespace CapaEntidad
 
         public decimal MontoTotal { get; set; }
 
-        public string Contacto { get; set; }
-
         public string idMunicipio { get; set; }
 
         public string Telefono { get; set; }
