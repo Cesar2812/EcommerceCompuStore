@@ -3,53 +3,262 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- About section two-->
+<!--HEADER CABEZERA CON ANUNCIO-->
+<header class="py-5 bg-black position-relative" style="background-image: url('/Content/images/ManosSobre Pc.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <div class="overlay"></div>
+    <div class="container px-5 position-relative z-index-1">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xxl-6">
+                <div class="text-center my-5">
+                    <h1 class="fw-bolder mb-3" style="color:white">¿Quieres saber que más te ofrecemos?</h1>
+                    <p class="lead fw-normal mb-4" style="color: #d3d3d3;">Consulta Nuestro Catalogo de Productos.</p>
+                    <!-- Botón con nuevo color -->
+                    <a class="btn btn-lg" style="background-color: rgb(0, 65, 93); color: white;" href="@Url.Action("Index", "Tienda")">Visitar Catalogo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!--SECCION DE MANTENIMIETO DE PC-->
 <section class="py-5">
     <div class="container px-5 my-5">
-        <div class="row gx-5 align-items-center">
-            <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0" src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
-            <div class="col-lg-6">
-                <h2 class="fw-bolder">MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE PC</h2>
-                <p class="lead fw-normal text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto est, ut esse a labore aliquam beatae expedita. Blanditiis impedit numquam libero molestiae et fugit cupiditate, quibusdam expedita, maiores eaque quisquam.</p>
+        <div class="row gx-5">
+            <!-- Sección del Acordeón -->
+            <div class="col-xl-6">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bolder">Mantenimiento De PC</h1>
+                </div>
+
+                <!-- FAQ Accordion -->
+
+                <div class="accordion mb-5" id="accordionExample1">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="headingOne1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne1">
+                                Saber Mas...
+                            </button>
+                        </h3>
+                        <div class="accordion-collapse collapse show" id="collapseOne1" aria-labelledby="headingOne1" data-bs-parent="#accordionExample1">
+                            <div class="accordion-body">
+                                Brindamos servicios de mantenimiento correctivo y preventivo a su PC, Cambio de pasta térmica y más.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Mantenimiento -->
+            <div class="col-xl-6">
+                <div class="d-flex align-items-center">
+                    <div class="text-center">
+                        <img class="img-fluid rounded mb-4" src="~/Content/images/portongamer-pasta-termica(1).png" alt="Mantenimiento de PC" />
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- About section one-->
-<section class="py-5 bg-light" id="scroll-target">
+<!--SECCION DE REPARACION DE PC-->
+<section class="py-5  bg-light">
     <div class="container px-5 my-5">
-        <div class="row gx-5 align-items-center">
-            <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0" src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
-            <div class="col-lg-6">
-                <h2 class="fw-bolder">REPARACION DE PC</h2>
-                <p class="lead fw-normal text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto est, ut esse a labore aliquam beatae expedita. Blanditiis impedit numquam libero molestiae et fugit cupiditate, quibusdam expedita, maiores eaque quisquam.</p>
+        <div class="row gx-5">
+            <!-- Sección del Acordeón -->
+            <div class="col-xl-6">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bolder">Reparacion De PC</h1>
+                </div>
+
+                <!-- FAQ Accordion -->
+
+                <div class="accordion mb-5" id="accordionExample2">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="headingOne2">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne2">
+                                Saber Mas...
+                            </button>
+                        </h3>
+                        <div class="accordion-collapse collapse show" id="collapseOne2" aria-labelledby="headingOne2" data-bs-parent="#accordionExample2">
+                            <div class="accordion-body">
+                                Ofrecemos reparacion a todo tipo de ordenadores Laptos y Desktop.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Mantenimiento -->
+            <div class="col-xl-6">
+                <div class="d-flex align-items-center">
+                    <div class="text-center">
+                        <img class="img-fluid rounded mb-4" src="~/Content/images/Reparación de Computadoras.jpg" alt="Reparacion de PC" />
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
+<!--SECCION DE MANTENIMIETO DE VIDEOCONSOLAS-->
 <section class="py-5">
     <div class="container px-5 my-5">
-        <div class="row gx-5 align-items-center">
-            <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0" src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
-            <div class="col-lg-6">
-                <h2 class="fw-bolder">MANTENIMIENTO DE CONSOLAS</h2>
-                <p class="lead fw-normal text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto est, ut esse a labore aliquam beatae expedita. Blanditiis impedit numquam libero molestiae et fugit cupiditate, quibusdam expedita, maiores eaque quisquam.</p>
+        <div class="row gx-5">
+            <!-- Sección del Acordeón -->
+            <div class="col-xl-6">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bolder">Mantenimiento De Consolas De Video</h1>
+                </div>
+
+                <!-- FAQ Accordion -->
+                <div class="accordion mb-5" id="accordionExample3">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="headingOne3">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne3" aria-expanded="true" aria-controls="collapseOne3">
+                                Saber Mas...
+                            </button>
+                        </h3>
+                        <div class="accordion-collapse collapse show" id="collapseOne3" aria-labelledby="headingOne3" data-bs-parent="#accordionExample3">
+                            <div class="accordion-body">
+                                Mantenimiento a Consolas de Videojuegos y Flaseho a los mismos.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Mantenimiento -->
+            <div class="col-xl-6">
+                <div class="d-flex align-items-center">
+                    <div class="text-center">
+                        <img class="img-fluid rounded mb-4" src="~/Content/images/playstation(1).png" alt="Mantenimiento de VideoConsolas" />
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- About section one-->
-<section class="py-5 bg-light" id="scroll-target">
+
+<!--SECCION DE REPARACION DE VIDEOCONSOLAS-->
+<section class="py-5  bg-light">
     <div class="container px-5 my-5">
-        <div class="row gx-5 align-items-center">
-            <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0" src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
-            <div class="col-lg-6">
-                <h2 class="fw-bolder">REPARACION DE CONSOLAS</h2>
-                <p class="lead fw-normal text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto est, ut esse a labore aliquam beatae expedita. Blanditiis impedit numquam libero molestiae et fugit cupiditate, quibusdam expedita, maiores eaque quisquam.</p>
+        <div class="row gx-5">
+            <!-- Sección del Acordeón -->
+            <div class="col-xl-6">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bolder">Reparacion De Consolas De Video</h1>
+                </div>
+
+                <!-- FAQ Accordion -->
+
+                <div class="accordion mb-5" id="accordionExample4">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="headingOne4">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne4" aria-expanded="true" aria-controls="collapseOne4">
+                                Saber Mas...
+                            </button>
+                        </h3>
+                        <div class="accordion-collapse collapse show" id="collapseOne4" aria-labelledby="headingOne4" data-bs-parent="#accordionExample4">
+                            <div class="accordion-body">
+                                Reparacion a consolas de todo tipo de Video Juegos.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Mantenimiento -->
+            <div class="col-xl-6">
+                <div class="d-flex align-items-center">
+                    <div class="text-center">
+                        <img class="img-fluid rounded mb-4" src="~/Content/images/foto_playstation2_1024x1024(1).png" alt="Reparacion de VideoConsolas" />
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+
+    .accordion-button {
+        background-color: white !important;
+        color: black !important;
+        transition: background-color 0.5s, opacity 0.5s;
+        font-size: 1.2rem;
+    }
+
+        .accordion-button:hover {
+            background-color: white !important;
+            color: black !important;
+            opacity: 0.8;
+        }
+
+        .accordion-button.active {
+            background-color: rgba(0, 0, 0, 0.1) !important;
+            color: black !important;
+        }
+
+    .accordion-body {
+        font-size: 1.1rem;
+    }
+
+
+
+
+    .bg-black {
+        position: relative;
+        min-height: 300px;
+        opacity: 0;
+        transition: opacity 1s ease-out; /* Transición de opacidad */
+    }
+
+        .bg-black.visible {
+            opacity: 1;
+        }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Opacidad de fondo */
+        z-index: 0;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Cerrar todos los acordeones excepto el primero
+        document.querySelectorAll(".accordion-collapse").forEach((el, index) => {
+            if (index !== 0) {
+                el.classList.remove("show");
+            }
+        });
+
+        // Asegurar que solo se abre uno a la vez los acordones
+        document.querySelectorAll(".accordion-button").forEach(button => {
+            button.addEventListener("click", function () {
+                let target = this.getAttribute("data-bs-target");
+                document.querySelectorAll(".accordion-collapse").forEach(el => {
+                    if ("#" + el.id !== target) {
+                        el.classList.remove("show");
+                    }
+                });
+            });
+        });
+    });
+
+
+    // Cuando se cargue la página, se agrega la clase 'visible' para activar la transición
+    window.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelector('.bg-black').classList.add('visible');
+    });
+</script>
