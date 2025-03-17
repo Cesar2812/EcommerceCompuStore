@@ -17,9 +17,32 @@ namespace CapaPresentacionCliente.Controllers
 {
     public class TiendaController : Controller
     {
+        //Vista de Inicio 
+        public ActionResult Inicio()
+        {
+            return View();
+        } 
 
-        //Vista de incio que carga los productos del catalogo de la base de datos 
+        //vista Nosotros
+        public ActionResult Nosotros()
+        {
+            return View();
+        } 
+
+        //vista servicios de la tienda
+        public ActionResult Servicios()
+        {
+            return View();
+        }
+
+        //Vista  que carga los productos del catalogo de la base de datos 
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        //vista de contactos de la tienda
+        public ActionResult Contactos()
         {
             return View();
         }
@@ -61,6 +84,11 @@ namespace CapaPresentacionCliente.Controllers
 
 
 
+
+        /// <summary>
+        /// //////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <returns></returns>
 
         //metodo para obtener Categorias en el CARD que permita buscar 
         [HttpGet]
@@ -274,7 +302,7 @@ namespace CapaPresentacionCliente.Controllers
 
             //iterando la lista del carrito para pasarlo a PayPal junto con el precio 
             foreach (Cliente_Producto oCarrito in olistaCarrito)
-            {   
+            {
                 //tomando el valor del subtotal
                 decimal subTotal = Convert.ToDecimal(oCarrito.Cantidad.ToString()) * oCarrito.objProd.Precio;//multiplicando el precio por la cantidad
 
@@ -305,7 +333,7 @@ namespace CapaPresentacionCliente.Controllers
 
                 });
 
-                
+
 
                 //almacennado el detalle de venta para que valla a la tabla detalle de la base de datos
                 detalle_Venta.Rows.Add(new object[]
@@ -421,7 +449,7 @@ namespace CapaPresentacionCliente.Controllers
                 },
                 Cantidad = oc.Cantidad,
                 Total = oc.Total,
-                TotalIVA= Math.Round(oc.Total + (oc.Total * 0.15m), 2),//calculando el IVA del Producto
+                TotalIVA = Math.Round(oc.Total + (oc.Total * 0.15m), 2),//calculando el IVA del Producto
                 NumeroTransaccion = oc.NumeroTransaccion,
                 FechaVenta = oc.FechaVenta
             }).OrderByDescending(x => x.FechaVenta).ToList();

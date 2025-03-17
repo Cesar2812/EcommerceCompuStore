@@ -149,8 +149,12 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\brands.css" />
     <Content Include="Content\brands.min.css" />
+    <Content Include="Content\images\50-regalos-tecnologicos-menos-50-euros_66f48ec1-427c-4de8-8828-8f1e406f88e6%281%29%281%29.png" />
+    <Content Include="Content\images\Celular-1-700x392.jpg" />
+    <Content Include="Content\images\hq720.jpg" />
     <Content Include="Content\images\Paypal-removebg-preview.png" />
     <Content Include="Content\images\Tarjetas.png" />
+    <Content Include="Content\images\xbox-one-x-consola-generacionxbox%283%29.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fontawesome.css" />
     <Content Include="Content\fontawesome.min.css" />
@@ -260,6 +264,10 @@
     <Content Include="Views\Tienda\Carrito.cshtml" />
     <Content Include="Views\Tienda\PagoEfectuado.cshtml" />
     <Content Include="Views\Tienda\ListarComprasCliente.cshtml" />
+    <Content Include="Views\Tienda\Inicio.cshtml" />
+    <Content Include="Views\Tienda\Nosotros.cshtml" />
+    <Content Include="Views\Tienda\Servicios.cshtml" />
+    <Content Include="Views\Tienda\Contactos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
