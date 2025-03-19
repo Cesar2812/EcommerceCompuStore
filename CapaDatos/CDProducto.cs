@@ -103,7 +103,8 @@ namespace CapaDatos
                 idautogenerado = 0;
                 Mensaje = ex.Message;
             }
-            return idautogenerado;
+            return idautogenerado; 
+            
         }
 
         //metodo para editar Producto

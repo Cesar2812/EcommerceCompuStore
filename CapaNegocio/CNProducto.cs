@@ -14,6 +14,7 @@ namespace CapaNegocio
             return objCapaProd.ListarProducto();
         }
 
+
         //metodo para registrar Productos
         public int RegistrarProducto(Producto obj, out string Mensaje)
         {
@@ -54,7 +55,8 @@ namespace CapaNegocio
             }
             else
             {
-                return 0;// si encuentra un error retorna 0
+                return 0;// si encuentra un error retorna 0 
+
             }
         }
 

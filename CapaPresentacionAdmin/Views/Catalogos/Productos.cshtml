@@ -157,9 +157,8 @@
     </div>
 </div>
 
-
 @section scripts{
-    <script>
+ <script>
 
         //evento para cargar imagen en la etiqueta img
         function mostrarImagen(input) {
@@ -495,6 +494,7 @@
             request.append("objeto", JSON.stringify(Producto))
             request.append("archivoImagen", imagenSeleccionada)
 
+
             //utilizando jquery para el post de insert al servidor
             jQuery.ajax({
                 url: '@Url.Action("GuardarProductos","Catalogos")', //pansandole la url del controlador
@@ -526,23 +526,23 @@
                             });
 
                         } else {
-                            $("mensajeError").text(data.mensaje);
-                            $("mensajeError").show();
+                            $("#mensajeError").text(data.Mensaje);
+                            $("#mensajeError").show();
                         }
                         
-                    } // si lo anterior no se cumple entonces va a editar
+                    } // si lo anterior no es  entonces va a editar
                     else {
                         if (data.operacionExitosa)
                         { 
                             Producto.Estado = 1
-                            //carga la tabla con el nuevo usuario editado
+                            //carga la tabla con el nuevo producto editado
                             tablaData.row(filaSeleccionada).data(Producto).draw(false);
                             filaSeleccionada = null;
                             $("#formModal").modal("hide");
                         }
                         else
                         {
-                            $("#mensajeError").text(data.mensaje);//mostrando el mensaje que viene de la base de datos
+                            $("#mensajeError").text(data.Mensaje);//mostrando el mensaje que viene de la base de datos
                             $("#mensajeError").show();
                             $(".modal-body").LoadingOverlay("hide");
                         }
@@ -565,6 +565,5 @@
                 }
             })
         }
-    </script>
+ </script>
 }
-
