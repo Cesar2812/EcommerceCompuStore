@@ -110,14 +110,14 @@
 @section scripts{
 <script>
 
-          var descripcion = $("#txtDescripcion").val();
+        var descripcion = $("#txtDescripcion").val();
 
         //funciones del formulario de categoria
         var tablaData;// variable que va a almacenar nuestro dataTable
-
         var filaSeleccionada;
 
-        //cargando data al dataTable
+
+        //cargando data de Categorias al dataTable
         tablaData = $("#tabla").DataTable({
 
             responsive: true,
@@ -159,8 +159,6 @@
 
         });
 
-
-
         //metodo para abrir formulario modal
         function abrirModal(json) {
             //al incio limpia los campos del formulario modal
@@ -198,7 +196,6 @@
 
         })
 
-
         //metodo para elimianar una categoria seleccionada
         $("#tabla tbody").on("click", ".btn-eliminar", function () {
 
@@ -227,8 +224,7 @@
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
-                        //console.log(data);
-                        if (data.resultado == false)
+                        if (data.resultado)
                         {
                             Swal.fire({
                                 position: "center",
@@ -240,21 +236,18 @@
                             tablaData.row(categoriaSeleccionada).remove().draw();//removiendo de la tabla
                         }else
                         {
-                            swal("No se pudo eliminar", data.mensaje, "error")
+                            swal("No se pudo eliminar", data.mensaje, "error");
                         }
                     },
                     error: function (error) {
                         console.log(error);
                     },
-                    beforeSend: function () {
-
-                    }
                 });
-                });
+            });
             console.log(data);
         })
 
-        //metodo para guardar o editar categoria
+        //metodo para guardar o editar categoria pasando el JSON
         function Guardar()
         {
             var Categoria = {
@@ -335,4 +328,3 @@
         }
 </script>
 }
-

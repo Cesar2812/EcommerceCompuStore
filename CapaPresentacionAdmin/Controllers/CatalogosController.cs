@@ -64,7 +64,6 @@ namespace CapaPresentacionAdmin.Controllers
             return Json(new { resultado = resultado, mensaje = Mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]//POST porque se envia el id para eliminar la categoria
         public JsonResult EliminarCategoria(int id)
         {
             bool respuesta = false;
@@ -93,6 +92,7 @@ namespace CapaPresentacionAdmin.Controllers
 
         }
 
+
         [HttpPost]//POST ya que es una peticion de insert hacia la base de datos
         public JsonResult GuardarMarcas(Marca objeto)
         {
@@ -110,7 +110,6 @@ namespace CapaPresentacionAdmin.Controllers
             return Json(new { resultado = resultado, mensaje = Mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]//POST porque se envia el id para eliminar la categoria
         public JsonResult EliminarMarca(int id)
         {
             bool respuesta = false;
@@ -123,6 +122,7 @@ namespace CapaPresentacionAdmin.Controllers
         }
         //---FIN DE LOS CONTROLADORES PARA MARCAS--------------------------------------------------
         #endregion
+
 
         //-----INICIO DE CONTROLADORES PARA PRODUCTOS-----
         #region Productos
@@ -239,6 +239,8 @@ namespace CapaPresentacionAdmin.Controllers
                 extension = Path.GetExtension(oprod.NombreImagen)
             }, JsonRequestBehavior.AllowGet);
         }
+
+
 
         //metodo de eliminarProducto
         public JsonResult EliminarProducto(int id)
