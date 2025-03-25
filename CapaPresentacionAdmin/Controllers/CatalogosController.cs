@@ -135,9 +135,6 @@ namespace CapaPresentacionAdmin.Controllers
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet);//metodo get porque agarra la data
         }
 
-
-
-
         //metodo para registrarProductos
         //metodo post porque es una peticion de insercion por parte del usuario hacia la Base De Datos
         [HttpPost]

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -447,7 +446,14 @@
                             tablaData.row(productoSeleccionado).remove().draw();//removiendo de la tabla
                         }else
                         {
-                            swal("No se pudo eliminar", data.mensaje, "error")
+                            Swal.fire({ 
+                                position: "center",
+                                icon: "error",
+                                text: data.mensaje,
+                                showConfirmButton: true,
+                                confirmButtonText: 'OK'
+                            });  
+                            //swal("No se pudo eliminar", data.mensaje, "error")
                         }
                     },
                     error: function (error) {
@@ -457,8 +463,6 @@
                 });
             console.log(data);
         })
-
-
 
         //metodo para guardar o editar Prodcuto
         function Guardar()

@@ -377,8 +377,8 @@ namespace CapaPresentacionCliente.Controllers
                     brand_name = "CompuStore.com",
                     landing_page = "NO_PREFERENCE",
                     user_action = "PAY_NOW",
-                    return_url = "https://localhost:44309/Tienda/PagoEfectuado", //hay que cambiar estas lineas para producccion, cambiar tambien el protocolo
-                    cancel_url = "https://localhost:44309/Tienda/Carrito"
+                    return_url = "http://192.168.19.227/Tienda/PagoEfectuado", //hay que cambiar estas lineas para producccion, cambiar tambien el protocolo
+                    cancel_url = "http://192.168.19.227/Tienda/Carrito"
                 }
             };
 
