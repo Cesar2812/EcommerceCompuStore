@@ -1,8 +1,202 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Nosotros";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<!--HEADER CABEZERA CON ANUNCIO-->
+<header class="py-5 bg-black position-relative" style="background-image: url('/Content/images/hábitos-de-emprendedores-con-éxito.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <div class="overlay"></div>
+    <div class="container px-5 position-relative z-index-1">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xxl-6">
+                <div class="text-center my-5">
+                    <h1 class="fw-bolder mb-3" style="color:white">¡Sobre Nosotros!</h1>
+                    <p class="lead fw-normal mb-4" style="color: #d3d3d3;">Nuestra Filosofia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
-<h2>Nosotros</h2>
 
+<!-- Seccion de Mision y Vision -->
+<section class="py-3 py-md-5 py-xl-8">
+    <div class="container overflow-hidden">
+        <div class="row gy-4 gy-lg-0">
+
+            <!-- Tarjeta Vision -->
+            <div class="col-12 col-lg-4 d-flex">
+                <article>
+                    <div class="card border-0 d-flex flex-column" style="min-height: 100%;">
+                        <img class="card-img-top img-fluid m-0" loading="lazy" src="~/Content/images/hombre-negocios-gran-oficina_53876-144319.jpg" alt="Our Vision">
+                        <div class="card-body border bg-white p-4">
+                            <div class="entry-header mb-3">
+                                <h2 class="card-title entry-title h4 mb-0">
+                                    <a class="link-dark text-decoration-none" href="#!">Vision</a>
+                                </h2>
+                            </div>
+                            <p class="card-text entry-summary text-secondary mb-3">Ser reconocidos en Granada y sus alrededores como la tienda de referencia para la compra de dispositivos electrónicos de última generación, donde la innovación y el servicio al cliente es fundamental. Aspiramos a crecer como un negocio comprometido con el desarrollo tecnológico de la región, mientras ampliamos nuestra presencia y alcance en el mercado nacional.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Tarjeta Mision -->
+            <div class="col-12 col-lg-4 d-flex">
+                <article>
+                    <div class="card border-0 d-flex flex-column" style="height: 100%;">
+                        <img class="card-img-top img-fluid m-0" loading="lazy" src="~/Content/images/vision-mision-y-valores-2.jpeg" alt="Our Approach">
+                        <div class="card-body border bg-white p-4 d-flex flex-column">
+                            <div class="entry-header mb-3">
+                                <h2 class="card-title entry-title h4 mb-0">
+                                    <a class="link-dark text-decoration-none" href="#!">Mision</a>
+                                </h2>
+                            </div>
+                            <p class="card-text entry-summary text-secondary mb-3 flex-grow-1">Nuestra misión es proveer dispositivos electrónicos en Granada, ofreciendo a nuestros clientes una experiencia de compra excepcional, donde la calidad, la innovación y el servicio personalizado se combinen para satisfacer las necesidades tecnológicas del presente. Nos esforzamos por brindar un catálogo diverso de productos de alta tecnología, respaldado por un equipo capacitado y siempre dispuesto a ofrecer asesoramiento y soluciones a medida.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+
+            <!-- Tarjeta Valores -->
+            <div class="col-12 col-lg-4 d-flex">
+                <article>
+                    <div class="card border-0 d-flex flex-column" style="min-height: 100%;">
+                        <img class="card-img-top img-fluid m-0" loading="lazy" src="~/Content/images/valores-corporativos-de-una-empresa.jpg" alt="Our Approach">
+                        <div class="card-body border bg-white p-4">
+                            <div class="entry-header mb-3">
+                                <h2 class="card-title entry-title h4 mb-0">
+                                    <a class="link-dark text-decoration-none" href="#!">Valores</a>
+                                </h2>
+                            </div>
+
+                            <ul class="text-secondary entry-summary mb-3">
+                                <li>
+                                    Innovación
+                                </li>
+                                <li>
+                                    Calidad
+                                </li>
+                                <li>
+                                    Confiabilidad
+                                </li>
+                                <li>
+                                    Servicio al cliente excepcional
+                                </li>
+                                <li>
+                                    Honestidad
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+        </div>
+    </div>
+</section> 
+
+@*<section class="py-1 py-md-3 py-xl-4 mt-n5">
+    <div class="container p-0">
+        <div class="card border-0 p-0">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="d-flex justify-content-center">
+                            <img src="~/Content/images/Celular-1-700x392.jpg" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                            <img src="~/Content/images/3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                            <img src="~/Content/images/3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                            <img src="~/Content/images/3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="d-flex justify-content-center">
+                            <img src="~/Content/images/Celular-1-700x392.jpg" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                            <img src="~/Content/images/3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                            <img src="~/Content/images/3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                            <img src="~/Content/images/3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="d-flex justify-content-center">
+                            <img src="~/Content/images/Celular-1-700x392.jpg" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                            <img src="~/Content/images/3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                            <img src="~/Content/images/3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                            <img src="~/Content/images/3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" class="d-block img-fluid object-fit-cover m-1" style="height: 178.5px; width: auto;" alt="...">
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>*@
+
+
+
+
+<style>
+
+    .bg-black {
+        position: relative;
+        min-height: 300px;
+        opacity: 0;
+        transition: opacity 1s ease-out;
+    }
+
+        .bg-black.visible {
+            opacity: 1;
+        }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 0;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Cerrar todos los acordeones excepto el primero
+        document.querySelectorAll(".accordion-collapse").forEach((el, index) => {
+            if (index !== 0) {
+                el.classList.remove("show");
+            }
+        });
+
+        // Asegurar que solo se abre uno a la vez los acordones
+        document.querySelectorAll(".accordion-button").forEach(button => {
+            button.addEventListener("click", function () {
+                let target = this.getAttribute("data-bs-target");
+                document.querySelectorAll(".accordion-collapse").forEach(el => {
+                    if ("#" + el.id !== target) {
+                        el.classList.remove("show");
+                    }
+                });
+            });
+        });
+    });
+
+
+    // Cuando se cargue la página, se agrega la clase 'visible' para activar la transición
+    window.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelector('.bg-black').classList.add('visible');
+    });
+</script>
