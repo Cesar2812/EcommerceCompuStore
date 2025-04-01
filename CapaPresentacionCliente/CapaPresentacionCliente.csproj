@@ -149,6 +149,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\brands.css" />
     <Content Include="Content\brands.min.css" />
+    <Content Include="Content\Estilo.css" />
     <Content Include="Content\images\3-Tecnologias-para-la-Gestion-de-Servicios-de-TI-scaled.png" />
     <Content Include="Content\images\Celular-1-700x392.jpg" />
     <Content Include="Content\images\curso-de-hardware-de-sistemas-pc.png" />
@@ -164,6 +165,7 @@
     <Content Include="Content\images\portongamer-pasta-termica%281%29.png" />
     <Content Include="Content\images\Reparación de Computadoras.jpg" />
     <Content Include="Content\images\Seguridad-informatica.jpg" />
+    <Content Include="Content\images\smartphone-mobile-computer.jpg" />
     <Content Include="Content\images\Tarjetas.png" />
     <Content Include="Content\images\valores-corporativos-de-una-empresa.jpg" />
     <Content Include="Content\images\vision-mision-y-valores-2.jpeg" />
