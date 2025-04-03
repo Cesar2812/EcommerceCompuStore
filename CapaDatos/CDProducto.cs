@@ -10,6 +10,7 @@ namespace CapaDatos
 {
     public class CDProducto
     {
+        SqlConnection conexion;
         //metodo para obtener la Lista de todos los productos
         public List<Producto> ListarProducto()
         {
@@ -18,7 +19,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     //creando un objeto string builder
                     StringBuilder sb = new StringBuilder();
@@ -62,6 +63,10 @@ namespace CapaDatos
             {
                 lista = new List<Producto>();// reinicia la lsta de productos
             }
+            finally
+            {
+                conexion.Close();
+            }
             return lista;
         }
 
@@ -73,7 +78,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     //mando el tipo de comando sql en este caso un sp
                     SqlCommand cmd = new SqlCommand("sp_RegistarProducto", conexion);
@@ -103,6 +108,10 @@ namespace CapaDatos
                 idautogenerado = 0;
                 Mensaje = ex.Message;
             }
+            finally
+            {
+                conexion.Close();
+            }
             return idautogenerado; 
             
         }
@@ -115,7 +124,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EditarProducto", conexion);
                     cmd.Parameters.AddWithValue("@id_Producto", objp.id_Producto);
@@ -144,6 +153,10 @@ namespace CapaDatos
                 resultado = false;
                 Mensaje = ex.Message;
             }
+            finally
+            {
+                conexion.Close();
+            }
             return resultado;
         }
 
@@ -155,7 +168,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     string consulta = " update Producto set RutaImagen=@rutaimagen, NombreImagen=@nombreimagen where id_Producto=@id_Producto";
                     SqlCommand cmd = new SqlCommand(consulta, conexion);
@@ -182,6 +195,10 @@ namespace CapaDatos
                 resultado = false;
                 Mensaje = ex.Message;
             }
+            finally
+            {
+                conexion.Close();
+            }
             return resultado;
         }
 
@@ -193,7 +210,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EliminarProducto", conexion);
                     cmd.Parameters.AddWithValue("@id_Producto", id);
@@ -211,6 +228,10 @@ namespace CapaDatos
             {
                 resultado = false;
                 Mensaje = ex.Message;
+            }
+            finally
+            {
+                conexion.Close();
             }
             return resultado;
         }

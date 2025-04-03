@@ -9,6 +9,8 @@ namespace CapaDatos
 {
     public class CDCliente_Producto
     {
+        SqlConnection conexion;
+
         //devuelve si un  producto existe dentro del carrito de un cliente
         public bool ExisteCarrito(int idCliente, int idProducto)
         {
@@ -16,7 +18,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_ExisteCarrito", conexion);
                     cmd.Parameters.AddWithValue("@idCliente", idCliente);
@@ -35,7 +37,10 @@ namespace CapaDatos
             catch
             {
                 resultado = false;
-
+            }
+            finally
+            {
+                conexion.Close();
             }
 
             return resultado;
@@ -49,7 +54,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_OperacionCarrito", conexion);
                     cmd.Parameters.AddWithValue("@idCliente", idCliente);
@@ -72,6 +77,10 @@ namespace CapaDatos
                 mensaje = ex.Message;
 
             }
+            finally
+            {
+                conexion.Close();
+            }
 
             return resultado;
         }
@@ -83,7 +92,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand cmd = new SqlCommand("select count(*) from Cliente_Producto where idCliente=@idCliente", conexion);
                     cmd.Parameters.AddWithValue("@idCliente", idCliente);
@@ -96,7 +105,10 @@ namespace CapaDatos
             catch
             {
                 resultado = 0;
-
+            }
+            finally
+            {
+                conexion.Close();
             }
             return resultado;
 
@@ -111,7 +123,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     string query = "select * from fn_obtenerCarritoCliente(@idCliente)";
                     SqlCommand cmd = new SqlCommand(query, conexion);
@@ -148,6 +160,10 @@ namespace CapaDatos
             {
                 lista = new List<Cliente_Producto>();// reinicia la lsta de productos del cliente
             }
+            finally
+            { 
+                conexion.Close(); 
+            }
             return lista;
         }
 
@@ -157,7 +173,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EliminarProductoCarrito", conexion);
                     cmd.Parameters.AddWithValue("@idCliente", idCliente);
@@ -177,6 +193,10 @@ namespace CapaDatos
             {
                 resultado = false;
 
+            }
+            finally
+            {
+                conexion.Close();
             }
 
             return resultado;

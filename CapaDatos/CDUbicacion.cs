@@ -7,13 +7,14 @@ namespace CapaDatos
 {
     public class CDUbicacion
     {
+        SqlConnection conexion;
         public List<Departamento> ObtenerDepartamento()
         {
 
             List<Departamento> lista = new List<Departamento>();
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
 
                     string consulta = "select * from Departamento";
@@ -47,6 +48,10 @@ namespace CapaDatos
 
                 lista = new List<Departamento>();
             }
+            finally
+            {
+                conexion.Close();
+            }
             return lista;
 
         }
@@ -58,7 +63,7 @@ namespace CapaDatos
             List<Municipio> lista = new List<Municipio>();
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
 
                     string consulta = "select * from Municipio where iddepartamento=@iddepartamento";
@@ -92,6 +97,10 @@ namespace CapaDatos
             {
 
                 lista = new List<Municipio>();
+            }
+            finally
+            {
+                conexion.Close();
             }
             return lista;
 

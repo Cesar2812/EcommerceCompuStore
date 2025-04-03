@@ -8,7 +8,8 @@ using System.Globalization;
 namespace CapaDatos
 {
     public class CDVenta
-    {
+    { 
+        SqlConnection conexion;
         public bool RegistrarVenta(Venta objVenta, DataTable Detalle_Venta, out string Mensaje)
         {
             bool respuesta = false;
@@ -16,7 +17,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarVenta", conexion);
                     cmd.Parameters.AddWithValue("@idCliente", objVenta.id_Cliente);
@@ -48,6 +49,10 @@ namespace CapaDatos
                 Mensaje = ex.Message;
 
             }
+            finally
+            {
+                conexion.Close();
+            }
             return respuesta;
 
         }
@@ -61,7 +66,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     string query = "select * from fn_ListarCompraCliente(@idCliente)";
                     SqlCommand cmd = new SqlCommand(query, conexion);
@@ -98,6 +103,10 @@ namespace CapaDatos
             catch
             {
                 lista = new List<Detalle_Venta>();
+            }
+            finally
+            {
+                conexion.Close();
             }
             return lista;
         }

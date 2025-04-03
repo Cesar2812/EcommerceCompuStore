@@ -8,7 +8,7 @@ namespace CapaDatos
 {
     public class CDCategorias
     {
-        SqlConnection conexion;
+        SqlConnection conexion;//variable global de conexion
         public List<Categoria> ListarCategorias()
         {
             List<Categoria> lista = new List<Categoria>();
@@ -52,7 +52,7 @@ namespace CapaDatos
             }
             finally
             {
-                conexion = new SqlConnection();
+                
                 conexion.Close();//cerrendo conexion para liberar recursos 
             }
             // retorna toda la lista de categoria
@@ -94,7 +94,7 @@ namespace CapaDatos
             }
             finally
             {
-                conexion = new SqlConnection();
+                
                 conexion.Close();
             }
             return idAutogenerado;
@@ -133,7 +133,7 @@ namespace CapaDatos
             }
             finally
             {
-                conexion = new SqlConnection();
+                
                 conexion.Close();
             }
 
@@ -170,7 +170,7 @@ namespace CapaDatos
             }
             finally
             {
-                conexion = new SqlConnection();
+                
                 conexion.Close();
             }
             return resultado;

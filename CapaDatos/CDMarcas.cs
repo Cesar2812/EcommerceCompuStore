@@ -9,6 +9,8 @@ namespace CapaDatos
 {
     public class CDMarcas
     {
+        SqlConnection conexion;
+
         //metodo para listar marcas 
         public List<Marca> ListarMarca()
         {
@@ -16,7 +18,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     string consulta = "select id_Marca,Descripcion,Estado  from Marca";
 
@@ -50,6 +52,10 @@ namespace CapaDatos
 
                 lista = new List<Marca>();
             }
+            finally
+            {  
+                conexion.Close();
+            }
             return lista;
 
         }
@@ -62,7 +68,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using ( conexion = new SqlConnection(Conexion.cn))
                 {
                     //le paso el sp
                     SqlCommand comando = new SqlCommand("sp_RegistrarMarca", conexion);
@@ -87,6 +93,10 @@ namespace CapaDatos
                 Mensaje = ex.Message;
                 idAutogenerado = 0;
             }
+            finally
+            {
+                conexion.Close();
+            }
             return idAutogenerado;
         }
 
@@ -98,7 +108,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand comando = new SqlCommand("sp_EditarMarca", conexion);
                     comando.Parameters.AddWithValue("@id_Marca", objMarca.id_Marca);
@@ -121,6 +131,10 @@ namespace CapaDatos
                 resultado = false;
                 Mensaje = ex.Message;
             }
+            finally
+            {
+                conexion.Close();
+            }
 
             return resultado;
         }
@@ -133,7 +147,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     SqlCommand comando = new SqlCommand("sp_EliminarMarca", conexion);
                     comando.Parameters.AddWithValue("@id_Marca", id);
@@ -153,6 +167,10 @@ namespace CapaDatos
                 resultado = false;
                 Mensaje = ex.Message;
             }
+            finally
+            {
+                conexion.Close();
+            }
             return (resultado);
 
         }
@@ -164,7 +182,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     StringBuilder sb = new StringBuilder();
 
@@ -204,6 +222,10 @@ namespace CapaDatos
             {
 
                 lista = new List<Marca>();
+            }
+            finally
+            {
+                conexion.Close();
             }
             return lista;
 

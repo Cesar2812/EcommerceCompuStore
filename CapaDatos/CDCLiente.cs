@@ -8,6 +8,7 @@ namespace CapaDatos
 {
     public class CDCLiente
     {
+        SqlConnection conexion;
         //Funcion para Registrar Cliente  devuelve un entero
         public int RegistrarCliente(Cliente objCliente, out string Mensaje)
         {
@@ -16,7 +17,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     //ejecuando el sp mediante sqlComand recibe el nombre del sp y la conexion y pasandole los valores
                     SqlCommand comando = new SqlCommand("sp_RegistrarCliente", conexion);
@@ -46,7 +47,10 @@ namespace CapaDatos
                 //reiniciando el id si ocurre error
                 idAutogenerado = 0;
                 Mensaje = ex.Message;
-
+            }
+            finally
+            {
+                conexion.Close();
             }
 
             return idAutogenerado;
@@ -65,7 +69,7 @@ namespace CapaDatos
                  en la cual se parametriza con la clase Conexion que contiene a la variable cn que tiene
                  nuestra cadena
                  */
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     //consulta a la base de datos a la tabla usuario
                     string consulta = "Select id_Cliente,Nombre,Apellido,Correo,Clave,Restablecer from Cliente";
@@ -113,6 +117,10 @@ namespace CapaDatos
                 //le voy a decir que si ocurre un problema reinicia la lista de forma vacia
                 lista = new List<Cliente>();
             }
+            finally
+            {
+                conexion.Close();
+            }
             return lista;
 
         }
@@ -124,7 +132,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     //pasando el id del usuario para CambiarLaClave
                     SqlCommand comando = new SqlCommand("update Cliente set Clave = @nuevaClave,Restablecer = 0 where id_Cliente = @idCliente", conexion);
@@ -141,6 +149,10 @@ namespace CapaDatos
                 Mensaje = ex.Message;
 
             }
+            finally
+            {
+                conexion.Close ();
+            }
             return resultado;
         }
 
@@ -151,7 +163,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     //pasando el id del usuario para Restablecer la clave
                     SqlCommand comando = new SqlCommand("update Cliente set Clave = @Clave,Restablecer = 1 where id_Cliente = @idCliente", conexion);
@@ -167,6 +179,10 @@ namespace CapaDatos
                 resultado = false;
                 Mensaje = ex.Message;
 
+            }
+            finally
+            {
+                conexion.Close ();
             }
             return resultado;
         }
