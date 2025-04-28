@@ -82,14 +82,6 @@ namespace CapaPresentacionCliente.Controllers
             return View(producto);
         }
 
-
-
-
-        /// <summary>
-        /// //////////////////////////////////////////////////////////////////////////////
-        /// </summary>
-        /// <returns></returns>
-
         //metodo para obtener Categorias en el CARD que permita buscar 
         [HttpGet]
         public JsonResult ListaCategorias()
