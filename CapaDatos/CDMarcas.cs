@@ -53,7 +53,7 @@ namespace CapaDatos
                 lista = new List<Marca>();
             }
             finally
-            {  
+            {
                 conexion.Close();
             }
             return lista;
@@ -68,7 +68,7 @@ namespace CapaDatos
 
             try
             {
-                using ( conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     //le paso el sp
                     SqlCommand comando = new SqlCommand("sp_RegistrarMarca", conexion);

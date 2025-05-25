@@ -11,13 +11,18 @@ namespace CapaNegocio
         public bool RegistrarVenta(Venta objVenta, DataTable Detalle_Venta, out string Mensaje)
         {
             return objCapaDatoVenta.RegistrarVenta(objVenta, Detalle_Venta, out Mensaje);
-
         }
 
         //listado de compras del cliente
         public List<Detalle_Venta> ListarCompras(int idCliente)
         {
             return objCapaDatoVenta.ListarCompras(idCliente);
+        }
+
+        //metodo de negocio que regresa los productos mas vendidos
+        public List<Detalle_Venta> ListarProductosMasVendidos()
+        {
+            return objCapaDatoVenta.ListarProductosMasVendidos();
         }
     }
 }

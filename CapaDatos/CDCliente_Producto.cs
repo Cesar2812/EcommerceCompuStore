@@ -161,8 +161,8 @@ namespace CapaDatos
                 lista = new List<Cliente_Producto>();// reinicia la lsta de productos del cliente
             }
             finally
-            { 
-                conexion.Close(); 
+            {
+                conexion.Close();
             }
             return lista;
         }

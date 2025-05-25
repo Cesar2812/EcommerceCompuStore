@@ -112,8 +112,8 @@ namespace CapaDatos
             {
                 conexion.Close();
             }
-            return idautogenerado; 
-            
+            return idautogenerado;
+
         }
 
         //metodo para editar Producto

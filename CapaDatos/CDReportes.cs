@@ -8,7 +8,7 @@ using System.Globalization;
 namespace CapaDatos
 {
     public class CDReportes
-    { 
+    {
         SqlConnection conexion;
         //metodo para que caregue la data en los card 
         public Reportes VerReporte()
@@ -58,7 +58,7 @@ namespace CapaDatos
             List<ReporteVentas> lista = new List<ReporteVentas>(); //creando una lista con los campos del reporte
             try
             {
-                using ( conexion = new SqlConnection(Conexion.cn))
+                using (conexion = new SqlConnection(Conexion.cn))
                 {
                     //ejecutando el sp
                     SqlCommand cmd = new SqlCommand("sp_ReporteVentas", conexion);

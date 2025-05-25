@@ -151,7 +151,7 @@ namespace CapaDatos
             }
             finally
             {
-                conexion.Close ();
+                conexion.Close();
             }
             return resultado;
         }
@@ -182,7 +182,7 @@ namespace CapaDatos
             }
             finally
             {
-                conexion.Close ();
+                conexion.Close();
             }
             return resultado;
         }

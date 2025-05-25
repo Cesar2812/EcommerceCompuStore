@@ -52,7 +52,7 @@ namespace CapaDatos
             }
             finally
             {
-                
+
                 conexion.Close();//cerrendo conexion para liberar recursos 
             }
             // retorna toda la lista de categoria
@@ -94,7 +94,7 @@ namespace CapaDatos
             }
             finally
             {
-                
+
                 conexion.Close();
             }
             return idAutogenerado;
@@ -103,7 +103,7 @@ namespace CapaDatos
         //metodo para editar Categoria
         public bool EditarCatgeoria(Categoria objCateg, out string Mensaje)
         {
-            bool resultado=false;
+            bool resultado = false;
             Mensaje = string.Empty;
 
             try
@@ -133,7 +133,7 @@ namespace CapaDatos
             }
             finally
             {
-                
+
                 conexion.Close();
             }
 
@@ -143,7 +143,7 @@ namespace CapaDatos
         //metodo para eilimnar Categoria
         public bool EliminarCategoria(int id, out string Mensaje)
         {
-            bool resultado=false;
+            bool resultado = false;
             Mensaje = string.Empty;
 
             try
@@ -170,7 +170,7 @@ namespace CapaDatos
             }
             finally
             {
-                
+
                 conexion.Close();
             }
             return resultado;

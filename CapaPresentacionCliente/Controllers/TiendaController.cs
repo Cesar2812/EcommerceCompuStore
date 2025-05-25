@@ -21,13 +21,13 @@ namespace CapaPresentacionCliente.Controllers
         public ActionResult Inicio()
         {
             return View();
-        } 
+        }
 
         //vista Nosotros
         public ActionResult Nosotros()
         {
             return View();
-        } 
+        }
 
         //vista servicios de la tienda
         public ActionResult Servicios()
@@ -105,7 +105,7 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
-        // Método para listar productos con paginación
+        // Método para listar productos con paginación en la vista de Catalogo
         [HttpPost]
         public JsonResult ListarProductos(int idcategoria, int idMarca, int pageNumber = 1, int pageSize = 8)
         {
@@ -147,6 +147,39 @@ namespace CapaPresentacionCliente.Controllers
             return jsonResult;
         }
 
+        //metodo para listar Productos mas vendidos
+        [HttpGet]
+        public JsonResult ListarProductosMasVendidos()
+        {
+            List<Detalle_Venta> lista = new List<Detalle_Venta>();
+
+            bool conversion;
+
+
+            lista = new CNVenta().ListarProductosMasVendidos().Select(pv => new Detalle_Venta()
+            {
+                objProducto = new Producto()
+                {
+                    id_Producto = pv.objProducto.id_Producto,
+                    Nombre = pv.objProducto.Nombre,
+                    objCategoria= new Categoria()
+                    {
+                        Descripcion=pv.objProducto.objCategoria.Descripcion,
+                    },
+                    Precio = pv.objProducto.Precio,
+                    Stock = pv.objProducto.Stock,
+                    RutaImagen = pv.objProducto.RutaImagen,
+                    Base64 = Recursos.convertirBase64(Path.Combine(pv.objProducto.RutaImagen, pv.objProducto.NombreImagen), out conversion),
+                    Extension = Path.GetExtension(pv.objProducto.NombreImagen),
+                },
+                TotalProductosVendidos = pv.TotalProductosVendidos
+            }).Where(pv =>
+                pv.objProducto.Stock > 0).ToList();
+
+            var jsonResult = Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+            return jsonResult;
+        }
+
         //metodo para agregar al carrito
         [HttpPost]
         public JsonResult AgregarAlCarrito(int idProducto)
@@ -171,7 +204,6 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
-
         //devuelve la cantidad de productos del cliente como Query al iniciar Sesion 
         [HttpGet]
         public JsonResult CantidadEnCarrito() //funcion que muestra o devuelve la cantidad de productos en el carrito por un cliente especifico en el inicio de sesion
@@ -180,8 +212,6 @@ namespace CapaPresentacionCliente.Controllers
             int cantidad = new CNCliente_Producto().CantidadEnCarrito(idCliente);
             return Json(new { cantidad = cantidad }, JsonRequestBehavior.AllowGet);
         }
-
-
 
         //metodo para listarlos productos en el carrito por parte de un cliente para hacer la compra
         [HttpPost]
@@ -369,8 +399,8 @@ namespace CapaPresentacionCliente.Controllers
                     brand_name = "CompuStore.com",
                     landing_page = "NO_PREFERENCE",
                     user_action = "PAY_NOW",
-                    return_url = "http://192.168.19.227/Tienda/PagoEfectuado", //hay que cambiar estas lineas para producccion, cambiar tambien el protocolo
-                    cancel_url = "http://192.168.19.227/Tienda/Carrito"
+                    return_url = "https://localhost:44309/Tienda/PagoEfectuado", //hay que cambiar estas lineas para producccion, cambiar tambien el protocolo
+                    cancel_url = "https://localhost:44309/Tienda/Carrito"
                 }
             };
 
@@ -421,7 +451,6 @@ namespace CapaPresentacionCliente.Controllers
 
             return View();
         }
-
 
         //controlador para listar las compras de un cliente 
         [AuthFilter]

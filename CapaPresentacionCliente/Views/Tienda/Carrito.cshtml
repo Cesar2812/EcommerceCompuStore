@@ -130,6 +130,7 @@
     </div>
 </div>
 
+
 @section scripts
 { 
 <script>
@@ -138,10 +139,10 @@
      $(document).ready(function ()
      {
          jQuery.ajax({
-             url: '@Url.Action("ListarProductosCarrito", "Tienda")',
-             type: "POST",
-             dataType: "json",
-             contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("ListarProductosCarrito", "Tienda")',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
              success: function (response)
              {
                  $("#productos-carrito").html("");
@@ -241,10 +242,12 @@
 
      }
 
+
      $("#comboDepartamento").on("change", function ()
      {
          ListarMunicipio();
      })
+
 
       //funcion para listar Municipios en base a un Departamento
      function ListarMunicipio()
@@ -403,11 +406,11 @@
     })
 
 
-    //metodo para eliminar producto del carrito
+    //metodo para eliminar producto del carrito con una funcion en linea
     $(document).on("click", ".btn-eliminar", function () {
-        var idproducto = $(this).data("idProducto");
-       var card_producto = $(this).parents("div.card-producto");
-
+            var idproducto = $(this).data("idProducto");
+            var card_producto = $(this).parents("div.card-producto");
+            
             // SweetAlert para confirmar eliminación
             Swal.fire({
                 title: "¿Esta Seguro?",
@@ -442,7 +445,7 @@
     }); 
 
 
-    //funcion para realizar pago mediante Paypal
+    //funcion para realizar pago mediante Paypal a la API
     function RealizarPago() {
 
         if(parseInt($("#cantidadCarro").text())==0){

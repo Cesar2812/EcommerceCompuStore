@@ -3,38 +3,44 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- Header-->
-<header class="bg-black py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">SOMOS  CompuStore</h1>
-            <p class="lead fw-normal text-white-50 mb-0"> TECNOLOGIA EN TUS MANOS</p>
+<header class="py-5 bg-black position-relative" style="background-color:black">
+    <div class="overlay"></div>
+    <div class="container px-5 position-relative z-index-1">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xxl-6">
+                <div class="text-center my-5">
+                    <h1 class="fw-bolder mb-3" style="color:white">¡Nuestro Catalogo!</h1>
+                    <p class="lead fw-normal mb-4" style="color: #d3d3d3;">Productos en Oferta.</p>
+                </div>
+            </div>
         </div>
     </div>
-</header> 
+</header>
 
 <style>
     .cursor-pointer {
         cursor: pointer;
     }
+
     #paginador {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 485px; 
+        bottom: 485px;
     }
 
-    #paginador .page-item {
-        margin-right: 5px; /* Agrega un pequeño margen entre los botones */
-    }
+        #paginador .page-item {
+            margin-right: 5px; /* Agrega un pequeño margen entre los botones */
+        }
 
-    #paginador .page-link {
-        color: black !important; /* Establece el color del texto a negro */
-    }
+        #paginador .page-link {
+            color: black !important; /* Establece el color del texto a negro */
+        }
 
-    #paginador .page-item .active {
-        background-color: black; /* Fondo negro */
-        color: white !important; /* Texto blanco */
-    }
+        #paginador .page-item .active {
+            background-color: black; /* Fondo negro */
+            color: white !important; /* Texto blanco */
+        }
 </style>
 
 <!--SECCION DE PRODUCTOS, CATEGORIAS Y MARCAS -->
@@ -157,11 +163,11 @@
 </section>
 
 @section scripts
-{ 
-<script>
+{
+    <script>
 
-    var currentPage = 1;  // Página actual
-    var pageSize = 8; // Tamaño de la página
+        var currentPage = 1;  // Página actual
+        var pageSize = 8; // Tamaño de la página
 
 
         $(document).ready(function () {
@@ -174,7 +180,7 @@
           // Mostrar los productos filtrados o generales
           MostrarProductos(_idCategoria, _idMarca);
 
-            //MostrarProductos(0, 0);
+           //MostrarProductos(0, 0);
 
         })
 
@@ -192,7 +198,7 @@
                     $("<div>").addClass("form-check").append(
 
                         $("<input>").addClass("form-check-input cursor-pointer").attr({ "type": "radio", "name": "categoria", "value": "0", "id": "cx","checked":"checked"}),
-                        $("<label>").addClass("form-check-label").text("Todos").attr({ "for":"cx"})
+                        $("<label>").addClass("form-check-label").text("Todas").attr({ "for":"cx"})
 
                     ).appendTo("#contenedor_categ")
 
@@ -272,8 +278,8 @@
       })
 
 
-  // Método para mostrar los productos con paginación
-  function MostrarProductos(_idCategoria, _idMarca, pageNumber = 1) {
+            // Método para mostrar los productos con paginación
+        function MostrarProductos(_idCategoria, _idMarca, pageNumber = 1) {
        jQuery.ajax({
                   url: "@Url.Action("ListarProductos", "Tienda")",
                   type: "POST",
@@ -378,23 +384,23 @@
         }
     }
 
-      $("#btnFiltro").click(function ()
-      {
-        var _idCategoria = $("input[name=categoria]:checked").val();
-        var _idMarca = $("input[name=marca]:checked").val();
+          $("#btnFiltro").click(function ()
+          {
+            var _idCategoria = $("input[name=categoria]:checked").val();
+            var _idMarca = $("input[name=marca]:checked").val();
 
-        // Guardar los filtros en sessionStorage
-        sessionStorage.setItem("categoria", _idCategoria);
-        sessionStorage.setItem("marca", _idMarca);
+            // Guardar los filtros en sessionStorage
+            sessionStorage.setItem("categoria", _idCategoria);
+            sessionStorage.setItem("marca", _idMarca);
 
-          MostrarProductos(_idCategoria, _idMarca)
+              MostrarProductos(_idCategoria, _idMarca)
 
-          // Restablecer la página actual a 1
-          currentPage = 1;
-          MostrarProductos(_idCategoria, _idMarca, currentPage);
+              // Restablecer la página actual a 1
+              currentPage = 1;
+              MostrarProductos(_idCategoria, _idMarca, currentPage);
 
 
-      })
+          })
 
        $(document).on("click", "button.agregarcarrito", function () {
             jQuery.ajax({
@@ -426,5 +432,5 @@
                 }
             });
        });
-    </script>   
+    </script>
 }

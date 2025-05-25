@@ -19,5 +19,7 @@ namespace CapaEntidad
         public DateTime FechaVenta { get; set; }
 
         public decimal TotalIVA { get; set; }
+
+        public int TotalProductosVendidos { get; set; }
     }
 }

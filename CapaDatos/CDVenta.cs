@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Text;
 
 namespace CapaDatos
 {
     public class CDVenta
-    { 
+    {
         SqlConnection conexion;
         public bool RegistrarVenta(Venta objVenta, DataTable Detalle_Venta, out string Mensaje)
         {
@@ -109,6 +110,67 @@ namespace CapaDatos
                 conexion.Close();
             }
             return lista;
+        }
+
+        public List<Detalle_Venta> ListarProductosMasVendidos()
+        {
+            List<Detalle_Venta> listadetalleProducto = new List<Detalle_Venta>();
+            try
+            {
+                using (conexion = new SqlConnection(Conexion.cn))
+                {
+                    //creando un objeto string builder
+                    StringBuilder sb = new StringBuilder();
+                    //abriendo consulta con salto de linea
+                    sb.AppendLine("SELECT P.id_Producto,P.Nombre,C.Descripcion as Categoria,P.Precio,P.Stock,");
+                    sb.AppendLine("P.RutaImagen,P.NombreImagen,");
+                    sb.AppendLine("SUM(DV.Cantidad) AS TotalVendidos");
+                    sb.AppendLine("FROM Detalle_Venta DV");
+                    sb.AppendLine("INNER JOIN Producto P ON P.id_Producto = DV.idProducto");
+                    sb.AppendLine("INNER JOIN Categoria C on P.idCategoria=C.id_Categoria");
+                    sb.AppendLine("GROUP BY P.id_Producto, P.Nombre,C.Descripcion, P.Precio, P.Stock, P.RutaImagen, P.NombreImagen");
+                    sb.AppendLine("ORDER BY TotalVendidos DESC");
+
+                    SqlCommand cmd = new SqlCommand(sb.ToString(), conexion);
+                    cmd.CommandType = CommandType.Text;
+
+                    conexion.Open();
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            listadetalleProducto.Add(new Detalle_Venta
+                            {
+                                objProducto = new Producto()
+                                {
+                                    id_Producto = Convert.ToInt32(rdr["id_Producto"]),
+                                    Nombre = rdr["Nombre"].ToString(),
+                                    objCategoria= new Categoria()
+                                    {
+                                        Descripcion = rdr["Categoria"].ToString()
+                                    },
+                                    Precio = Convert.ToDecimal(rdr["Precio"], new CultureInfo("es-NI")),
+                                    Stock = Convert.ToInt32(rdr["Stock"]),
+                                    RutaImagen = rdr["RutaImagen"].ToString(),
+                                    NombreImagen = rdr["NombreImagen"].ToString(),
+                                },
+                                TotalProductosVendidos = Convert.ToInt32(rdr["TotalVendidos"])
+                            });
+
+                        }
+
+                    }
+                }
+            }
+            catch
+            {
+                listadetalleProducto = new List<Detalle_Venta>();// reinicia la lsta de productos mas vendidos
+            }
+            finally
+            {
+                conexion.Close();
+            }
+            return listadetalleProducto;
         }
     }
 }
