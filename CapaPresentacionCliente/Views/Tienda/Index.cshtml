@@ -164,7 +164,7 @@
 
 @section scripts
 {
-    <script>
+ <script>
 
         var currentPage = 1;  // Página actual
         var pageSize = 8; // Tamaño de la página
@@ -279,110 +279,110 @@
 
 
             // Método para mostrar los productos con paginación
-        function MostrarProductos(_idCategoria, _idMarca, pageNumber = 1) {
-       jQuery.ajax({
-                  url: "@Url.Action("ListarProductos", "Tienda")",
-                  type: "POST",
-                  data: JSON.stringify({ idcategoria: _idCategoria, idMarca: _idMarca, pageNumber: pageNumber, pageSize: pageSize }),
-                  dataType: "json",
-                  contentType: "application/json; charset=utf-8",
-            success: function (response) {
-                   $("#contenedorProductos").html("");
-                   $("#contenedorProductos").LoadingOverlay("hide");
+          function MostrarProductos(_idCategoria, _idMarca, pageNumber = 1) {
+                jQuery.ajax({
+                          url: "@Url.Action("ListarProductos", "Tienda")",
+                          type: "POST",
+                          data: JSON.stringify({ idcategoria: _idCategoria, idMarca: _idMarca, pageNumber: pageNumber, pageSize: pageSize }),
+                          dataType: "json",
+                          contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                           $("#contenedorProductos").html("");
+                           $("#contenedorProductos").LoadingOverlay("hide");
 
-                         $.each(response.data, function (i, element) {
-                             $("<div>").addClass("col mb-5").append(
-                                 $("<div>").addClass("card h-100").append(
-                                     $("<img>").addClass("card-img-top").attr({ "src": "data:image/" + element.Extension + ";base64," + element.Base64 }),
-                                     $("<div>").addClass("card-body p-4").append(
-                                         $("<div>").addClass("text-center").append(
-                                             $("<h5>").addClass("fw-bolder").text(element.Nombre),
-                                             "C$ " + element.Precio.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " +IVA"
+                                 $.each(response.data, function (i, element) {
+                                     $("<div>").addClass("col mb-5").append(
+                                         $("<div>").addClass("card h-100").append(
+                                             $("<img>").addClass("card-img-top").attr({ "src": "data:image/" + element.Extension + ";base64," + element.Base64 }),
+                                             $("<div>").addClass("card-body p-4").append(
+                                                 $("<div>").addClass("text-center").append(
+                                                     $("<h5>").addClass("fw-bolder").text(element.Nombre),
+                                                     "C$ " + element.Precio.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " +IVA"
+                                                 )
+                                             ),
+                                             $("<div>").addClass("card-footer p-2 pt-0 border-top-0 bg-transparent").append(
+                                               $("<div>").addClass("d-grid gap-2").append(
+                                                     @if (Session["UsuarioCliente"] != null) {
+                                                         @:$("<button>").addClass("btn btn-success w-100 mt-auto agregarcarrito").data("id_Producto", element.id_Producto).append($("<i>").addClass("fas fa-shopping-cart me-1"), "Add Carrito"),
+                                                     }
+                                                     $("<a>").addClass("btn btn-dark w-100 mt-auto")
+                                                     .attr("href", '@Url.Action("DetalleProducto", "Tienda")' + '?id_Producto=' + element.id_Producto)
+                                                     .append(
+                                                      $("<i>").addClass("fas fa-eye me-2"),
+                                                     "Ver Detalle"
+                                                      )
+
+                                               )
+                                             )
                                          )
-                                     ),
-                                     $("<div>").addClass("card-footer p-2 pt-0 border-top-0 bg-transparent").append(
-                                       $("<div>").addClass("d-grid gap-2").append(
-                                             @if (Session["UsuarioCliente"] != null) {
-                                                 @:$("<button>").addClass("btn btn-success w-100 mt-auto agregarcarrito").data("id_Producto", element.id_Producto).append($("<i>").addClass("fas fa-shopping-cart me-1"), "Add Carrito"),
-                                             }
-                                             $("<a>").addClass("btn btn-dark w-100 mt-auto")
-                                             .attr("href", '@Url.Action("DetalleProducto", "Tienda")' + '?id_Producto=' + element.id_Producto)
-                                             .append(
-                                              $("<i>").addClass("fas fa-eye me-2"),
-                                             "Ver Detalle"
-                                              )
+                                     ).appendTo("#contenedorProductos");
+                                 });
 
-                                       )
-                                     )
-                                 )
-                             ).appendTo("#contenedorProductos");
-                         });
-
-                         // Mostrar paginación
-                         var totalPages = Math.ceil(response.total / pageSize);
-                         mostrarPaginador(totalPages, pageNumber);
-            },
-           beforeSend: function () {
-             $("#contenedorProductos").LoadingOverlay("show");
-           }
-       });
-  }
-
-    function mostrarPaginador(totalPages, currentPage) {
-        var paginador = $("#paginador");
-        paginador.html(""); // Limpiar paginador actual
-
-        if (totalPages > 1) {
-            // Botón Anterior
-            var prevPageLink = $("<a>").addClass("page-link cursor-pointer btn-lg fs-5").text("Anterior").attr("href", "#");
-            if (currentPage === 1) {
-                prevPageLink.addClass("disabled");  // Deshabilitar si estamos en la primera página
-            } else {
-                prevPageLink.on("click", function (e) {
-                    e.preventDefault();
-                    currentPage--;
-                    MostrarProductos($("input[name=categoria]:checked").val(), $("input[name=marca]:checked").val(), currentPage);
+                                 // Mostrar paginación
+                                 var totalPages = Math.ceil(response.total / pageSize);
+                                 mostrarPaginador(totalPages, pageNumber);
+                    },
+                   beforeSend: function () {
+                     $("#contenedorProductos").LoadingOverlay("show");
+                   }
                 });
-            }
-            paginador.append($("<li>").addClass("page-item").append(prevPageLink));
+          }
 
-            // Páginas numéricas
-            for (var i = 1; i <= totalPages; i++) {
-                var pageLink = $("<a>").addClass("page-link cursor-pointer btn-lg fs-5").text(i).attr("href", "#");
-                var pageItem = $("<li>").addClass("page-item");
-                if (i === currentPage) {
-                    pageLink.addClass("active");  // Añadir clase 'active' al número actual
+        function mostrarPaginador(totalPages, currentPage) {
+            var paginador = $("#paginador");
+            paginador.html(""); // Limpiar paginador actual
+
+            if (totalPages > 1) {
+                // Botón Anterior
+                var prevPageLink = $("<a>").addClass("page-link cursor-pointer btn-lg fs-5").text("Anterior").attr("href", "#");
+                if (currentPage === 1) {
+                    prevPageLink.addClass("disabled");  // Deshabilitar si estamos en la primera página
+                } else {
+                    prevPageLink.on("click", function (e) {
+                        e.preventDefault();
+                        currentPage--;
+                        MostrarProductos($("input[name=categoria]:checked").val(), $("input[name=marca]:checked").val(), currentPage);
+                    });
                 }
-                pageLink.on("click", function (e) {
-                    e.preventDefault();
-                    currentPage = parseInt($(this).text());
+                paginador.append($("<li>").addClass("page-item").append(prevPageLink));
 
-                    // Remover la clase 'active' de todos los elementos
-                    $(".page-item").removeClass("active");
+                // Páginas numéricas
+                for (var i = 1; i <= totalPages; i++) {
+                    var pageLink = $("<a>").addClass("page-link cursor-pointer btn-lg fs-5").text(i).attr("href", "#");
+                    var pageItem = $("<li>").addClass("page-item");
+                    if (i === currentPage) {
+                        pageLink.addClass("active");  // Añadir clase 'active' al número actual
+                    }
+                    pageLink.on("click", function (e) {
+                        e.preventDefault();
+                        currentPage = parseInt($(this).text());
 
-                    // Añadir la clase 'active' al número de página clickeado
-                    $(this).parent().addClass("active");
+                        // Remover la clase 'active' de todos los elementos
+                        $(".page-item").removeClass("active");
 
-                    MostrarProductos($("input[name=categoria]:checked").val(), $("input[name=marca]:checked").val(), currentPage);
-                });
-                pageItem.append(pageLink);
-                paginador.append(pageItem);
+                        // Añadir la clase 'active' al número de página clickeado
+                        $(this).parent().addClass("active");
+
+                        MostrarProductos($("input[name=categoria]:checked").val(), $("input[name=marca]:checked").val(), currentPage);
+                    });
+                    pageItem.append(pageLink);
+                    paginador.append(pageItem);
+                }
+
+                // Botón Siguiente
+                var nextPageLink = $("<a>").addClass("page-link cursor-pointer btn-lg fs-5").text("Siguiente").attr("href", "#");
+                if (currentPage === totalPages) {
+                    nextPageLink.addClass("disabled");  // Deshabilitar si estamos en la última página
+                } else {
+                    nextPageLink.on("click", function (e) {
+                        e.preventDefault();
+                        currentPage++;
+                        MostrarProductos($("input[name=categoria]:checked").val(), $("input[name=marca]:checked").val(), currentPage);
+                    });
+                }
+                paginador.append($("<li>").addClass("page-item").append(nextPageLink));
             }
-
-            // Botón Siguiente
-            var nextPageLink = $("<a>").addClass("page-link cursor-pointer btn-lg fs-5").text("Siguiente").attr("href", "#");
-            if (currentPage === totalPages) {
-                nextPageLink.addClass("disabled");  // Deshabilitar si estamos en la última página
-            } else {
-                nextPageLink.on("click", function (e) {
-                    e.preventDefault();
-                    currentPage++;
-                    MostrarProductos($("input[name=categoria]:checked").val(), $("input[name=marca]:checked").val(), currentPage);
-                });
-            }
-            paginador.append($("<li>").addClass("page-item").append(nextPageLink));
         }
-    }
 
           $("#btnFiltro").click(function ()
           {
@@ -426,11 +426,10 @@
                             window.location.href = '@Url.Action("Carrito","Tienda")'
                         });
                     } else {
-
                         swal("", data.mensaje, "warning");
                     }
                 }
             });
        });
-    </script>
+ </script>
 }

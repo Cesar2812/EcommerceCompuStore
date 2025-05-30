@@ -14,94 +14,70 @@
 </ol>
 
 <!--Muestra los cards-->
- <div class="row">
-
-     <div class="col-xl-3 col-md-6">
-        <div class="card bg-info text-white mb-4">
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card text-white mb-4" style="background-color: rgb(148, 112, 219);">
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-9">
                         <h6>Total De Clientes</h6>
                         <h6 id="totalClientes">0</h6>
-
                     </div>
                     <div class="col-sm-3">
                         <i class="fas fa-users fa-2x"></i>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
 
-
-
     <div class="col-xl-3 col-md-6">
-        <div class="card bg-warning text-white mb-4">
+        <div class="card text-white mb-4" style="background-color: rgb(112, 224, 224);">
             <div class="card-body">
-
                 <div class="row">
                     <div class="col-sm-9">
                         <h6>Total De Ventas</h6>
                         <h6 id="totalVentas">0</h6>
-
                     </div>
                     <div class="col-sm-3">
                         <i class="fas fa-shopping-bag fa-2x"></i>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
 
-
     <div class="col-xl-3 col-md-6">
-        <div class="card bg-success text-white mb-4">
+        <div class="card text-white mb-4" style="background-color: rgb(113, 195, 160);">
             <div class="card-body">
-
                 <div class="row">
                     <div class="col-sm-9">
                         <h6>Total De Productos</h6>
                         <h6 id="totalProductos">0</h6>
-
                     </div>
                     <div class="col-sm-3">
                         <i class="fas fa-boxes fa-2x"></i>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </div>
 
-
     <div class="col-xl-3 col-md-6">
-        <div class="card bg-danger text-white mb-4">
+        <div class="card text-white mb-4" style="background-color: rgb(70, 100, 120);">
             <div class="card-body">
-
                 <div class="row">
                     <div class="col-sm-9">
                         <h6>Ganancias Totales</h6>
                         <h6 id="gananciasTotales">0.00</h6>
-
                     </div>
                     <div class="col-sm-3">
                         <i style="font-size: 1.5rem; font-style: normal;">C$</i>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </div>
-
-
 </div>
 
 
@@ -136,7 +112,7 @@
                 <div class="col-sm-2">
                     <div class="mb-2">
                         <label class="form-label">N° De Transacción</label>
-                        <input class="form-control" type="text" id="txtTransaccion" name="transaccion" autocomplete="off"/>
+                        <input class="form-control" type="text" id="txtTransaccion" name="transaccion" autocomplete="off" />
                     </div>
                 </div>
 
@@ -158,8 +134,8 @@
         </form>
 
         <hr />
-         <!--TABLA-->
-         <div class="row">
+        <!--TABLA-->
+        <div class="row">
             <div class="col-sm-12">
                 <table id="tabla" class="display cell-border" style="width:100%">
 
@@ -180,19 +156,101 @@
                 </table>
 
             </div>
-         </div>
-     </div>
+        </div>
+    </div>
 
 </div>
 
+
+
+<!-- Reportes de ventas y productos-->
+<div class="row mb-2 d-flex" style="min-height: 500px;">
+
+    <div class="col-md-6 d-flex">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <i class="fas fa-tags me-1"></i>
+                REPORTES DE VENTAS
+            </div>
+            <div class="card-body">
+                <canvas id="myBarChart" width="100" height="80"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card: Reporte de Productos (con margen izquierdo) -->
+    <div class="col-md-6 d-flex">
+        <div class="card flex-fill ms-md-3 mt-3 mt-md-0">
+            <div class="card-header">
+                <i class="fas fa-boxes me-1"></i>
+                REPORTE DE PRODUCTOS
+            </div>
+            <div class="card-body">
+                <canvas id="myPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+
 @section scripts{
 <script>
+
+
+    var controlBar = document.getElementById("myBarChart");//capturando el camvas
+
+    var graficobar = new Chart(controlBar, {
+
+        type: 'bar',
+        data: {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [
+                {
+                    label: "Reporte De Ventas ",
+                    backgroundColor: "#66CDAA",
+                    data: [4215,5312,6251,7841,9821,14984,5600]
+                }
+            ]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display:false
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: true
+                    }
+                }]
+            }
+        }
+    })
+
+    //garfico de productos
+    var controlPie = document.getElementById("myPieChart");
+    var graficoPie = new Chart(controlPie, {
+        type: 'pie',
+        data: {
+            labels: ["Marketing", "Recursos Humanos", "Operaciones", "Comercial", "Business Intelligence"],
+            datasets: [{
+                data: [12.21, 15.58, 11.25, 8.32],
+                backgroundColor: ['#9470DB', '#70E0E0', '#71C3A0', '#466478', '#E6E6E6'],
+            }]
+        }
+    })
+
+
+
     var tablaData;
 
     $(document).ready(function () {
 
 
-          //Rporte de los Card obteniendo la data 
+          //Rporte de los Card obteniendo la data
           jQuery.ajax({
              url: '@Url.Action("VistaDashboard","Home")',//llamando al controlador
              type: "GET",
@@ -202,7 +260,7 @@
              {
                 //reciebiendo objeto en tipo de ejecucion
                  var objeto = data.resultado;
-                
+
                //poblando los cards
                $("#totalClientes").text(objeto.TotalClientes)
                $("#totalVentas").text(objeto.TotalVenta)
@@ -227,7 +285,7 @@
             "&numeroTransaccion=" + $("#txtTransaccion").val()
 
 
-             //cargando data al dataTable que muestra el reporte de las ventas 
+             //cargando data al dataTable que muestra el reporte de las ventas
              tablaData = $("#tabla").DataTable({
 
                  responsive: true,
@@ -270,5 +328,5 @@
         tablaData.ajax.url(nuevaUrl).load();
     })
 
-</script>
+    </script>
 }

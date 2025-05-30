@@ -19,7 +19,8 @@ namespace CapaPresentacionAdmin
                         "~/Scripts/sweetalert2/sweetalert2.all.min.js",
                         "~/Scripts/jquery.validate.js",
                         "~/Scripts/sweetalert.min.js",
-                        "~/Scripts/jquery-ui-1-13.3.js"));
+                        "~/Scripts/jquery-ui-1-13.3.js",
+                        "~/Scripts/chart.min.js"));//añadir libreria de graficos
 
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
