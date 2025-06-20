@@ -16,16 +16,16 @@
     <title>@ViewBag.Title - CompuStore</title>
     @Styles.Render("~/Content/css")
 </head>
-  <body class="sb-nav-fixed">
+<body class="sb-nav-fixed">
 
-     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- INICIO DE LA BARRA DE NAVEGACION PANEL DE ADMINISTRACION DE LA TIENDA -->
-         <a class="navbar-brand ps-3" href="@Url.Action("Index","Home")">
-            <div class="d-flex align-items-center">
-                <img src="~/Content/images/LOGO.png" alt="Logo" style="height: 50px; width: 160px; margin-right: 10px;">
-               
+        <a class="navbar-brand ps-3" href="@Url.Action("Index","Home")">
+            <div class="d-flex align-items-center mt-3">
+                <img src="~/Content/images/LOGO.png" alt="Logo" style="height: 40px; width: 150px; margin-right: 10px;">
+
             </div>
-         </a>
+        </a>
 
         <!-- MENU HAMBURGUESA-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
@@ -46,66 +46,95 @@
         </ul>
     </nav>
 
-    <!-- MENU DE NAVEGACION  DINAMICO-->
+  
+    <!-- MENU DE NAVEGACION DINAMICO -->
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
-                    <div class="nav">
+                    <div class="nav mt-4">
 
-                        <div class="sb-sidenav-menu-heading">RESUMEN DE TRANSACCIONES</div>
-                        <a class="nav-link" href="@Url.Action("Index","Home")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                             Transacciones
-                        </a>
+                        <!-- RESUMEN DE TRANSACCIONES -->
+                        <div class="nav-item">
 
+                            <a class="nav-link collapsed dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTransacciones" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Transacciones
+                            </a>
 
-                        @*<div class="sb-sidenav-menu-heading">USUARIOS</div>
-                        <a class="nav-link" href="@Url.Action("Usuarios","Usuarios")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Usuarios
-                        </a>*@
+                            <div class="collapse" id="collapseTransacciones" data-bs-parent="#sidenavAccordion">
 
-                        <div class="sb-sidenav-menu-heading">CATALOGOS</div>
-                        <a class="nav-link" href="@Url.Action("Categorias","Catalogos")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Categorias
-                        </a>
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("Index","Home")">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
+                                        Ver Transacciones
+                                    </a>
+                                </nav>
 
-                        <a class="nav-link" href="@Url.Action("Marcas","Catalogos")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bookmark"></i></div>
-                            Marcas
-                        </a>
+                            </div>
 
-                        <a class="nav-link" href="@Url.Action("Productos","Catalogos")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
-                            Productos
-                        </a>
+                        </div>
+
+                        <!-- CATALOGOS -->
+                        <div class="nav-item">
+                            <a class="nav-link collapsed dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCatalogos" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
+                                Configuración
+                            </a>
+
+                            <div class="collapse" id="collapseCatalogos" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("Categorias","Catalogos")">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                        Categorías
+                                    </a>
+                                    <a class="nav-link" href="@Url.Action("Marcas","Catalogos")">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-bookmark"></i></div>
+                                        Marcas
+                                    </a>
+                                    <a class="nav-link" href="@Url.Action("Productos","Catalogos")">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
+                                        Productos
+                                    </a>
+
+                                    <!-- SERVICIOS -->
+                                    <a class="nav-link collapsed dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#collapseServicios" aria-expanded="false">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-shopping-bag"></i></div>
+                                        Servicios
+                                    </a>
+
+                                    <div class="collapse" id="collapseServicios">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="@Url.Action("Reparacion","Servicios")">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-wrench"></i></div>
+                                                 Reparacion y Mantenimiento
+                                            </a>
+                                        </nav>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </nav>
         </div>
 
-
-        <!-- FORMULARIOS INTERIORES LLAMADOS CON LA PAGINA MASTER Y EL METODO RENDERBODY-->
+        <!-- CONTENIDO PRINCIPAL -->
         <div id="layoutSidenav_content">
             <main>
-
                 <div class="container-fluid px-4">
                     @RenderBody()
                 </div>
             </main>
-
-        </div> 
-
+        </div>
     </div>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/complementos")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
-  <script>
+<script>
           function confirmLogout() {
               Swal.fire({
                   position: "top-end",
@@ -146,7 +175,6 @@
             </text>
          }
     });
-  </script> 
-
+</script>
 </body>
 </html>

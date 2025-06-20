@@ -11,6 +11,9 @@ namespace CapaDatos
     public class CDVenta
     {
         SqlConnection conexion;
+
+        //funcion para registrar una venta, recibe un objeto Venta y un DataTable con el detalle de la venta
+        //esta se hace en la vista del cliente carrito de compras
         public bool RegistrarVenta(Venta objVenta, DataTable Detalle_Venta, out string Mensaje)
         {
             bool respuesta = false;
@@ -60,6 +63,7 @@ namespace CapaDatos
 
 
         //funcion para listar las compras de un cliente en especifico dentro de la vista del cliente
+        // esta funcion recibe el id del cliente y retorna una lista de Detalle_Venta
         public List<Detalle_Venta> ListarCompras(int idCliente)
         {
             //declarando lista de Productos
@@ -112,6 +116,8 @@ namespace CapaDatos
             return lista;
         }
 
+
+        //este se metodo se ejecuta en la pagina de inicio que muestra los productos mas vendidos
         public List<Detalle_Venta> ListarProductosMasVendidos()
         {
             List<Detalle_Venta> listadetalleProducto = new List<Detalle_Venta>();
@@ -171,6 +177,151 @@ namespace CapaDatos
                 conexion.Close();
             }
             return listadetalleProducto;
+        }
+
+        //ventas en el dashboard de la vista admin
+        public List<Venta> ListarVentasDasboard()
+        {
+            List<Venta> lista = new List<Venta>();
+
+            try
+            {
+                using (conexion = new SqlConnection(Conexion.cn))
+                {
+                    string query = "sp_VentasDasboard";
+                    SqlCommand cmd = new SqlCommand(query, conexion);
+                    cmd.CommandType =CommandType.StoredProcedure;
+                    conexion.Open();
+
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            lista.Add(new Venta
+                            {
+                                mes = rdr["Mes"].ToString(),
+                                Cantidad = Convert.ToInt32(rdr["Cantidad"]),
+                            });
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                lista = new List<Venta>();
+            }
+            finally
+            {
+                conexion.Close();
+            }
+            return lista;
+        }
+
+        //reporte de productos en el dashboard vista admin
+        public List<Producto> ListarProductosDasboard()
+        {
+            List<Producto> lista = new List<Producto>();
+            try
+            {
+                using (conexion = new SqlConnection(Conexion.cn))
+                {
+                    string query = "sp_ProductosDasboard";
+                    SqlCommand cmd = new SqlCommand(query, conexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conexion.Open();
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            lista.Add(new Producto
+                            {
+                                producto = rdr["Producto"].ToString(),
+                                cantidad = Convert.ToInt32(rdr["Cantidad"])
+                            });
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                lista = new List<Producto>();
+            }
+            finally
+            {
+                conexion.Close();
+            }
+            return lista;
+        }
+
+
+        //obtener detalle de venta por id para la factura en la vista admin 
+        public Venta ObtenerVentaPorId(int idVenta)
+        {
+            Venta venta = null;
+
+            try
+            {
+                using (conexion = new SqlConnection(Conexion.cn))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ObtenerDetalleVentaPorId", conexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
+
+                    conexion.Open();
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            if (venta == null)
+                            {
+                                venta = new Venta
+                                {
+                                    objCliente= new Cliente
+                                    {
+                                        Nombre = rdr["NombreCliente"].ToString(), 
+                                    },
+                                    objMunicipio= new Municipio
+                                    {
+                                        NombreMunicipio = rdr["NombreMunicipio"].ToString(),
+                                        objDepartamento = new Departamento
+                                        {
+                                            NombreDepartamento = rdr["NombreDepartamento"].ToString()
+                                        }
+                                    },
+                                    FechaTexto = rdr["FechaDeVenta"].ToString(),
+                                    Telefono = rdr["Telefono"].ToString(),
+                                    NumeroTransaccion = rdr["NumeroTransaccion"].ToString(),
+                                    MontoTotal = Convert.ToDecimal(rdr["MontoTotal"]),
+                                    MontoTotalIva = Convert.ToDecimal(rdr["MontoTotalIva"]),
+                                };
+                            }
+
+                            venta.objDetalleVenta.Add(new Detalle_Venta
+                            { 
+                                Cantidad= Convert.ToInt32(rdr["Cantidad"]),
+                                objProducto = new Producto
+                                {
+                                    Nombre = rdr["NombreProducto"].ToString(),
+                                    Precio = Convert.ToDecimal(rdr["Precio"]), 
+                                },
+                                Total = Convert.ToDecimal(rdr["SubTotal"]),
+
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw new Exception("Error al obtener la venta: " + ex.Message);
+            }
+            finally
+            {
+                conexion.Close();
+            }
+
+            return venta;
         }
     }
 }

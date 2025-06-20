@@ -141,13 +141,14 @@
 
                     <thead>
                         <tr>
-                            <th>Fecha De Venta</th>
+                            <th>Fecha de Venta</th>
                             <th>Cliente</th>
                             <th>Producto</th>
                             <th>Precio</th>
                             <th>Cantidad</th>
-                            <th>Sub-Total</th>
+                            <th>Sub_total</th>
                             <th> N° De Transaccion</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -161,15 +162,13 @@
 
 </div>
 
-
-
 <!-- Reportes de ventas y productos-->
 <div class="row mb-2 d-flex" style="min-height: 500px;">
 
     <div class="col-md-6 d-flex">
         <div class="card flex-fill">
             <div class="card-header">
-                <i class="fas fa-tags me-1"></i>
+                <i class="fas fa-chart-bar me-1"></i>
                 REPORTES DE VENTAS
             </div>
             <div class="card-body">
@@ -183,7 +182,7 @@
         <div class="card flex-fill ms-md-3 mt-3 mt-md-0">
             <div class="card-header">
                 <i class="fas fa-boxes me-1"></i>
-                REPORTE DE PRODUCTOS
+                REPORTE DE PRODUCTOS MAS VENDIDOS
             </div>
             <div class="card-body">
                 <canvas id="myPieChart"></canvas>
@@ -198,51 +197,113 @@
 @section scripts{
 <script>
 
+    //trayendo data para el dasboard
+    jQuery.ajax({
+        url: '@Url.Action("ReporteVentas", "Home")',
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
 
-    var controlBar = document.getElementById("myBarChart");//capturando el camvas
 
-    var graficobar = new Chart(controlBar, {
 
-        type: 'bar',
-        data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [
-                {
-                    label: "Reporte De Ventas ",
-                    backgroundColor: "#66CDAA",
-                    data: [4215,5312,6251,7841,9821,14984,5600]
-                }
-            ]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        display:false
-                    }
-                }],
-                yAxes: [{
-                    gridLines: {
-                        display: true
-                    }
-                }]
+            var arrayMeses = [];
+            var arrayCantidad = [];
+
+            for (var i = 0; i < data.length; i++) {
+                //console.log(data[i].mes)
+                arrayMeses.push(data[i].mes)
+                arrayCantidad.push(data[i].Cantidad)
             }
-        }
-    })
 
-    //garfico de productos
-    var controlPie = document.getElementById("myPieChart");
-    var graficoPie = new Chart(controlPie, {
-        type: 'pie',
-        data: {
-            labels: ["Marketing", "Recursos Humanos", "Operaciones", "Comercial", "Business Intelligence"],
-            datasets: [{
-                data: [12.21, 15.58, 11.25, 8.32],
-                backgroundColor: ['#9470DB', '#70E0E0', '#71C3A0', '#466478', '#E6E6E6'],
-            }]
-        }
-    })
 
+            var controlBar = document.getElementById("myBarChart");//capturando el camvas
+
+            var graficobar = new Chart(controlBar, {
+
+                type: 'bar',
+                data: {
+                    labels: arrayMeses,
+                    datasets: [
+                        {
+                            label: "Reporte De Ventas ",
+                            backgroundColor: "#66CDAA",
+                            data: arrayCantidad,
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                display: true
+                            }
+                        }]
+                    }
+                }
+            })
+
+
+        },
+        error: function (error)
+        {
+            console.log(error);
+        }
+
+
+
+    });
+
+
+
+
+    //trayendo data para el dasboard de Porductos
+    jQuery.ajax({
+        url: '@Url.Action("ReporteProductos", "Home")',
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
+            var arrayProductos = [];
+            var arrayCantidad = [];
+
+            for (var i = 0; i < data.length; i++) {
+                //console.log(data[i].mes)
+                arrayProductos.push(data[i].producto)
+                arrayCantidad.push(data[i].cantidad)
+            }
+
+            //garfico de productos
+            var controlPie = document.getElementById("myPieChart");
+            var graficoPie = new Chart(controlPie, {
+                type: 'pie',
+                data: {
+                    labels: arrayProductos,
+                    datasets: [{
+                        data: arrayCantidad,
+                        backgroundColor: ['#9470DB', '#70E0E0', '#71C3A0', '#466478', '#E6E6E6'],
+                    }]
+                }
+            })
+
+            
+
+
+        },
+        error: function (error)
+        {
+            console.log(error);
+        }
+
+
+
+    });
 
 
     var tablaData;
@@ -308,7 +369,12 @@
                           {"data": "Precio"},
                           {"data": "Cantidad"},
                           { "data": "Total" },
-                          { "data": "NumeroTransaccion"}
+                          { "data": "NumeroTransaccion" },
+                          {
+                            "data": "id_Venta", render: function (data) {
+                                return "<button class='btn btn-success btn-sm ml-2' type='button' onclick='Imprimir(" + data + ")'>Ver<i class='far fa-clipboard'></i></button>"
+                            }
+                          }
                       ],
 
                       "language": {
@@ -317,6 +383,17 @@
              });
 
     })
+
+
+    //funcion para imprimir venta
+    function Imprimir(id) {
+       
+        var url = '@Url.Action("Factura", "Home")' + "?id_Venta=" + id;
+        window.open(url);
+
+    }
+
+
 
     //llamado al evento del boton buscar
     $("#btnBuscar").on("click", function () {

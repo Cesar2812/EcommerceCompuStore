@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
@@ -21,7 +22,7 @@ namespace CapaPresentacionAdmin.Controllers
         }
 
         //llamando el controlador para mostrar el reporte sobre los dashboard de los productos
-        [HttpGet]//tipo get ya que devuelve el reporte
+        [HttpGet]//tipo get ya que devuelve el reporte en los card del dashboard
         public JsonResult VistaDashboard()
         {
             Reportes obj = new CNReportes().VerReporte();
@@ -92,7 +93,68 @@ namespace CapaPresentacionAdmin.Controllers
                 }
             }
 
+        }
 
+        //metodo para retornar la vista de los reportes de productos y ventas en los dasboard
+        [HttpGet]
+        public JsonResult ReporteVentas()
+        {
+            CNVenta objVenta = new CNVenta();
+
+            var lista=objVenta.ListarVentasPorMes();
+
+            return Json(lista, JsonRequestBehavior.AllowGet);//para que se pueda consumir desde el cliente en forma de JSON
+
+        }
+
+        //metodo para retornar la vista de los reportes de productos y ventas en los dasboard
+        [HttpGet]
+        public JsonResult ReporteProductos()
+        {
+            CNVenta objVenta = new CNVenta();
+
+            var lista = objVenta.ListarProductosDasboard();
+
+            return Json(lista, JsonRequestBehavior.AllowGet);//para que se pueda consumir desde el cliente en forma de JSON
+
+        }
+
+        //metodo para retornar la factura de la venta
+        public ActionResult Factura(int id_Venta)
+        {
+            CNVenta cnVenta = new CNVenta();
+
+            Venta venta = cnVenta.ObtenerVentaDetalle(id_Venta);
+
+
+            NumberFormatInfo formato = new CultureInfo("es-NI").NumberFormat;
+            formato.CurrencyGroupSeparator = ".";
+
+            if (venta== null)
+            {
+                venta = new Venta(); // para evitar null en la vista
+            }
+            else
+            {
+                // Suponiendo que Venta tiene lista objDetalleVenta y quieres formatear precios y subtotales:
+                venta.objDetalleVenta = venta.objDetalleVenta.Select(dv => new Detalle_Venta
+                {
+                    Cantidad = dv.Cantidad,
+                    objProducto = new Producto
+                    {
+                        Nombre = dv.objProducto.Nombre,
+                        Precio = dv.objProducto.Precio,
+                        // Puedes agregar un campo string para precio formateado, si quieres
+                    },
+                    Total = dv.Total,
+                    // Puedes agregar un campo string para total formateado, si quieres
+                }).ToList();
+
+                // Ejemplo de campos formateados (si quieres agregar propiedades tipo TextoPrecio)
+                // venta.TextoMontoTotal = venta.MontoTotal.ToString("N", formato);
+            }
+
+            return View(venta);
         }
     }
 }

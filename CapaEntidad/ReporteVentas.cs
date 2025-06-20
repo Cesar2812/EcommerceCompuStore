@@ -17,5 +17,7 @@
         public string NumeroTransaccion { get; set; }
 
         public decimal TotalIva { get; set; }
+
+        public int id_Venta { get; set; }
     }
 }

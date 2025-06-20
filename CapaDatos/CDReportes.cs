@@ -10,6 +10,7 @@ namespace CapaDatos
     public class CDReportes
     {
         SqlConnection conexion;
+
         //metodo para que caregue la data en los card 
         public Reportes VerReporte()
         {
@@ -52,7 +53,8 @@ namespace CapaDatos
         }
 
 
-        //metodo para ver el reporte de ventas por fecha pasando un sp a la vista principal del admin
+        //metodo para ver el reporte de ventas por fecha pasando un sp a la vista principal del admin este se muestra 
+        //en el dataTable
         public List<ReporteVentas> ReporteVentas(string fechainicio, string fechafin, string transaccion) //parametrizando el metodo por los datos que se interesa buscar
         {
             List<ReporteVentas> lista = new List<ReporteVentas>(); //creando una lista con los campos del reporte
@@ -83,7 +85,8 @@ namespace CapaDatos
                                     Precio = Convert.ToDecimal(dr["Precio"], new CultureInfo("es-NI")),
                                     Cantidad = Convert.ToInt32(dr["Cantidad"]),
                                     Total = Convert.ToDecimal(dr["Total"], new CultureInfo("es-NI")),
-                                    NumeroTransaccion = dr["NumeroTransaccion"].ToString()
+                                    NumeroTransaccion = dr["NumeroTransaccion"].ToString(),
+                                    id_Venta = Convert.ToInt32(dr["id_Venta"]),
                                 }
                             );
                         }

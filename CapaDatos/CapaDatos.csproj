@@ -47,6 +47,8 @@
     <Compile Include="CDCliente_Producto.cs" />
     <Compile Include="CDProducto.cs" />
     <Compile Include="CDReportes.cs" />
+    <Compile Include="CDServicio.cs" />
+    <Compile Include="CDTipoServicio.cs" />
     <Compile Include="CDUbicacion.cs" />
     <Compile Include="CDUsuarios.cs" />
     <Compile Include="CDMarcas.cs" />

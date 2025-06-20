@@ -344,6 +344,7 @@
     <Compile Include="Controllers\AccesoController.cs" />
     <Compile Include="Controllers\CatalogosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Filtros\AuthFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -761,6 +762,8 @@
     <Content Include="Views\Acceso\Index.cshtml" />
     <Content Include="Views\Acceso\CambiarClave.cshtml" />
     <Content Include="Views\Acceso\RestablecerClave.cshtml" />
+    <Content Include="Views\Home\Factura.cshtml" />
+    <Content Include="Views\Servicios\Reparacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

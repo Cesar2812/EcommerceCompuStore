@@ -1,0 +1,293 @@
+﻿@using System.Globalization
+@model CapaEntidad.Venta
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Factura</title>
+    @Styles.Render("~/Content/css")
+    <style type="text/css">
+
+        @@media print {
+            /* Asegura que los colores de fondo se impriman */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            /* Evita saltos de página no deseados */
+            table, tr, td {
+                page-break-inside: avoid !important;
+            }
+            /* Ajusta márgenes de impresión */
+            body {
+                margin: 0;
+            }
+            /* Elimina elementos que no se deben imprimir (botones, etc.) */
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* Estilo general para celdas con color principal */
+        .color-principal {
+            background-color: #17a2b8;
+            color: #fff;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .borde-principal {
+            border: 1px solid #17a2b8;
+        }
+
+        .btn:not(:disabled):not(.disabled) {
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            color: #fff;
+            background-color: #4c6c7d;
+            border-color: #4c6c7d;
+        }
+
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        .color-principal {
+            background-color: #4c6c7d !important;
+            color: #fff !important;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .borde-principal {
+            border: 2px solid #4c6c7d;
+        }
+
+        .resaltado {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+
+        .logo-img {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="font-size: 11px; text-align: right;">
+        <center>
+            <button type="button" id="Imprimir" class="btn btn-secondary" onclick="javascript:imprSelec('seleccion')">
+                <i class="fas fa-print"></i> Imprimir
+            </button>
+        </center>
+        <br>
+    </div>
+
+    <div id="seleccion">
+        <center>
+            <table style="width: 650px;" class="borde-principal" cellpadding="10">
+                <tr>
+                    <td>
+                        <table id="cabezera">
+                            <tr>
+                                <!-- Logo -->
+                                <td style="width: 140px; padding-right: 10px; ">
+                                    <img src="~/Content/images/LOGO.png" width="150" height="70">
+                                </td>
+
+                                <!-- Nombre tienda y datos del atendido y dirección -->
+                                <td style="width:290px; text-align: center;">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td>
+                                                <label style="font-size:16px;font-weight:bold;text-align:center;width:100%;display:block">
+                                                    TIENDA COMPUSTORE GRANADA
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" align="center" style="font-size:14px">
+                                                <strong>Propietario:</strong> <span>Pedro Pablo Cuadra</span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="4" align="center" style="font-size:14px">
+                                                <span>Calle Real Xalteva, Frente a Farmacia Praga</span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="4" align="center" style="font-size:13px">
+                                                <span>Tel: 8864-7205</span>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+
+                                <!-- RUC y tipo de documento -->
+                                <td style="width:200px;">
+                                    <table style="width: 100%; height: 100px; font-weight: bold; border:2px solid #4c6c7d; font-size:14px;">
+                                        <tr>
+                                            <td align="center">
+                                                R.U.C. <span> J0310000004340</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="color:#fff;background-color:#4c6c7d; -webkit-print-color-adjust: exact; font-size:16px !important">
+                                            <td align="center">
+                                                <span>FACTURA</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                Nº- <span>@Html.DisplayTextFor(model => model.NumeroTransaccion)</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+
+                <tr style="height: 20px;"><td><br></td></tr>
+
+                <tr>
+                    <td>
+                        <table style=" width: 100%;" border="0">
+                            <tr>
+                                <td colspan="1" style="width:50px !important"><strong>Cliente:</strong> @Html.DisplayTextFor(model => model.objCliente.Nombre)</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="1" style="width:50px !important"><strong>Telefono:</strong> @Html.DisplayTextFor(model => model.Telefono)</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="1"><strong>Departamento:</strong> @Html.DisplayTextFor(model => model.objMunicipio.objDepartamento.NombreDepartamento) </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="1"><strong>Municipio:</strong> @Html.DisplayTextFor(model => model.objMunicipio.NombreMunicipio)</td>
+                            </tr>
+                            <tr>
+
+                                <td><strong>Fecha y Hora:</strong> @Html.DisplayTextFor(model => model.FechaTexto)</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr><td><hr /></td></tr>
+
+                <tr class="color-principal">
+                    <td style="padding:5px">
+                        Items
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table id="tbCompras" border="1" style="width: 100%;">
+                            <thead class="color-principal">
+                                <tr>
+                                    <th style="width: 15%;">Cantidad</th>
+                                    <th style="width: 45%;">Descripcion</th>
+                                    <th style="width: 20%;">P.Unit</th>
+                                    <th style="width: 20%;">Sub_ Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.objDetalleVenta)
+                                 {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.objProducto.Nombre)</td>
+                                        <td>@item.objProducto.Precio.ToString("F2", CultureInfo.InvariantCulture)</td>
+                                        <td>@item.Total.ToString("F2", CultureInfo.InvariantCulture)</td>
+                                    </tr>
+                                 }
+
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr style="height: 10px;"><td colspan="6"><br /><br /></td></tr>
+
+                <tr>
+                    <td>
+                        <table style="font-weight: bold; width:100%">
+                            <tr>
+                                <td colspan="2" align="right">
+                                    <table style="width: 150px;" class="borde-principal">
+                                        <tr class="color-principal">
+                                            <td><span>Total C$.</span></td>
+
+                                            <td style="color: #000; background-color: #fff; -webkit-print-color-adjust: exact; border: 1px solid #17a2b8; font-weight: normal;">
+                                                @Model.MontoTotal.ToString("F2", CultureInfo.InvariantCulture)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="height: 8px; background-color: #fff; border: none;"></td>
+                                        </tr>
+                                        <tr class="color-principal">
+                                            <td>Iva:</td>
+                                            <td style="color: #000; background-color: #fff; -webkit-print-color-adjust: exact; border: 1px solid #17a2b8; font-weight: normal;">
+                                                15%
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="height: 8px; background-color: #fff; border: none;"></td>
+                                        </tr>
+                                        <tr class="color-principal">
+                                            <td><span>Total C$.</span></td>
+                                            <td style="color: #000; background-color: #fff; -webkit-print-color-adjust: exact; border: 1px solid #17a2b8; font-weight: normal;">
+                                                @Model.MontoTotalIva.ToString("F2", CultureInfo.InvariantCulture)
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+            </table>
+        </center>
+    </div>
+    @Scripts.Render("~/bundles/complementos")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        function imprSelec(nombre) {
+            var printContents = document.getElementById(nombre).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+</body>
+</html>

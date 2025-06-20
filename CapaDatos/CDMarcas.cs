@@ -100,6 +100,7 @@ namespace CapaDatos
             return idAutogenerado;
         }
 
+
         //metodo para editar Marca
         public bool EditarMarca(Marca objMarca, out string Mensaje)
         {

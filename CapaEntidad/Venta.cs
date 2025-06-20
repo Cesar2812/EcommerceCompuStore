@@ -22,7 +22,19 @@ namespace CapaEntidad
 
         public string FechaTexto { get; set; }
 
-        public List<Detalle_Venta> objDetalleVenta { get; set; }
+        public List<Detalle_Venta> objDetalleVenta { get; set; }= new List<Detalle_Venta>();
+
         public decimal MontoTotalIva { get; set; }
+
+
+
+
+        //campos para la Factura en la vista del admin
+        public Cliente objCliente { get; set; }
+        public Municipio objMunicipio { get; set; }
+
+        //para el dasboard en la vista del admin
+        public int Cantidad { get; set; }
+        public string mes { get; set; }
     }
 }

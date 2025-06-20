@@ -24,5 +24,12 @@
         public string Base64 { get; set; }
 
         public string Extension { get; set; }
+
+
+        //para el dashboard en la vista del admin
+        public string producto { get; set; }
+        public int cantidad { get; set; }
+
+
     }
 }

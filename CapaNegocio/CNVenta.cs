@@ -24,5 +24,25 @@ namespace CapaNegocio
         {
             return objCapaDatoVenta.ListarProductosMasVendidos();
         }
+
+
+        //metodo de negocio que regresa las ventas por mes para el dashboard
+        public List<Venta> ListarVentasPorMes()
+        {
+            return objCapaDatoVenta.ListarVentasDasboard();
+        }
+
+        //metodo de negocio que regresa los productos mas vendidos por mes para el dashboard
+        public List<Producto> ListarProductosDasboard() 
+        { 
+            return objCapaDatoVenta.ListarProductosDasboard();
+        }
+
+
+        //metodo de negocio que retorna la factura de una venta por id
+        public Venta ObtenerVentaDetalle(int id_Venta)
+        {
+            return objCapaDatoVenta.ObtenerVentaPorId(id_Venta);
+        }
     }
 }
