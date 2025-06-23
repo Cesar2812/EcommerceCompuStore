@@ -16,6 +16,13 @@ namespace CapaPresentacionAdmin.Controllers
             return View();
         }
 
+
+        public ActionResult Servicio()
+        {
+
+            return View();
+        }
+
         //listando los tipos de servicio
         public JsonResult ListarTipoServicio()
         {

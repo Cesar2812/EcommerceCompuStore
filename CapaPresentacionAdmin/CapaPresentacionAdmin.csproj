@@ -764,6 +764,7 @@
     <Content Include="Views\Acceso\RestablecerClave.cshtml" />
     <Content Include="Views\Home\Factura.cshtml" />
     <Content Include="Views\Servicios\Reparacion.cshtml" />
+    <Content Include="Views\Servicios\Servicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -79,7 +79,7 @@
                         <div class="nav-item">
                             <a class="nav-link collapsed dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCatalogos" aria-expanded="false">
                                 <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
-                                Configuración
+                                Gestion De Catalogos
                             </a>
 
                             <div class="collapse" id="collapseCatalogos" data-bs-parent="#sidenavAccordion">
@@ -103,14 +103,25 @@
                                         Servicios
                                     </a>
 
+
+                                    <div class="collapse" id="collapseServicios">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="@Url.Action("Servicio","Servicios")">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-shopping-basket"></i></div>
+                                                Tipos De Servicios
+                                            </a>
+                                        </nav>
+                                    </div>
+
                                     <div class="collapse" id="collapseServicios">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="@Url.Action("Reparacion","Servicios")">
                                                 <div class="sb-nav-link-icon"><i class="fas fa-wrench"></i></div>
-                                                 Reparacion y Mantenimiento
+                                                Reparacion y Mantenimiento
                                             </a>
                                         </nav>
                                     </div>
+
                                 </nav>
                             </div>
                         </div>
