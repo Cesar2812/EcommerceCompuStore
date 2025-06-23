@@ -34,6 +34,22 @@ namespace CapaPresentacionAdmin.Controllers
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpPost]//POST ya que es una peticion de insert hacia la base de datos
+        public JsonResult GuardarTipoServicio(TipoServicio objeto)
+        {
+            object resultado = 0;
+            string Mensaje = string.Empty;
+
+            if (objeto.id_TipoServicio == 0)
+            {
+                resultado = new CNTipoServicio().RegistrarTipoServicio(objeto, out Mensaje);
+            }
+            
+            return Json(new { resultado = resultado, mensaje = Mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+
         [HttpPost]
         public JsonResult RegistrarServicio(Servicio_Dispositivo objServicio_dispositivo, List<Servicio> Detalle_Servicio)
         {

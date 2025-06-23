@@ -4,5 +4,218 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Servicio</h2>
+<!--TITULO DE LA SECCION DE TIPO SERVICIO-->
+<div class="card-header fs-4 mt-2">
+    <i class="fas fa-shopping-bag me-1 fa-1x"></i> GESTIONAR TIPO DE SERVICIO
+</div>
 
+<!--Muestra las secciones para devolver entre-->
+<ol class="breadcrumb mb-4 mt-2">
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Informenes</a></li>
+    <li class="breadcrumb-item active">Tipo De Servicio</li>
+</ol>
+
+
+<!--CARD DONDE VA A ESTAR EL DATATABLE-->
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-tasks me-1"></i> Listado De Tipos De Servicios
+    </div>
+
+    <div class="card-body">
+        <!--PONIENDO FILA EN EL CARD-->
+        <div class="row">
+            <!--TOTAL DE COLUMNAS DE 12-->
+            <div class="col-12">
+                <!--Boton en el card-->
+                <button type="button" class="btn btn-secondary" onclick="abrirModal(null)">Crear Nuevo</button>
+            </div>
+        </div>
+
+        <hr />
+        <!--Creando Tabla-->
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Descripcion</th>
+                   
+                </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+
+        </table>
+
+
+    </div>
+</div>
+
+
+
+<!--MODAL PARA NUEVO Y EDICION DE TIPO SERVICIO-->
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--PARTE DE ARRIBA DEL FORMULARIO-->
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">DATOS DE TIPO DE SERVICIO</h5>
+                <button type="button" class="btn-close" style="background-color: white; border: none; color: black;" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <div class="modal-body g-1">
+                <input id="txtId" type="hidden" value="0" />
+                <!--CAMPOS DEL FORULARIO-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="txtDescripcion" class="form-label">Descripcion</label>
+                        <input type="text" class="form-control" id="txtDescripcion" autocomplete="off">
+                    </div>
+
+
+                </div>
+
+                <!--ALERT-->
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert">
+                            A simple danger alert—check it out!
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!--BOTONES DE ABAJO-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" onclick="Guardar()">Guardar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        var descripcion = $("#txtDescripcion").val();
+
+        //funciones del formulario de categoria
+        var tablaData;// variable que va a almacenar nuestro dataTable
+        var filaSeleccionada;
+
+
+        //cargando data de Categorias al dataTable
+        tablaData = $("#tabla").DataTable({
+
+            responsive: true,
+            ordering: false,
+
+            //pintando la data
+            "ajax": {
+                url: '@Url.Action("ListarTipoServicio", "Servicios")',//url que viene del controlador
+                type: "GET",//metodo de tipo GET ya que optiene la data desde la base de datos
+                dataType: "json"//especificandole la data de tipo json
+            },
+            //pasandole las columnas
+            "columns": [
+                {
+                    "data": "Descripcion"
+
+                }
+
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/2.1.6/i18n/es-MX.json"
+            }
+
+        });
+
+        //metodo para abrir formulario modal
+        function abrirModal(json) {
+            //al incio limpia los campos del formulario modal
+            $("#txtId").val(0);
+            $("#txtDescripcion").val("");
+           
+            $("#mensajeError").hide();
+
+
+            //al hacer click en el boton editar carga en el modal la data obtenida
+            //osea que si el formulario es distinto de null ocuarre eso ya que al inicio el formulario esta en null
+            if (json != null) {
+                $("#txtId").val(json.id_TipoServicio)
+                $("#txtDescripcion").val(json.Descripcion)// le paso el atributo nombre de la data obtenida
+            }
+            $("#formModal").modal("show");
+        }
+
+        //metodo para guardar o editar categoria pasando el JSON
+        function Guardar()
+        {
+            var Tipo_Servicio = {
+                id_TipoServicio: $("#txtId").val(),
+                Descripcion: $("#txtDescripcion").val(),
+            }
+
+
+            //utilizando jquery para el post de insert al servidor
+            jQuery.ajax({
+                url: '@Url.Action("GuardarTipoServicio", "Servicios")', //pansandole la url del controlador
+                type: "POST",
+                data: JSON.stringify({ objeto: Tipo_Servicio }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $(".modal-body").LoadingOverlay("hide");
+
+                   
+                    //validando si el id es 0 procede a hacer un post insert a la tabla
+                    if (Tipo_Servicio.id_TipoServicio == 0) {
+                        if (data.resultado != 0) {
+                            Tipo_Servicio.id_TipoServicio = data.resultado;
+
+                            tablaData.row.add(Tipo_Servicio).draw(false);
+                            $("#formModal").modal("hide");
+
+                            //mostrando un mensaje de confirmacion con sweetAlert
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Nuevo Tipo de Servicio Agregado Correctamente",
+                                showConfirmButton: false,
+                                timer: 1505
+                            });
+
+                        } else {
+                            $("#mensajeError").text(data.mensaje);//mostrando el mensaje que viene de la base de datos
+                            $("#mensajeError").show();
+                            $(".modal-body").LoadingOverlay("hide");
+
+                        }
+                    } 
+                    
+
+                },
+                error: function (error) {
+                    $(".modal-body").LoadingOverlay("hide");
+                    $("#mensajeError").text("Error De Peticion");
+                    $("#mensajeError").show();
+                },
+                beforeSend: function ()
+                {
+                    //mostrando el loading mientras se agrega una categoria
+                    $(".modal-body").LoadingOverlay("show", {
+                        imageResizeFactor: 2,
+                        text: "Cargando Por Favor Espere!....",
+                        size: 20
+
+                    })
+                }
+            })
+        }
+    </script>
+}
