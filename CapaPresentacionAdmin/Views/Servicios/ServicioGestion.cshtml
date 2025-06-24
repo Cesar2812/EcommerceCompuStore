@@ -3,6 +3,12 @@
     ViewBag.Title = "ServicioGestion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    input[readonly], textarea[readonly] {
+        background-color: #e9ecef !important;
+        cursor: not-allowed;
+    }
+</style>
 
 <nav aria-label="breadcrumb" style="margin-top:10px">
     <ol class="breadcrumb">
@@ -13,7 +19,7 @@
 
 <div class="card">
     <div class="card-header">
-        <i class="fas fa-tasks me-1"></i> GESTION DE SERVICIOS A DISPOSITIVOS
+        <i class="fas fa-tasks me-1"></i> GESTION DE COMPROBANTE DE SERVICIOS A DISPOSITIVOS
         <button id="btnTerminarGuardarVenta" class="btn btn-warning btn-sm float-end">
             <i class="fa fa-print"></i> Imprimir y Terminar la Gestion
         </button>
@@ -37,14 +43,14 @@
                         <div class="row align-items-end">
                             <div class="col-sm-4">
                                 <div class="form-group mb-0">
-                                    <label for="txtclientenombres" class="col-form-label col-form-label-sm">Nombres: <span class="required">*</span></label>
+                                    <label for="txtclientenombres" class="col-form-label col-form-label-sm">Nombres:</label>
                                     <input type="text" class="form-control form-control-sm model" id="txtclientenombres" name="RazonSocial" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group mb-0">
                                     <label for="txtclientetelefono" class="col-form-label col-form-label-sm">Teléfono:</label>
-                                    <input type="text" class="form-control form-control-sm model" id="txtclientetelefono" name="RazonSocial" autocomplete="off">
+                                    <input type="text" class="form-control form-control-sm model" id="txtclientetelefono" name="Telefono" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -63,10 +69,11 @@
                             <table id="tbVenta" class="table table-striped table-bordered nowrap table-sm" style="width:100%">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th></th>
+                                        <th>Servicio</th>
                                         <th>Dispositivo</th>
                                         <th>Descripción</th>
                                         <th>Precio</th>
+                                        <th>Sub_Total</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -80,15 +87,23 @@
                 <div class="card border-dark">
                     <div class="card-body p-2">
                         <h6 class="card-title mb-1 text-black">SERVICIOS</h6>
+
                         <input id="txtIdProducto" type="hidden" value="0">
+
+                        <div class="mb-2">
+                            <label for="txtTipoServicio" class="form-label form-label-sm">Tipo de Servicio:</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm model" id="txtTipoServicio" name="Tipo" readonly>
+                                <button id="btnBuscarProducto" type="button" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
 
                         <div class="mb-2">
                             <label for="txtproductonombre" class="form-label form-label-sm">Dispositivo:</label>
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm model" id="txtproductonombre" name="Nombre" readonly>
-                                <button id="btnBuscarProducto" type="button" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-search"></i>
-                                </button>
                             </div>
                         </div>
 
@@ -100,7 +115,7 @@
                                 </div>
                                 <label for="txtproductoprecio" class="form-label form-label-sm">Precio del Servicio:</label>
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control form-control-sm model" id="txtproductoprecio" name="Nombre" readonly>
+                                    <input type="text" class="form-control form-control-sm model" id="txtproductoprecio" value="0" name="Precio" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <button id="btnAgregar" type="button" class="btn btn-sm btn-success w-100">
@@ -120,19 +135,19 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="input-group input-group-md">
-                            <label class="input-group-text bg-light text-black" style="min-width: 70px;" for="txtsubtotal">SubTotal</label>
+                            <label class="input-group-text bg-light text-black" style="min-width: 20px; font-size:small;" for="txtsubtotal">SubTotal</label>
                             <input id="txtsubtotal" readonly type="text" class="form-control form-control-md" value="0">
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="input-group input-group-md">
-                            <label class="input-group-text bg-light text-black" style="min-width: 80px;" for="txtigv">IVA 15%</label>
+                            <label class="input-group-text bg-light text-black" style="min-width: 20px; font-size:small;" for="txtigv">IVA%</label>
                             <input id="txtigv" readonly type="text" class="form-control form-control-md" value="0">
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="input-group input-group-md">
-                            <label class="input-group-text bg-light text-black" style="min-width: 80px;" for="txttotal">Total</label>
+                            <label class="input-group-text bg-light text-black" style="min-width: 40px; font-size:small;" for="txttotal">Total</label>
                             <input id="txttotal" readonly type="text" class="form-control form-control-md" value="0">
                         </div>
                     </div>
@@ -152,7 +167,7 @@
 
                     <div class="input-group input-group-md" style="flex: 1 1 140px;">
                         <label class="input-group-text bg-light text-black" for="txtcambio">Cambio</label>
-                        <input id="txtcambio" readonly type="text" class="form-control form-control-md">
+                        <input id="txtcambio" readonly type="text" class="form-control form-control-md" value="0">
                     </div>
                 </div>
             </div>
@@ -161,30 +176,30 @@
 </div>
 
 
-
-<!-- MODAL PRODUCTOS -->
-<div class="modal fade" id="modalProducto" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="modalServices" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
+
+            <!--PARTE DE ARRIBA DEL FORMULARIO-->
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title">Productos</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="exampleModalLabel">SERVICIOS</h5>
+                <button type="button" class="btn-close" style="background-color: white; border: none; color: black;" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table id="tbProducto" class="table table-striped table-bordered nowrap compact" style="width:100%">
+                    <table id="tbServicio" class="table table-striped table-bordered nowrap compact" style="width:100%">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Codigo</th>
-                                <th>Nombre</th>
-                                <th>Descripcion</th>
-                                <th>Stock</th>
+                                <th>TipoServicio</th>
+                                <th>Dispositivo</th>
+                                <th>DescripcionServicio</th>
+                                <th>Precio</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                        </tbody>
                     </table>
                 </div>
 
@@ -193,6 +208,239 @@
     </div>
 </div>
 
+@section scripts{
+<script>
+
+        $(document).ready(function () {
+
+                $("#txtcambio").val("0");
+                $("#txtsubtotal").val("0");
+                $("#txtigv").val("0");
+                $("#txttotal").val("0");
+
+        });
+
+        //se obtiene la fecha del servicio
+        function ObtenerFecha() {
+
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var output = (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+
+            return output;
+        }
+
+        $("#txtfechaventa").val(ObtenerFecha());
+
+     $.fn.inputFilter = function (inputFilter) {
+            return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                }else {
+                    this.value = "";
+                }
+         });
+     };
+
+        $("#txtmontopago").inputFilter(function (value) {
+            return /^-?\d*[.]?\d{0,2}$/.test(value);
+        });
+
+    // Solo números en campo Teléfono
+    $("#txtclientetelefono").inputFilter(function (value) {
+        return /^\d*$/.test(value); // Solo dígitos
+    });
+
+        var tablaData;
+         //cargando data al dataTable
+        tablaData = $("#tbServicio").DataTable({
+
+                 responsive: true,
+                 ordering: false,
+
+                 //pintando la data
+                 "ajax": {
+                     url: '@Url.Action("ListarServicios", "Servicios")',//url que viene del controlador
+                     type: "GET",//metodo de tipo GET ya que optiene la data desde la base de datos
+                     dataType: "json"//especificandole la data de tipo json
+                 },
+                 //pasandole las columnas
+             "columns": [
+                 {
+                     "data": "id_Servicio", "render": function (data, type, row, meta) {
+                         return "<button class='btn btn-sm btn-primary ml-2' type='button' onclick='productoSelect(" + JSON.stringify(row) + ")'><i class='fas fa-check'></i></button>"
+                     },
+                     "orderable": false,
+                     "searchable": false,
+                     "width": "90px"
+                 },
+                 {
+                     //renderizando la columna Marca
+                     "data": "objTipoServicio", "render": function (data) {
+                         return data.Descripcion
+                     }
+                 },
+                 { "data": "NombreDispositivo" },
+
+                 {
+                     "data": "Descripcion_Servicio",
+                     "orderable": true,
+                     "searchable": false
+                 },
+
+                    { "data": "Precio" },
+
+
+             ],
+                 "language": {
+                     "url": "//cdn.datatables.net/plug-ins/2.1.6/i18n/es-MX.json"
+                 }
+        });
+
+        //boton buscar servicio
+     $('#btnBuscarProducto').on('click', function () {
+
+         tablaData.ajax.reload();
+         $('#modalServices').modal('show');
+     })
+
+     //metodo para cragar servicio seleccionado en los inputs
+     function productoSelect(json) {
+         $("#txtIdProducto").val(json.id_Servicio);
+         $("#txtTipoServicio").val(json.objTipoServicio.Descripcion);
+         $("#txtproductonombre").val(json.NombreDispositivo);
+         $("#txtproductodescripcion").val(json.Descripcion_Servicio);
+         $("#txtproductoprecio").val(json.Precio);
+         $('#modalServices').modal('hide');
+     }
+
+     //metodo para agregar a la tabla 
+     $('#btnAgregar').on('click', function () {
+
+         var existe_servicio = false;
+         if (
+             parseInt($("#txtIdProducto").val()) == 0
+         ) {
+             swal("Mensaje", "Debe completar todos los campos del Servicio", "warning")
+             return;
+         }
+
+         $('#tbVenta > tbody  > tr').each(function (index, tr) {
+             var fila = tr;
+             var idproducto = $(fila).find("td.servicio").data("id_Servicio");
+
+             if (idproducto == $("#txtIdProducto").val()) {
+                 existe_servicio = true;
+                 return false;
+             }
+
+         });
+
+         if (!existe_servicio) {
+
+             var importetotal = parseFloat($("#txtproductoprecio").val());
+             $("<tr>").append(
+                 $("<td>").text($("#txtTipoServicio").val()),
+                 $("<td>").addClass("servicio").data("id_Servicio", $("#txtIdProducto").val()).text($("#txtproductonombre").val()),
+                 $("<td>").text($("#txtproductodescripcion").val()),
+                 $("<td>").addClass("productoprecio").text($("#txtproductoprecio").val()),
+                 $("<td>").addClass("importetotal").text(importetotal)
+             ).appendTo("#tbVenta tbody");
+
+             $("#txtIdProducto").val("0");
+             $("#txtTipoServicio").val("");
+             $("#txtproductonombre").val("");
+             $("#txtproductodescripcion").val("");
+             $("#txtproductostock").val("");
+             $("#txtproductoprecio").val("0");
+
+
+             $("#txtTipoServicio").focus();
+
+             calcularPrecios();
+         } else {
+             swal("Mensaje", "Este servicio ya existe en la gestion", "warning")
+         }
+     })
+
+     //metodo para calcular precio
+     function calcularPrecios() {
+         var subtotal = 0;
+         var igv = 0;
+         var total = 0;
+         $('#tbVenta > tbody  > tr').each(function (index, tr) {
+             var fila = tr;
+             var importetotal = parseFloat($(fila).find("td.importetotal").text());
+             subtotal+= importetotal;
+         });
+         igv = subtotal * 0.15;
+         total = subtotal+igv;
+
+
+         $("#txtsubtotal").val(subtotal.toFixed(2));
+         $("#txtigv").val(igv.toFixed(2));
+         $("#txttotal").val(total.toFixed(2));
+     }
+
+     //metodo para calcular el cambio 
+     function calcularCambio() {
+         var montopago = $("#txtmontopago").val().trim() == "" ? 0 : parseFloat($("#txtmontopago").val().trim());
+         var totalcosto = parseFloat($("#txttotal").val().trim());
+         var cambio = 0;
+         cambio = (montopago <= totalcosto ? totalcosto : montopago) - totalcosto;
+
+         $("#txtcambio").val(cambio.toFixed(2));
+     }
+
+     //metodo para calcular el cambio con el boton
+     $('#btncalcular').on('click', function () {
+         calcularCambio();
+     })
+
+    // Evento: Calcular con Enter en input montoPago
+    $("#txtmontopago").on("keypress", function (e) {
+        if (e.which === 13) {
+            calcularCambio();
+            e.preventDefault(); // Evita que se envíe el formulario
+        }
+    });
+
+     $('#btnTerminarGuardarVenta').on('click', function () {
+
+         //VALIDACIONES DE CLIENTE
+         if ($("#txtclientetelefono").val().trim() == "" || $("#txtclientenombres").val().trim() == "") {
+             swal("Mensaje", "Complete los datos del cliente", "warning");
+             return;
+         }
+         //VALIDACIONES DE SERVICIOS
+         if ($('#tbVenta tbody tr').length == 0) {
+             swal("Mensaje", "Debe registrar minimo un Servicio en la Gestion", "warning");
+             return;
+         }
+
+         //VALIDACIONES DE MONTO PAGO
+         if ($("#txtmontopago").val().trim() == "") {
+             swal("Mensaje", "Ingrese el monto de pago", "warning");
+             return;
+         }
+
+         //VALIDACIONES DE MONTO CAMBIO
+         if ($("#txtcambio").val().trim()<=0) {
+             swal("Mensaje", "Calcule el Cambio", "warning");
+             return;
+         }
+     })
+
+
+    </script>
+
+}
 
 
 

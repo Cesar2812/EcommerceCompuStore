@@ -69,7 +69,7 @@ namespace CapaDatos
                     //creando un objeto string builder
                     StringBuilder sb = new StringBuilder();
                     //abriendo consulta con salto de linea
-                    sb.AppendLine("select td.NombreDispositovo[Dispositivo],ts.Descripcion[Tipo De Servicio],");
+                    sb.AppendLine("select id_Servicio,td.NombreDispositovo[Dispositivo],ts.Descripcion[Tipo De Servicio],");
                     sb.AppendLine("Precio_Servicio[Precio Servicio],Descipcion_Servicio from Servicio");
                     sb.AppendLine("inner join Tipo_Dispositivo td on Servicio.id_tipo_dispositivo=td.id_Dispositivo");
                     sb.AppendLine("inner join Tipo_Servicio ts on Servicio.id_tipo_servcio=ts.id_TipoServcio");
@@ -84,6 +84,7 @@ namespace CapaDatos
                         {
                             lista.Add(new Servicio
                             {
+                                id_Servicio = Convert.ToInt32(rdr["id_Servicio"]),
                                 NombreDispositivo =rdr["Dispositivo"].ToString(),
                                 objTipoServicio=new TipoServicio() { Descripcion = rdr["Tipo De Servicio"].ToString() },
                                 Precio = Convert.ToDecimal(rdr["Precio Servicio"], new CultureInfo("es-NI")),
