@@ -11,12 +11,103 @@
             box-shadow: none;
             border-radius: 8px;
         }
+
+        /* Previene fondo blanco en transiciones mientras carga */
+        body {
+            background-color: #f8f9fa; /* fondo claro por defecto */
+            transition: background-color 0.2s ease-in-out;
+        }
+
+            body.dark-mode {
+                background-color: #1f1f1f !important;
+                color: #e0e0e0 !important;
+            }
+
+        .sb-sidenav-dark.dark-mode {
+            background-color: #1f1f1f !important;
+        }
+
+        .navbar-dark.dark-mode {
+            background-color: #1f1f1f !important;
+        }
+
+        .dark-mode .card,
+        .dark-mode .form-control,
+        .dark-mode .dropdown-menu {
+            background-color: #2a2a2a !important;
+            color: #e0e0e0 !important;
+        }
+
+
+        /* Estilos para modo oscuro de DataTables */
+        .dark-mode table.dataTable {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+            .dark-mode table.dataTable th,
+            .dark-mode table.dataTable td {
+                background-color: #2a2a2a !important;
+                color: #e0e0e0 !important;
+            }
+
+        .dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: #e0e0e0 !important;
+            background-color: #333 !important;
+            border: 1px solid #555 !important;
+        }
+
+        .dark-mode .dataTables_wrapper .dataTables_filter input,
+        .dark-mode .dataTables_wrapper .dataTables_length select {
+            background-color: #444;
+            color: #e0e0e0;
+            border: 1px solid #666;
+        }
+
+        /* Modal Bootstrap en modo oscuro */
+        .dark-mode .modal-content {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .modal-header,
+        .dark-mode .modal-footer {
+            border-color: #444;
+        }
+
+        .dark-mode .modal-title {
+            color: #e0e0e0;
+        }
+
+        .dark-mode .btn-close {
+            filter: invert(1);
+        }
+
+        /* Forzar texto blanco en el menú del usuario en modo oscuro */
+        .dark-mode .dropdown-menu .dropdown-item {
+            color: #ffffff !important;
+        }
+
+        /* Ocultar contenido hasta aplicar el tema */
+        body.preloaded {
+            visibility: hidden;
+        }
     </style>
 
     <title>@ViewBag.Title - CompuStore</title>
     @Styles.Render("~/Content/css")
+
 </head>
-<body class="sb-nav-fixed">
+
+<body class="sb-nav-fixed preloaded">
+    <script>
+        (function () {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        })();
+    </script>
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- INICIO DE LA BARRA DE NAVEGACION PANEL DE ADMINISTRACION DE LA TIENDA -->
@@ -32,6 +123,12 @@
 
         <!-- BARRA DE NAVEGACION DE LA DERECHA PARA LOS USUARIOS-->
         <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+            <li class="nav-item">
+                <button id="toggleTheme" class="btn btn-link nav-link" style="font-size: 1.2rem;">
+                    <i id="themeIcon" class="fas fa-moon"></i>
+                </button>
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -46,7 +143,7 @@
         </ul>
     </nav>
 
-  
+
     <!-- MENU DE NAVEGACION DINAMICO -->
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
@@ -68,6 +165,17 @@
                                     <a class="nav-link" href="@Url.Action("Index","Home")">
                                         <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
                                         Ver Transacciones
+                                    </a>
+                                </nav>
+
+                            </div>
+
+                            <div class="collapse" id="collapseTransacciones" data-bs-parent="#sidenavAccordion">
+
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("ServicioGestion","Servicios")">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div>
+                                        Transaccion de Servicio
                                     </a>
                                 </nav>
 
@@ -146,27 +254,59 @@
     @RenderSection("scripts", required: false)
 
 <script>
-          function confirmLogout() {
-              Swal.fire({
-                  position: "top-end",
-                  title: '¿Estas seguro que desea cerrar sesión?',
-                  icon: 'warning',
-                  width: '400px',
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButton = document.getElementById('toggleTheme');
+        const icon = document.getElementById('themeIcon');
+        const body = document.body;
 
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Sí',
-                  cancelButtonText: 'No',
-                  customClass: {
-                      popup: 'swal-border'
-                  }
-              }).then((result) => {
-                  if (result.isConfirmed) {
-                      window.location.href = '/Acceso/CerrarSesion';
-                  }
-              });
-          }
+        function applyTheme(theme) {
+            icon.classList.add("fas");
+            if (theme === "dark") {
+                body.classList.add("dark-mode");
+                icon.classList.remove("fa-moon");
+                icon.classList.add("fa-sun");
+            } else {
+                body.classList.remove("dark-mode");
+                icon.classList.remove("fa-sun");
+                icon.classList.add("fa-moon");
+            }
+        }
+
+
+        const storedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(storedTheme);
+
+        // Mostrar contenido una vez aplicado el tema
+        body.classList.remove('preloaded');
+
+        toggleButton.addEventListener('click', function () {
+            const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        });
+    });
+
+        function confirmLogout() {
+            Swal.fire({
+                position: "top-end",
+                title: '¿Estas seguro que desea cerrar sesión?',
+                icon: 'warning',
+                width: '400px',
+
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'No',
+                customClass: {
+                    popup: 'swal-border'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Acceso/CerrarSesion';
+                }
+            });
+        }
 
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -186,6 +326,6 @@
             </text>
          }
     });
-</script>
+    </script>
 </body>
 </html>

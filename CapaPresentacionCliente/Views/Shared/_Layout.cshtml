@@ -6,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Tienda</title>
 
+    <!-- Aplica el tema antes de que se cargue el body -->
+    <script>
+        (function () {
+            try {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark-mode');
+                }
+            } catch (e) { }
+        })();
+    </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @Styles.Render("~/Content/css")
@@ -23,10 +34,124 @@
             color: black !important;
             font-weight: bold;
         }
+
+        body {
+            background-color: #f8f9fa;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .dark-mode body {
+            background-color: #1f1f1f !important;
+            color: #e0e0e0 !important;
+        }
+
+        /* NAVBAR */
+        .dark-mode .navbar-light {
+            background-color: #1f1f1f !important;
+        }
+
+            .dark-mode .navbar-light .navbar-nav .nav-link,
+            .dark-mode .navbar-light .navbar-brand,
+            .dark-mode .navbar-light .navbar-toggler-icon {
+                color: #ffffff !important;
+            }
+
+                .dark-mode .navbar-light .navbar-nav .nav-link.active {
+                    font-weight: bold;
+                    color: #ffffff !important;
+                }
+
+        /* CARD y textos */
+        .dark-mode .card,
+        .dark-mode .form-control,
+        .dark-mode .dropdown-menu {
+            background-color: #2a2a2a !important;
+            color: #e0e0e0 !important;
+        }
+
+            .dark-mode .dropdown-menu .dropdown-item {
+                color: #ffffff !important;
+            }
+
+        /* BG light general */
+        .bg-light {
+            background-color: #f8f9fa !important;
+            color: #212529;
+        }
+
+        .dark-mode .bg-light {
+            background-color: #1e1e1e !important;
+            color: #e0e0e0 !important;
+        }
+
+        /* Botones */
+        .dark-mode a.btn.btn-outline-dark,
+        .dark-mode button.btn.btn-outline-dark {
+            color: #fff !important;
+            border-color: #fff !important;
+            background-color: transparent !important;
+            transition: box-shadow 0.3s ease;
+        }
+
+            .dark-mode a.btn.btn-outline-dark:hover,
+            .dark-mode button.btn.btn-outline-dark:hover,
+            .dark-mode a.btn.btn-outline-dark:focus,
+            .dark-mode button.btn.btn-outline-dark:focus {
+                background-color: transparent !important;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                color: #fff !important;
+                border-color: #fff !important;
+            }
+
+        /* Tablas */
+        .dark-mode table.table,
+        .dark-mode table.table thead tr,
+        .dark-mode table.table tbody tr,
+        .dark-mode table.table tbody td,
+        .dark-mode table.table thead th {
+            background-color: #2a2a2a !important;
+            color: #e0e0e0 !important;
+            border-color: #444 !important;
+        }
+
+        /* Cartas Nosotros */
+        .dark-mode .card .card-title,
+        .dark-mode .card .card-text,
+        .dark-mode .card li,
+        .dark-mode .card a {
+            color: #ffffff !important;
+        }
+
+        /* Acordeón */
+        .dark-mode .accordion-item,
+        .dark-mode .accordion-body,
+        .dark-mode .accordion-button {
+            background-color: #2a2a2a !important;
+            color: #ffffff !important;
+            border-color: #444 !important;
+        }
+
+            .dark-mode .accordion-button:not(.collapsed) {
+                background-color: #3a3a3a !important;
+                color: #ffffff !important;
+                box-shadow: none;
+            }
+        
     </style>
 </head>
-<body class="d-flex flex-column min-vh-100">
-
+<body class="d-flex flex-column min-vh-100 sb-nav-fixed">
+    <script>
+        (function () {
+            try {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark-mode');
+                }
+            } catch (e) {
+                // fail silently
+            }
+        })();
+    </script>
     <!--INICIO DE LA BARRA DE NAVEGACION-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid px-4">
@@ -53,9 +178,9 @@
 
                 <form class="d-flex">
                     @if (Session["UsuarioCliente"] == null)
-                     {
+                    {
                         <a class="btn btn-outline-dark" aria-current="page" href="@Url.Action("Index","Acceso")"><i class="fas fa-user me-1"></i> IDENTIFICATE </a>
-                     }
+                    }
                     else
                     {
                         <!--ITEM DE LA BARRA QUE SALEN UNA VEZ LOGUEADO EL USUARIO-->
@@ -67,11 +192,18 @@
 
                         <!-- BARRA DE NAVEGACION DE LA DERECHA PARA LOS USUARIOS-->
                         <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+
+                            <li class="nav-item">
+                                <button id="toggleTheme" class="btn btn-link nav-link" style="font-size: 1.2rem;">
+                                    <i id="themeIcon" class="fas fa-moon"></i>
+                                </button>
+                            </li>
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item"><b>@User.Identity.Name</b></a></li>
-                                    <li><a class="dropdown-item"id="misCompras" href="@Url.Action("ListarComprasCliente","Tienda")">Mis Compras</a></li>
+                                    <li><a class="dropdown-item" id="misCompras" href="@Url.Action("ListarComprasCliente","Tienda")">Mis Compras</a></li>
                                     <li><hr class="dropdown-divider" /></li>
                                     <li>
                                         <a class="btn btn-danger text-white mx-auto" href="javascript:void(0);" onclick="confirmLogout();" style="width: 145px; padding: 0.345rem 0.60rem; border-radius: 0.25rem; text-align: center; display: block;">Cerrar Sesión</a>
@@ -217,9 +349,43 @@
 
 
 
-  <script>
+    <script>
 
         $(document).ready(function () {
+
+            const toggleButton = document.getElementById('toggleTheme');
+            const icon = document.getElementById('themeIcon')||null;
+            const body = document.body;
+
+            function applyTheme(theme) {
+                if (theme === "dark") {
+                    body.classList.add("dark-mode");
+                    if (icon) {
+                        icon.classList.remove("fa-moon");
+                        icon.classList.add("fa-sun");
+                    }
+                } else {
+                    body.classList.remove("dark-mode");
+                    if (icon) {
+                        icon.classList.remove("fa-sun");
+                        icon.classList.add("fa-moon");
+                    }
+                }
+            }
+
+
+            const storedTheme = localStorage.getItem("theme") || "light";
+            applyTheme(storedTheme);
+           
+
+            // Si el botón existe (está logueado), permitir el cambio de tema
+            if (toggleButton && icon) {
+                toggleButton.addEventListener("click", function () {
+                    const newTheme = body.classList.contains("dark-mode") ? "light" : "dark";
+                    localStorage.setItem("theme", newTheme);
+                    applyTheme(newTheme);
+                });
+            }
             MostrarCantidaCarrito();
         })
 
@@ -241,6 +407,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
+                    //localStorage.removeItem('theme'); // elimina la cookie para que al cerrar vuelva al modo claro
                     window.location.href = '/Acceso/CerrarSesion';
                 }
             });
@@ -269,7 +436,7 @@
 
         }
 
-        //alert de bienvenida al cliente 
+        //alert de bienvenida al cliente
       document.addEventListener("DOMContentLoaded", function() {
         // Verificar si existe un mensaje en TempData para mostrar la alerta
         @if (TempData["ClienteNombre"] != null)
@@ -293,6 +460,6 @@
           this.classList.add("clicked");
       });
 
-  </script>
+    </script>
 </body>
 </html>

@@ -47,7 +47,6 @@ namespace CapaPresentacionCliente.Controllers
             return View();
         }
 
-
         //vista del carrito
         [AuthFilter]
         public ActionResult Carrito() // metodo action para ir al carrrito, no se puede ir sin antes iniciar sesion
