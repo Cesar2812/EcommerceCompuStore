@@ -320,7 +320,7 @@
          $('#modalServices').modal('hide');
      }
 
-     //metodo para agregar a la tabla 
+     //metodo para agregar a la tabla
      $('#btnAgregar').on('click', function () {
 
          var existe_servicio = false;
@@ -388,7 +388,7 @@
          $("#txttotal").val(total.toFixed(2));
      }
 
-     //metodo para calcular el cambio 
+     //metodo para calcular el cambio
      function calcularCambio() {
          var montopago = $("#txtmontopago").val().trim() == "" ? 0 : parseFloat($("#txtmontopago").val().trim());
          var totalcosto = parseFloat($("#txttotal").val().trim());
@@ -435,12 +435,111 @@
              swal("Mensaje", "Calcule el Cambio", "warning");
              return;
          }
+
+         var $sub_Total = 0;
+
+         var DETALLE = "";
+
+         var DETALLE_SERVICIO = "";
+
+         var SERVICIO = "";
+         var DATOS_SERVICIO = "";
+
+         calcularCambio();
+
+         $('#tbVenta > tbody  > tr').each(function (index, tr) {
+             var fila = tr;
+             var idproducto = $(fila).find("td.servicio").data("id_Servicio");
+             var productoprecio = parseFloat($(fila).find("td.productoprecio").text());
+             var importetotal = parseFloat($(fila).find("td.importetotal").text());
+
+             $sub_Total += importetotal;
+
+             DATOS_SERVICIO = DATOS_SERVICIO + "<DATOS>" +
+                 "<id_facturaservicio>0</id_facturaservicio>" +
+                 "<id_servicio>" + idproducto + "</id_servicio>" +
+                 "<Precio_Servicio>" + productoprecio + "</Precio_Servicio>" +
+                 "<Sub_Total>" + importetotal + "</Sub_Total>" +
+                 "</DATOS>"
+
+
+         });
+         var igv = 0;
+         var total = 0;
+         igv = $sub_Total * 0.15;
+         total = $sub_Total + igv;
+
+         SERVICIO = "<SERVICIO>" +
+             "<Nombre_Cliente>" + $("#txtclientenombres").val() + "</Nombre_Cliente>" +
+             "<TelefonoCliente>" + $("#txtclientetelefono").val() + "</TelefonoCliente>" +
+             "<TotalSinIVA>" + $sub_Total + "</TotalSinIVA>" +
+             "<Total>" + total +"</Total>" +
+             "<Cantidad_Pagada>" + $("#txtmontopago").val() + "</Cantidad_Pagada>" +
+             "<Cambio>" + $("#txtcambio").val() + "</Cambio>" +
+             "</SERVICIO>";
+
+
+         DETALLE_SERVICIO = "<DETALLE_SERVICIO>" + DATOS_SERVICIO + "</DETALLE_SERVICIO>";
+
+         DETALLE = "<DETALLE>" + SERVICIO + DETALLE_SERVICIO + "</DETALLE>"
+
+         //console.log(DETALLE)
+
+         var request = { xml: DETALLE };
+
+         //utilizando jquery para el post de insert al servidor
+         jQuery.ajax({
+             url: '@Url.Action("RegistrarServicioGestion", "Servicios")', //pansandole la url del controlador
+             type: "POST",
+             data: JSON.stringify(request),
+             dataType: "json",
+             contentType: "application/json; charset=utf-8",
+             success: function (data) {
+                 $(".card-venta").LoadingOverlay("hide");
+
+                 $("#txtclientetelefono").val("");
+                 $("#txtclientenombres").val("");
+                 $("#txtmontopago").val("");
+                 $("#txtcambio").val("0");
+                 $("#txtsubtotal").val("0");
+                 $("#txtigv").val("0");
+                 $("#txttotal").val("0");
+
+                 if (data.estado) {
+                     Swal.fire({
+                         position: "center",
+                         icon: "success",
+                         title: "Gestion Realizada Correctamente",
+                         showConfirmButton: false,
+                         timer: 1500
+                     });
+
+                     $("#tbVenta tbody").html("");
+
+                     var url = '@Url.Action("Factura", "Servicios")' + "?id_facturaservicio=" + data.valor;
+                      window.open(url);
+
+                    //var url = $.MisUrls.url._DocumentoVenta + "?IdVenta=" + data.valor;
+                    // window.open(url);
+
+
+                 } else {
+                     swal("Mensaje", "No se pudo registrar la Transaccion", "warning")
+                 }
+
+
+
+             },
+             error: function (error) {
+                 $(".card-venta").LoadingOverlay("hide");
+             },
+             beforeSend: function () {
+                 $(".card-venta").LoadingOverlay("show");
+             }
+         });
+
+
+
      })
-
-
     </script>
-
 }
-
-
-

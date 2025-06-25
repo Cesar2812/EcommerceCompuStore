@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 
 
 namespace CapaDatos
@@ -105,6 +108,105 @@ namespace CapaDatos
                 conexion.Close();
             }
             return lista;
+        }
+
+        //metodo para Insertar ServicioDe GESTION en base de datos
+        public int ResgistrarServicioGestion(string Detalle)
+        {
+            int respuesta = 0;
+            string Mensaje = string.Empty;
+            using (SqlConnection oConexion = new SqlConnection(Conexion.cn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("spRegistrar_GestionServicio", oConexion);
+                    cmd.Parameters.Add("Detalle", SqlDbType.Xml).Value = Detalle;
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    oConexion.Open();
+
+                    cmd.ExecuteNonQuery();
+
+                    respuesta = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
+
+                }
+                catch (Exception ex)
+                {
+                    respuesta = 0;
+                    Mensaje = ex.Message;
+                }
+            }
+            return respuesta;
+        }
+
+
+        //obtener detalle de la gestion del servicio por id para la factura en la vista admin 
+        public Factura_Servicio ObtenerFactura(int id_facturaServicio)
+        {
+            Factura_Servicio rptDetalle = new Factura_Servicio();
+
+            using (SqlConnection oConexion = new SqlConnection(Conexion.cn))
+            {
+                SqlCommand cmd = new SqlCommand("usp_ObtenerDetalle", oConexion);
+                cmd.Parameters.AddWithValue("@IdFacturaServicio", id_facturaServicio);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var NuevaCultura = CultureInfo.GetCultureInfo("es-NI");
+                try
+                {
+                    oConexion.Open();
+                    using (XmlReader dr = cmd.ExecuteXmlReader())
+                    {
+                        while (dr.Read())
+                        {
+                            XDocument doc = XDocument.Load(dr);
+                            if (doc.Element("DETALLE_SERVICIO") != null)
+                            {
+                                rptDetalle = (from dato in doc.Elements("DETALLE_SERVICIO")
+                                                   select new Factura_Servicio()
+                                                   {
+                                                       NumeroTransaccion = dato.Element("Codigo").Value,
+                                                       NombreCliente = dato.Element("Cliente").Value,
+                                                       TelefonoCliente = dato.Element("Telefono").Value,
+                                                       TotalSinIva = decimal.Parse(dato.Element("TotalSinIva").Value, NuevaCultura),
+                                                       Total= decimal.Parse(dato.Element("Total").Value, NuevaCultura),
+                                                       Cantidad_Pagada = decimal.Parse(dato.Element("Pago").Value, NuevaCultura),
+                                                       Cambio = decimal.Parse(dato.Element("Cambio").Value, NuevaCultura),
+                                                       FechaTexto = dato.Element("FechaRegistro").Value
+                                                       
+                                                        
+                                                     
+                                                   }).FirstOrDefault();
+                                rptDetalle.objServicio = (from servicio in doc.Element("DETALLE_SERVICIO").Element("DETALLE").Elements("SERVICIO")
+                                                                      select new Detalle_Servicio()
+                                                                      {
+                                                                       
+                                                                          NombreDispositivo = servicio.Element("NombreDispositivo").Value,
+                                                                          TipoServicio = servicio.Element("TipoServicio").Value,
+                                                                          Descripcion_Servicio = servicio.Element("Descripcion_Servicio").Value,
+                                                                          PrecioUnidad = decimal.Parse(servicio.Element("PrecioUnidad").Value, NuevaCultura),
+                                                                          Sub_Total= decimal.Parse(servicio.Element("Sub_Total").Value, NuevaCultura),
+                                                                      }).ToList();
+                            }
+                            else
+                            {
+                                rptDetalle = null;
+                            }
+                        }
+
+                        dr.Close();
+
+                    }
+
+                    return rptDetalle;
+                }
+                catch (Exception)
+                {
+                    rptDetalle = null;
+                    return rptDetalle;
+                }
+            }
         }
 
     }

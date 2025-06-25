@@ -45,7 +45,9 @@
     <Compile Include="Cliente_Producto.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="Departamento.cs" />
+    <Compile Include="Detalle_Servicio.cs" />
     <Compile Include="Detalle_Venta.cs" />
+    <Compile Include="Factura_Servicio.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Municipio.cs" />
     <Compile Include="Paypal\checkout_order.cs" />

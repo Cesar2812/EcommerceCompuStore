@@ -1,8 +1,12 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
 using CapaPresentacionAdmin.Filtros;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
@@ -90,6 +94,59 @@ namespace CapaPresentacionAdmin.Controllers
             lista = new CNServicio().ListarServicio();
             //retornando la data en formato JSON
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet);//metodo get porque agarra la data
+        }
+
+        [HttpPost]
+        public JsonResult RegistrarServicioGestion(string xml)
+        {
+            int Respuesta = 0;
+            Respuesta = new CNServicio().ResgistrarServicioGesrion(xml);
+            if (Respuesta != 0)
+                return Json(new { estado = true, valor = Respuesta.ToString() }, JsonRequestBehavior.AllowGet);
+            else
+                return Json(new { estado = false, valor = "" }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        //metodo para retornar la factura del Servicio
+        public ActionResult Factura(int id_FacturaServicio=0)
+        {
+
+            Factura_Servicio ofac = new CNServicio().ObtenerDetalle(id_FacturaServicio);
+
+
+
+            NumberFormatInfo formato = new CultureInfo("es-NI").NumberFormat;
+            formato.CurrencyGroupSeparator = ".";
+
+
+            if (ofac == null)
+                ofac = new Factura_Servicio();
+            else
+            {
+
+                ofac.objServicio = (from dv in ofac.objServicio
+                                             select new Detalle_Servicio()
+                                             { 
+                                                 TipoServicio = dv.TipoServicio,
+                                                 NombreDispositivo = dv.NombreDispositivo,
+                                                 Descripcion_Servicio = dv.Descripcion_Servicio,
+                                                 PrecioUnidad = dv.PrecioUnidad,
+                                                 TextoPrecioUnidad = dv.PrecioUnidad.ToString("N", formato), //numero.ToString("C", formato)
+                                                 Sub_Total = dv.Sub_Total,
+                                                 TextoSub_Total = dv.Sub_Total.ToString("N", formato)
+                                             }).ToList();
+
+                ofac.TextoCantidadPagada = ofac.Cantidad_Pagada.ToString("N", formato);
+                ofac.TextoCambio = ofac.Cambio.ToString("N", formato);
+                ofac.TextoTotalSinIva = ofac.TotalSinIva.ToString("N", formato);
+                ofac.TextoTotal = ofac.Total.ToString("N", formato);
+            }
+
+
+            return View(ofac);
+
         }
     }
 }

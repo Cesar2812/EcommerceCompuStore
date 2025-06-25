@@ -22,5 +22,9 @@ namespace CapaEntidad
 
         public decimal Precio { get; set; }
 
+        public decimal Sub_Total { get;set; }
+
+
+
     }
 }

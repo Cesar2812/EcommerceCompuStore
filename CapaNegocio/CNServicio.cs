@@ -18,5 +18,16 @@ namespace CapaNegocio
         {
             return objCapaDatoServicio.ListarServicio();
         }
+
+        public int ResgistrarServicioGesrion(string Detalle)
+        {
+            return objCapaDatoServicio.ResgistrarServicioGestion(Detalle);
+        }
+
+        //metodo de negocio que retorna la factura de una venta por id
+        public Factura_Servicio ObtenerDetalle(int idFacturaServicio)
+        {
+            return objCapaDatoServicio.ObtenerFactura(idFacturaServicio);
+        }
     }
 }

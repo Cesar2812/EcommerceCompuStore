@@ -766,6 +766,7 @@
     <Content Include="Views\Servicios\Reparacion.cshtml" />
     <Content Include="Views\Servicios\Servicio.cshtml" />
     <Content Include="Views\Servicios\ServicioGestion.cshtml" />
+    <Content Include="Views\Servicios\Factura.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
