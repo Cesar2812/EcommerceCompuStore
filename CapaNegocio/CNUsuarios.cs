@@ -96,6 +96,9 @@ namespace CapaNegocio
             }
         }
 
+
+
+
         //metodo para editar Usuario
         public bool Editar(Usuario objUser, out string Mensaje)
         {
@@ -141,6 +144,7 @@ namespace CapaNegocio
         {
             return objCapaDatos.CambiarClave(idUsuario, nuevaClave, out Mensaje);
         }
+
 
         //Metodo para restablecer la clave
         public bool RestablecerClave(int idUsuario, string correo, out string Mensaje)

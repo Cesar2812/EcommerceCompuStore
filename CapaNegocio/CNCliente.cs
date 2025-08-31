@@ -73,7 +73,8 @@ namespace CapaNegocio
                 }
             }
             return Sb.ToString();
-        }
+        } 
+
 
 
         //metodo para cambiarCalve

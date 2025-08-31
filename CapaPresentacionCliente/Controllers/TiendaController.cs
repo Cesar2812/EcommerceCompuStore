@@ -276,7 +276,7 @@ namespace CapaPresentacionCliente.Controllers
         }
 
         //metodo para obtener departamento
-        [HttpPost]
+        [HttpGet]
         public JsonResult ObtenerDepartamento()
         {
             List<Departamento> lista = new List<Departamento>();
