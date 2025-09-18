@@ -33,6 +33,7 @@ namespace CapaEntidad
         public Cliente objCliente { get; set; }
         public Municipio objMunicipio { get; set; }
 
+
         //para el dasboard en la vista del admin
         public int Cantidad { get; set; }
         public string mes { get; set; }

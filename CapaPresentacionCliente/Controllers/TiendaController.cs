@@ -47,6 +47,7 @@ namespace CapaPresentacionCliente.Controllers
             return View();
         }
 
+
         //vista del carrito
         [AuthFilter]
         public ActionResult Carrito() // metodo action para ir al carrrito, no se puede ir sin antes iniciar sesion
@@ -102,6 +103,7 @@ namespace CapaPresentacionCliente.Controllers
             lista = new CNMarcas().ListarMarcaporCategoria(idCategoria);// almacenando las marcas en la lista
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet); //retornando las marcas en un JSON
         }
+
 
 
         // Método para listar productos con paginación en la vista de Catalogo
