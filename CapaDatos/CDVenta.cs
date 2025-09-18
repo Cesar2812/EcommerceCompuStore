@@ -217,7 +217,7 @@ namespace CapaDatos
             return lista;
         }
 
-        //reporte de productos en el dashboard vista admin
+        //reporte de productos mas vendidos en el dashboard vista admin
         public List<Producto> ListarProductosDasboard()
         {
             List<Producto> lista = new List<Producto>();

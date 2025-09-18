@@ -176,7 +176,7 @@ namespace CapaDatos
 
         }
 
-        //metodo para listar marcas 
+        //metodo para listar marcas esto a nivel de cliente
         public List<Marca> ListarMarcaporCategoria(int idCategoria)
         {
             List<Marca> lista = new List<Marca>();
@@ -210,8 +210,6 @@ namespace CapaDatos
                                {
                                    id_Marca = Convert.ToInt32(read["id_Marca"]),
                                    Descripcion = read["Descripcion"].ToString(),
-
-
                                }
                             );
 
