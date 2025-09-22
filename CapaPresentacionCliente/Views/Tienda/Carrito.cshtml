@@ -154,18 +154,18 @@
                      $("<div>").addClass("card mb-2 card-producto").append(
                          $("<div>").addClass("card-body").append(
                              $("<div>").addClass("row").append(
-                                 //1
+                                 //1 IMAGEN
                                  $("<div>").addClass("col-sm-2 align-self-center d-flex justify-content-center").append(
                                      $("<img>").addClass("rounded ms-2").attr({ "src": "data:image/" + item.objProd.Extension + ";base64," + item.objProd.Base64 })
                                          .css({ "width": "90px", "height":"90px"})
                                  ),
-                                 //2
+                                 //2 MARCA
                                  $("<div>").addClass("col-sm-4 align-self-center").append(
                                      $("<span>").addClass("font-weight-bold d-block").text(item.objProd.Nombre),
                                      $("<span>").text(item.objProd.objMarca.Descripcion)
                                  ),
 
-                                 //3
+                                 //3 PRECIO
                                  $("<div>").addClass("col-sm-2 align-self-center").append(
                                      $("<span>").html(
                                          "<div style='display: flex; align-items: center; margin-left: -10px;'>" +  // Ajuste a la izquierda
@@ -177,7 +177,7 @@
                                          "</div>"
                                      )
                                  ),
-                                 //4
+                                 //4 CANTIDAD
                                  $("<div>").addClass("col-sm-2 align-self-center").append(
                                      $("<div>").addClass("d-flex").append(
                                          $("<button>").addClass("btn btn-warning btn-restar rounded-0").append($("<i>").addClass("fas fa-minus")),
