@@ -148,6 +148,8 @@ namespace CapaPresentacionCliente.Controllers
             return jsonResult;
         }
 
+
+
         //metodo para listar Productos mas vendidos
         [HttpGet]
         public JsonResult ListarProductosMasVendidos()

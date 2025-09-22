@@ -5,6 +5,7 @@ namespace CapaNegocio
 {
     public class Recursos
     {
+
         //metodo para convertir una imagen en base 64
         public static string convertirBase64(string ruta, out bool conversion)
         {
