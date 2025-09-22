@@ -279,7 +279,7 @@
      }
 
 
-     //funcion para sumar los precios de los productos
+     
      function sumarTotal() {
          var sumaTotal = parseFloat(0)
          var sumaiva = parseFloat(0)
@@ -299,7 +299,6 @@
              SumaTotalIva = sumaTotal + sumaiva //suma del subtotal mas el iva aplicado
          })
 
-         
          $("#Total").text(sumaTotal.toLocaleString("es-HN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
          $("#Total").data("sumatotal", sumaTotal) // para enviarlo después a la base de datos
          $("#TotalmasIva").text(SumaTotalIva.toLocaleString("es-HN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
@@ -309,8 +308,7 @@
      }
 
 
-
-     //Aumentar la cantidad de Producto dentro del carrito
+     //Aumentar la cantidad de Producto dentro del carrito por cliente
      $(document).on("click", ".btn-sumar", function ()
      {
          var div_container = $(this).parent("div.d-flex");
