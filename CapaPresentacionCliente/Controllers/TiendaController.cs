@@ -187,6 +187,7 @@ namespace CapaPresentacionCliente.Controllers
         [HttpPost]
         public JsonResult AgregarAlCarrito(int idProducto)
         {
+            //obteniendo el id del cliente mediante la sesion
             int idCliente = ((Cliente)Session["UsuarioCliente"]).id_Cliente;
 
             bool existe = new CNCliente_Producto().ExisteCarrito(idCliente, idProducto);
