@@ -429,8 +429,8 @@
                 //aplicando logica de tipo query para eliminar el Producto
                 jQuery.ajax({
                     url: '@Url.Action("EliminarProducto", "Catalogos")',
-                     type: "POST",
-                     data: JSON.stringify({ id: data.id_Producto }),
+                    type: "POST",
+                    data: JSON.stringify({ id: data.id_Producto }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
@@ -534,7 +534,8 @@
                         }
                         
                     } // si lo anterior no es  entonces va a editar
-                    else {
+                    else
+                    {
                         if (data.operacionExitosa)
                         { 
                             Producto.Estado = 1
