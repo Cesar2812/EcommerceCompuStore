@@ -50,8 +50,7 @@ namespace CapaPresentacionAdmin.Controllers
             }
             else
             {
-                Session["Usuario"] = usuario.Correo; //se obtiene el usuario en su autenticacion por correo
-                                                     //si el usuario accede por primera vez al sistema
+                Session["Usuario"] = usuario.Correo; //se obtiene el usuario en su autenticacion por correo si el usuario accede por primera vez al sistema
 
                 if (usuario.Restablecer)
                 {
@@ -161,7 +160,7 @@ namespace CapaPresentacionAdmin.Controllers
             }
         }
 
-        //metodo para cerrar sesion desde la vista admin 
+        //metodo para cerrar sesion desde la vista admin sesion destroy
         public ActionResult CerrarSesion()
         {
             // Elimina la sesión del usuario

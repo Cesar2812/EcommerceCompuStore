@@ -72,7 +72,6 @@
 
                                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                             <a class="small" href="@Url.Action("RestablecerClave","Acceso")">¿Has Olvidado Tu Contraseña?</a>
-                                            @*@<button type="submit" class="btn btn-primary">Iniciar Sesion</button>*@
                                             <button class="btn btn-login" type="submit">Iniciar Sesion</button>
                                         </div>
                                     </form>
@@ -89,7 +88,9 @@
             </main>
         </div>
     </div>
+
     <script src="~/Scripts/bootstrap.bundle.js"></script>
+
     <script>
         @if (ViewBag.Error != null)
          {
