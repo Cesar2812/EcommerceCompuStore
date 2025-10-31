@@ -129,8 +129,13 @@ namespace CapaPresentacionAdmin.Controllers
         [HttpGet] //metodo get porque se obtienen datos del servidor para mostrarlos en el data table
         public JsonResult ListarProductos()
         {
+          
             List<Producto> lista = new List<Producto>();
             lista = new CNProducto().ListarProductos();
+
+            
+
+
             //retornando la data en formato JSON
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet);//metodo get porque agarra la data
         }

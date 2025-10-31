@@ -279,13 +279,13 @@
      }
 
 
-     
      function sumarTotal() {
          var sumaTotal = parseFloat(0)
          var sumaiva = parseFloat(0)
 
          var SumaTotalIva = parseFloat(0)
 
+         //todo esto de forma dinamica
          $("input.input-cantidad").each(function (i) {
              var precio = $(this).data("objProd").Precio;
              var cantidad = parseFloat($(this).val())

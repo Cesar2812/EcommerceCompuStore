@@ -36,6 +36,7 @@
         <table id="tabla" class="display cell-border" style="width:100%">
             <thead>
                 <tr>
+                    
                     <th>Nombre</th>
                     <th>Descripcion</th>
                     <th>Marca</th>
@@ -156,10 +157,11 @@
     </div>
 </div>
 
-@section scripts{
- <script>
 
-        //evento para cargar imagen en la etiqueta img
+@section scripts{
+    <script>
+
+        //evento para cargar imagen en la etiqueta img al seleccionarla
         function mostrarImagen(input) {
             if (input.files)
             {
@@ -194,6 +196,7 @@
                 dataType: "json"//especificandole la data de tipo json
             },
             //pasandole las columnas
+
             "columns": [
                 { "data": "Nombre" },
                 { "data": "Descripcion" },
@@ -305,7 +308,7 @@
                 {
                     required: true,
                     preciodecimal: true
-                   
+
                 },
                 stock:
                 {
@@ -340,7 +343,7 @@
             $("#comboCateg").val($("#comboCateg option:first").val());
             $("#txtPrecio").val("");
             $("#txtStock").val("");
-            
+
 
             $("#mensajeError").hide();
 
@@ -355,8 +358,8 @@
                 $("#comboCateg").val(json.objCategoria.id_Categoria);
                 $("#txtPrecio").val(json.Precio);
                 $("#txtStock").val(json.Stock);
-                
-                
+
+
 
                 //pintando imagen el input al momento de editar un producto es un metodo POST ya que manda el id para mostrar la imagen en la etiqueta
                 jQuery.ajax({
@@ -446,13 +449,13 @@
                             tablaData.row(productoSeleccionado).remove().draw();//removiendo de la tabla
                         }else
                         {
-                            Swal.fire({ 
+                            Swal.fire({
                                 position: "center",
                                 icon: "error",
                                 text: data.mensaje,
                                 showConfirmButton: true,
                                 confirmButtonText: 'OK'
-                            });  
+                            });
                             //swal("No se pudo eliminar", data.mensaje, "error")
                         }
                     },
@@ -467,7 +470,7 @@
         //metodo para guardar o editar Prodcuto
         function Guardar()
         {
-            if ( !$("#contenedor").valid() ) // si las reglas del formulario no se cumplieron 
+            if ( !$("#contenedor").valid() ) // si las reglas del formulario no se cumplieron
             {
                 return;// aqui el metodo de guardar muere y ya no continua con las lienas hacia abajo
             }
@@ -490,7 +493,7 @@
                 PrecioTexto: $("#txtPrecio").val(),
                 Precio: $("#txtPrecio").val(),
                 Stock: $("#txtStock").val(),
-                
+
             }
 
             var request = new FormData();
@@ -532,12 +535,12 @@
                             $("#mensajeError").text(data.Mensaje);
                             $("#mensajeError").show();
                         }
-                        
+
                     } // si lo anterior no es  entonces va a editar
                     else
                     {
                         if (data.operacionExitosa)
-                        { 
+                        {
                             Producto.Estado = 1
                             //carga la tabla con el nuevo producto editado
                             tablaData.row(filaSeleccionada).data(Producto).draw(false);
@@ -569,5 +572,5 @@
                 }
             })
         }
- </script>
+    </script>
 }
