@@ -27,17 +27,17 @@ namespace CapaDatos
 
                     using (SqlDataReader read = cmd.ExecuteReader())
                     {
-                        //mientras se valla leyendo el resultado que agegre los datos a la lista
+                            //mientras se valla leyendo el resultado que agegre los datos a la lista
                         while (read.Read())
                         {
-                            //diciendole a la lista que anada un objeto de tipo categoria 
+                                //diciendole a la lista que anada un objeto de tipo categoria 
                             lista.Add(
-                               new Categoria()
-                               {
-                                   id_Categoria = Convert.ToInt32(read["id_Categoria"]),
-                                   Descripcion = read["Descripcion"].ToString(),
-                                   Estado = Convert.ToBoolean(read["Estado"])
-                               }
+                                new Categoria()
+                                {
+                                    id_Categoria = Convert.ToInt32(read["id_Categoria"]),
+                                    Descripcion = read["Descripcion"].ToString(),
+                                    Estado = Convert.ToBoolean(read["Estado"])
+                                }
                             );
 
                         }
