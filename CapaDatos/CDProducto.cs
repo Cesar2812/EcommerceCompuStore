@@ -70,6 +70,8 @@ namespace CapaDatos
             return lista;
         }
 
+
+
         //metodo para registrar producto
         public int RegistrarProducto(Producto objp, out string Mensaje)//mensaje de salida
         {
@@ -89,6 +91,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@idCategoria", objp.objCategoria.id_Categoria);
                     cmd.Parameters.AddWithValue("@Precio", objp.Precio);
                     cmd.Parameters.AddWithValue("@Stock", objp.Stock);
+
                     cmd.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;//parametro de direccion de salida
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;//diciendole que el comando es un tipo sp
@@ -96,7 +99,7 @@ namespace CapaDatos
                     //abriendo conexion
                     conexion.Open();
 
-                    cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();//ejecuta el procedimiento
 
                     idautogenerado = Convert.ToInt32(cmd.Parameters["@Resultado"].Value);//pasndole al id el valor del reultado
                     Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
@@ -116,6 +119,9 @@ namespace CapaDatos
 
         }
 
+
+
+
         //metodo para editar Producto
         public bool EditarProducto(Producto objp, out string Mensaje)
         {
@@ -134,6 +140,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@idCategoria", objp.objCategoria.id_Categoria);
                     cmd.Parameters.AddWithValue("@Precio", objp.Precio);
                     cmd.Parameters.AddWithValue("@Stock", objp.Stock);
+
                     cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
