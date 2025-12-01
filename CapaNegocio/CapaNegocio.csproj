@@ -55,8 +55,6 @@
     <Compile Include="CNPaypal.cs" />
     <Compile Include="CNProducto.cs" />
     <Compile Include="CNReportes.cs" />
-    <Compile Include="CNServicio.cs" />
-    <Compile Include="CNTipoServicio.cs" />
     <Compile Include="CNUbicacion.cs" />
     <Compile Include="CNUsuarios.cs" />
     <Compile Include="CNVenta.cs" />
