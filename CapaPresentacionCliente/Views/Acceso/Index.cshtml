@@ -1,12 +1,14 @@
 ﻿@{
-    Layout = null;
+    Layout = null;//osea no hereda de Layout, por eso el Null
 }
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Incio De Sesion</title>
     <link href="~/Content/Site.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -119,6 +121,7 @@
     </style>
 
 </head>
+
 <body>
     <div class="container">
         <div class="row justify-content-center">
@@ -299,21 +302,21 @@
         }
 
         //alert que se muestra si los campos no coinciden con los de la base de datos
-         @if (ViewBag.Error != null)
-          {
-             <text>
-              Swal.fire({
-                 position: "top-end",
-                 icon: "error",
-                 title: "@ViewBag.Error",
-                 showConfirmButton: false,
-                 timer: 1000,
-                 customClass: {
-                   popup: 'custom-alert'
-                 }
-              });
-              </text>
-          }
+        @if (ViewBag.Error != null)
+        {
+            <text>
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "@ViewBag.Error",
+                showConfirmButton: false,
+                timer: 1000,
+                customClass: {
+                popup: 'custom-alert'
+                }
+            });
+            </text>
+        }
     </script>
 </body>
 </html>

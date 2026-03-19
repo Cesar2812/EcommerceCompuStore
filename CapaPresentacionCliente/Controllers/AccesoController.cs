@@ -10,37 +10,41 @@ namespace CapaPresentacionCliente.Controllers
 {
     public class AccesoController : Controller
     {
+
+        #region Vistas
         // GET: Acceso
-        public ActionResult Index()//controlador que redirige al login del usuario Cliente para acceder a la tienda 
+        public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult RegistrarCliente() //controlador que redirige al Formulario para registrar un nuevo cliente 
+        public ActionResult RegistrarCliente()  
         {
             return View();
         }
 
-        public ActionResult RestablecerClaveCliente() //controlador para restablecer o recuperar la clave del cliente
+        public ActionResult RestablecerClaveCliente() 
         {
             return View();
         }
 
         //formulario para cambiar clave
         [AuthFilter]
-        public ActionResult CambiarClaveCliente() //formulario para cambiar la clave del cliente 
+        public ActionResult CambiarClaveCliente() 
         {
             return View();
         }
 
+        #endregion Vistas
 
-        //metodo para que se registre el cliente
+
         [HttpPost]
         public ActionResult RegistrarCliente(Cliente obj)
         {
             int resultado;
             string mensaje = string.Empty;
 
+            //si los datos son vacios se asignan al ViewData para que los vuelva a mostrar en el formulario y no se pierdan
             ViewData["Nombre"] = string.IsNullOrEmpty(obj.Nombre) ? "" : obj.Nombre;
             ViewData["Apellido"] = string.IsNullOrEmpty(obj.Apellido) ? "" : obj.Apellido;
             ViewData["Correo"] = string.IsNullOrEmpty(obj.Correo) ? "" : obj.Correo;
@@ -69,11 +73,11 @@ namespace CapaPresentacionCliente.Controllers
         }
 
 
-        //metodo de incio de sesion del cliente
+        //login
         [HttpPost]
         public ActionResult Index(string correo, string clave)
-        {
-            Cliente cliente = null;
+        { 
+            Cliente cliente = null;// variable de tipo cliente para almacenarlo
 
             cliente = new CNCliente().ListarCliente().Where(item => item.Correo == correo && item.Clave == CNCliente.ConvertirSha256(clave)).FirstOrDefault();
 
@@ -81,19 +85,15 @@ namespace CapaPresentacionCliente.Controllers
             {
                 ViewBag.Error = "Correo o Clave incorrectas";
                 return View();
-
             }
             else
             {
-                Session["UsuarioCliente"] = cliente; //se obtiene el usuario en su autenticacion por correo
-                                                     //si el usuario accede por primera vez al sistema
+                Session["UsuarioCliente"] = cliente; //se obtiene la sesion del usuario con sus datos para poder usarlos en otras partes de la aplicacion
 
                 if (cliente.Restablecer)
                 {
-
                     TempData["id_Cliente"] = cliente.id_Cliente;
                     return RedirectToAction("CambiarClaveCliente", "Acceso");
-
                 }
                 else
                 {
@@ -106,31 +106,29 @@ namespace CapaPresentacionCliente.Controllers
             }
         }
 
-        //metodo para Restablecer clave
+
+        //restablecer Clave
         [HttpPost]
         public ActionResult RestablecerClaveCliente(string correo)
         {
-            Cliente cliente = new Cliente();
+            Cliente clienteCorreo = new Cliente();
 
-            //buscando el correo del cliente al cual se le va a restablecer la clave
-            cliente = new CNCliente().ListarCliente().Where(item => item.Correo == correo).FirstOrDefault();
-            if (cliente == null)
+            
+            clienteCorreo = new CNCliente().ListarCliente().Where(item => item.Correo == correo).FirstOrDefault();
+            if (clienteCorreo == null)
             {
                 ViewBag.Error = "Correo Incorrecto";
                 return View();
-
             }
             else
             {
                 string mensaje = string.Empty;
-
-                bool respuesta = new CNCliente().RestablecerClave(cliente.id_Cliente, correo, out mensaje);
+                bool respuesta = new CNCliente().RestablecerClave(clienteCorreo.id_Cliente, correo, out mensaje);
 
                 if (respuesta)
                 {
                     TempData["SuccessMessage"] = "Clave Recuperada De Forma Exitosa";
                     return View();
-
                 }
                 else
                 {
@@ -143,17 +141,16 @@ namespace CapaPresentacionCliente.Controllers
 
 
 
-        //metodo para cambiar clave del cliente
         [HttpPost]
         public ActionResult CambiarClaveCliente(string id_Cliente, string claveActual, string nuevaClave, string confirmarClave)
         {
 
             Cliente cliente = new Cliente();
 
-            //trayendo al cliente que va a modificar la clave
+            
             cliente = new CNCliente().ListarCliente().Where(u => u.id_Cliente == int.Parse(id_Cliente)).FirstOrDefault();
 
-            //validando si la contrasena es la actual con la que ya tiene primero se convierte la clave si
+            
             if (cliente.Clave != CNCliente.ConvertirSha256(claveActual))
             {
                 TempData["id_Cliente"] = id_Cliente;
@@ -162,44 +159,42 @@ namespace CapaPresentacionCliente.Controllers
                 return View();
 
             }
-            else if (nuevaClave != confirmarClave) // si la clave nueva no es igual a confirmar clave 
+            else if (nuevaClave != confirmarClave) 
             {
                 TempData["id_Cliente"] = id_Cliente;
                 ViewData["vclave"] = claveActual;
                 ViewBag.Error = "Las Claves no Coinciden";
                 return View();
 
-            }
+            } 
 
-            //entonces si todo ocurre bien y no hay errores
             ViewData["vclave"] = "";
-            nuevaClave = CNUsuarios.ConvertirSha256(nuevaClave); // pasandole la nueva clave para que la encripte
+            nuevaClave = CNUsuarios.ConvertirSha256(nuevaClave); 
             string mensaje = string.Empty;
-            //llamando al metodo para cambiar la clave
+            
             bool respuesta = new CNCliente().CambiarClave(Convert.ToInt32(id_Cliente), nuevaClave, out mensaje);
 
-            //si el cambio ha sido exitoso
+            
             if (respuesta)
             {
                 TempData["SuccessMessage"] = "Clave Cambiada Exitosamente";
-                // Elimina la sesión del usuario
+                
                 Session["UsuarioCliente"] = null;
                 Session.Clear();
                 Session.Abandon();
                 return View();
-
             }
             else
             {
                 TempData["id_Cliente"] = id_Cliente;
                 ViewBag.Error = mensaje;
                 return View();
-
             }
-
         }
 
-        //metodo para Cerrar Sesion
+
+
+       
         public ActionResult CerrarSesion()
         {
             // Elimina la sesión del usuario
