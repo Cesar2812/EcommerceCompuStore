@@ -9,7 +9,7 @@ using System.Text;
 namespace CapaDatos
 {
     public class CDProducto
-    {
+    { 
         SqlConnection conexion;
         //metodo para obtener la Lista de todos los productos
         public List<Producto> ListarProducto()
