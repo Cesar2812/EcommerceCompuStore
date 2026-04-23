@@ -15,7 +15,7 @@ namespace CapaNegocio
             return objReporte.VerReporte();
         }
 
-
+           
         //metodo para listar en el dataTable las ventas
         public List<ReporteVentas> ReporteVentas(string fechainicio, string fechafin, string transaccion)
         {
