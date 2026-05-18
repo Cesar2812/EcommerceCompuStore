@@ -9,7 +9,7 @@ namespace CapaDatos
 {
     public class CDUsuarios
     {
-        //metodo para listar o mostrar Usuarios desde la base de datos en el dataTable 
+        
         public List<Usuario> Listar()
         {
 
@@ -17,34 +17,26 @@ namespace CapaDatos
 
             try
             {
-                /*Lo que se hace aca es usar el metodo using donde se instancia la clase SqlConnection
-                 en la cual se parametriza con la clase Conexion que contiene a la variable cn que tiene
-                 nuestra cadena
-                 */
+                
                 using (SqlConnection conexion = new SqlConnection(Conexion.cn))
                 {
-                    //consulta a la base de datos a la tabla usuario
+                    
                     string consulta = "select id_Usuario,Nombre,Apellido,Correo,Clave,Restablecer,Activo from Usuario";
 
-                    //comando para ejecutar la consulta 
-                    //la clase sqcommand recibe como parametro la consulta y la conexion a la base para poderla ejecutar 
+                   
                     SqlCommand comando = new SqlCommand(consulta, conexion);
-                    //le pasamos al comando que tipo de comando va a ejecutar
-                    comando.CommandType = CommandType.Text;//comando de tipo texto osea la consulta
+                  
+                    comando.CommandType = CommandType.Text;
 
-                    //abrimos la conexion
+                   
                     conexion.Open();
 
-                    //ejecutar el query por medio del metodo using, con la clase sqlDataReader leemos el resultado del quiery
                     using (SqlDataReader dr = comando.ExecuteReader())
                     {
-                        //mientras el dr esta leyendo fila por fila->
-                        //rellename la lista un objeto usuario de la capa entidad
+                       
                         while (dr.Read())
                         {
-                            /* lo que se hace aca es agregar a la lista los campos del query 
-                             * mientras el dr va leyendo
-                             */
+                          
                             lista.Add
                             (
                                 new Usuario()
@@ -61,15 +53,17 @@ namespace CapaDatos
                         }
 
                     }
+                    conexion.Close();
                 }
 
             }
             catch
             {
-                //le voy a decir que si ocurre un problema reinicia la lista de forma vacia
+                
                 lista = new List<Usuario>();
             }
-            return lista;
+            return lista; 
+            
 
         }
 

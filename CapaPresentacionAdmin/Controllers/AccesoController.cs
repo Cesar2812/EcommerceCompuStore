@@ -12,20 +12,20 @@ namespace CapaPresentacionAdmin.Controllers
     public class AccesoController : Controller
     {
 
-        // formulario de login
+       
         public ActionResult Index()
         {
             return View();
         }
 
-        //formulario para cambiar clave
+       
         [AuthFilter]
         public ActionResult CambiarClave()
         {
             return View();
         }
 
-        //formulario para restablcer clave
+       
         public ActionResult RestablecerClave()
         {
             return View();
@@ -37,20 +37,19 @@ namespace CapaPresentacionAdmin.Controllers
         public ActionResult Index(string correo, string clave)
         {
 
-            //creando un objeto de tipo usuario para el inicio de sesion
+            
             Usuario usuario = new Usuario();
             usuario = new CNUsuarios().Listar().Where(u => u.Correo == correo && u.Clave == CNUsuarios.ConvertirSha256(clave)).FirstOrDefault();
-
-            //si encuentra un Usuario con las credenciales correctas
+ 
             if (usuario == null)
             {
                 ViewBag.Error = "Correo o Clave Incorrecta";
                 return View();
-
             }
             else
             {
-                Session["Usuario"] = usuario.Correo; //se obtiene el usuario en su autenticacion por correo si el usuario accede por primera vez al sistema
+               
+                Session["Usuario"] = usuario.Correo; 
 
                 if (usuario.Restablecer)
                 {
@@ -59,26 +58,25 @@ namespace CapaPresentacionAdmin.Controllers
                     return RedirectToAction("CambiarClave");
 
                 }
-                //si el usuario fue encontrado 
+               
                 TempData["NombreUsuario"] = usuario.Nombre;
-                FormsAuthentication.SetAuthCookie(usuario.Correo, false); //creando un tipo de autenticacion por correo
+                FormsAuthentication.SetAuthCookie(usuario.Correo, false); 
                 ViewBag.Error = null;
-                return RedirectToAction("Index", "Home");// entrando a la vista principal del panel
+                return RedirectToAction("Index", "Home");
             }
-
         }
 
 
-        //metodo Action para cambiar clave, cuando es primera vez que el usuario inicia sesion
+        
         [HttpPost]
         public ActionResult CambiarClave(string id_Usuario, string claveActual, string nuevaClave, string confirmarClave)
         {
             Usuario usuario = new Usuario();
 
-            //trayendo al usuario que va a modificar la clave
+            
             usuario = new CNUsuarios().Listar().Where(u => u.id_Usuario == int.Parse(id_Usuario)).FirstOrDefault();
 
-            //validando si la contrasena es la actual con la que ya tiene primero se convierte la clave si
+            
             if (usuario.Clave != CNUsuarios.ConvertirSha256(claveActual))
             {
                 TempData["id_Usuario"] = id_Usuario;
@@ -96,18 +94,18 @@ namespace CapaPresentacionAdmin.Controllers
 
             }
 
-            //entonces si todo ocurre bien y no hay errores
+            
             ViewData["vclave"] = "";
-            nuevaClave = CNUsuarios.ConvertirSha256(nuevaClave); // pasandole la nueva clave para que la encripte
+            nuevaClave = CNUsuarios.ConvertirSha256(nuevaClave); 
             string mensaje = string.Empty;
-            //llamando al metodo para cambiar la clave
+            
             bool respuesta = new CNUsuarios().CambiarClave(Convert.ToInt32(id_Usuario), nuevaClave, out mensaje);
 
-            //si el cambio ha sido exitoso
+           
             if (respuesta)
             {
                 TempData["SuccessMessage"] = "Clave Cambiada Exitosamente";
-                // Elimina la sesión del usuario
+               
                 Session["Usuario"] = null;
                 Session.Clear();
                 Session.Abandon();
@@ -125,13 +123,11 @@ namespace CapaPresentacionAdmin.Controllers
         }
 
 
-        //metodo para restablecer la contrasena
+       
         [HttpPost]
         public ActionResult RestablecerClave(string correo)
         {
             Usuario usuario = new Usuario();
-
-            //buscando el correo del usuario al cual se le va a restablecer la clave
             usuario = new CNUsuarios().Listar().Where(item => item.Correo == correo).FirstOrDefault();
             if (usuario == null)
             {
@@ -160,10 +156,9 @@ namespace CapaPresentacionAdmin.Controllers
             }
         }
 
-        //metodo para cerrar sesion desde la vista admin sesion destroy
+       
         public ActionResult CerrarSesion()
         {
-            // Elimina la sesión del usuario
             Session["Usuario"] = null;
             Session.Clear();
             Session.Abandon();
