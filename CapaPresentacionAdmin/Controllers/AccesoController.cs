@@ -11,8 +11,6 @@ namespace CapaPresentacionAdmin.Controllers
 
     public class AccesoController : Controller
     {
-
-       
         public ActionResult Index()
         {
             return View();
@@ -36,8 +34,6 @@ namespace CapaPresentacionAdmin.Controllers
         [HttpPost]
         public ActionResult Index(string correo, string clave)
         {
-
-            
             Usuario usuario = new Usuario();
             usuario = new CNUsuarios().Listar().Where(u => u.Correo == correo && u.Clave == CNUsuarios.ConvertirSha256(clave)).FirstOrDefault();
  
