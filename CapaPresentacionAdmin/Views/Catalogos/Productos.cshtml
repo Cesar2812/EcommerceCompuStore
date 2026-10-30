@@ -36,7 +36,7 @@
         <table id="tabla" class="display cell-border" style="width:100%">
             <thead>
                 <tr>
-                    
+                    <th>Imagen</th>
                     <th>Nombre</th>
                     <th>Descripcion</th>
                     <th>Marca</th>
@@ -198,6 +198,17 @@
             //pasandole las columnas
 
             "columns": [
+                  {
+                      "data": "Base64",
+                      "render": function (data, type, row) {
+                          return '<img src="data:image/'
+                              + row.Extension.replace(".", "")
+                              + ';base64,'
+                              + data
+                              + '" width="60px" height="60px"/>';
+                      }
+                  },
+
                 { "data": "Nombre" },
                 { "data": "Descripcion" },
                 {
@@ -239,7 +250,6 @@
                 "url": "//cdn.datatables.net/plug-ins/2.1.6/i18n/es-MX.json"
             }
         });
-
 
 
         //cargando data de marca en los select la peticion es de tipo get ya que se obtienen datos del servidor
@@ -493,7 +503,6 @@
                 PrecioTexto: $("#txtPrecio").val(),
                 Precio: $("#txtPrecio").val(),
                 Stock: $("#txtStock").val(),
-
             }
 
             var request = new FormData();
@@ -542,10 +551,13 @@
                         if (data.operacionExitosa)
                         {
                             Producto.Estado = 1
-                            //carga la tabla con el nuevo producto editado
-                            tablaData.row(filaSeleccionada).data(Producto).draw(false);
-                            filaSeleccionada = null;
                             $("#formModal").modal("hide");
+
+                            tablaData.ajax.reload(null, false);
+                            //carga la tabla con el nuevo producto editado
+                            //tablaData.row(filaSeleccionada).data(Producto).draw(false);
+                            //filaSeleccionada = null;
+                            //$("#formModal").modal("hide");
                         }
                         else
                         {
